@@ -79,13 +79,13 @@ public class CrearPago extends javax.swing.JFrame {
         );
 
         jLabel7.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        jLabel7.setText("Seleccione la cuenta:");
+        jLabel7.setText("Seleccione la cuenta*");
 
         jLabel8.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        jLabel8.setText("Tipo de Pago:");
+        jLabel8.setText("Tipo de Pago*");
 
         jLabel15.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        jLabel15.setText("Ingrese el monto:");
+        jLabel15.setText("Ingrese el monto*");
 
         cbxCuentas.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         cbxCuentas.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));

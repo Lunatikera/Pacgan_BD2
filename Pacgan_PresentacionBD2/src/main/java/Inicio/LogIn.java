@@ -105,7 +105,7 @@ public class LogIn extends javax.swing.JFrame {
         });
         Agrupador.add(jCheckBox1, new org.netbeans.lib.awtextra.AbsoluteConstraints(620, 340, -1, -1));
 
-        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/LogoPacGan.jpg"))); // NOI18N
+        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/logos/LogoPacGan.jpg"))); // NOI18N
         Agrupador.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 20, 270, 240));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());

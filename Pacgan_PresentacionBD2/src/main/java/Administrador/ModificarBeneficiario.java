@@ -95,12 +95,12 @@ public class ModificarBeneficiario extends javax.swing.JFrame {
 
         jLabel4.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel4.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel4.setText("Nombre:");
+        jLabel4.setText("Nombre:*");
         Agrupador.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 90, 90, 20));
 
         jLabel5.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel5.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel5.setText("Contraseña");
+        jLabel5.setText("Contraseña*");
         Agrupador.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 370, 160, 30));
 
         txtUsuario.setBackground(new java.awt.Color(242, 242, 242));
@@ -113,12 +113,12 @@ public class ModificarBeneficiario extends javax.swing.JFrame {
 
         jLabel6.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel6.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel6.setText("Apellido Paterno");
+        jLabel6.setText("Apellido Paterno*");
         Agrupador.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 160, 160, 30));
 
         jLabel7.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel7.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel7.setText("Clave Contrato:");
+        jLabel7.setText("Clave Contrato*");
         Agrupador.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 250, 160, 30));
 
         txtNombre.setBackground(new java.awt.Color(242, 242, 242));
@@ -127,7 +127,7 @@ public class ModificarBeneficiario extends javax.swing.JFrame {
 
         jLabel8.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel8.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel8.setText("Usuario");
+        jLabel8.setText("Usuario*");
         Agrupador.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 290, 160, 30));
 
         txtContrasena.setBackground(new java.awt.Color(255, 255, 255));

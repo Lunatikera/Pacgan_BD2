@@ -83,13 +83,13 @@ public class CrearAbono extends javax.swing.JFrame {
         );
 
         jLabel4.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        jLabel4.setText("Seleccione la cuenta:");
+        jLabel4.setText("Seleccione la cuenta*");
 
         jLabel5.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        jLabel5.setText("Tipo de Pago:");
+        jLabel5.setText("Tipo de Pago");
 
         jLabel6.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        jLabel6.setText("Ingrese el monto:");
+        jLabel6.setText("Ingrese el monto*");
 
         cbxCuentas.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         cbxCuentas.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
