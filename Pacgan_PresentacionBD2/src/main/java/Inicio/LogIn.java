@@ -44,9 +44,9 @@ public class LogIn extends javax.swing.JFrame {
         txtUsuario = new javax.swing.JTextField();
         btnIniciarSesion = new javax.swing.JButton();
         btnSalir = new javax.swing.JButton();
-        lblLogo = new javax.swing.JLabel();
         txtContrasena = new javax.swing.JPasswordField();
         jCheckBox1 = new javax.swing.JCheckBox();
+        jLabel2 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -92,9 +92,6 @@ public class LogIn extends javax.swing.JFrame {
         });
         Agrupador.add(btnSalir, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 440, 120, 40));
 
-        lblLogo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/LogoPacGan.jpg"))); // NOI18N
-        Agrupador.add(lblLogo, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 20, 270, 240));
-
         txtContrasena.setBackground(new java.awt.Color(255, 255, 255));
         txtContrasena.setForeground(new java.awt.Color(0, 0, 0));
         Agrupador.add(txtContrasena, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 330, 170, -1));
@@ -107,6 +104,9 @@ public class LogIn extends javax.swing.JFrame {
             }
         });
         Agrupador.add(jCheckBox1, new org.netbeans.lib.awtextra.AbsoluteConstraints(620, 340, -1, -1));
+
+        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/LogoPacGan.jpg"))); // NOI18N
+        Agrupador.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 20, 270, 240));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -187,7 +187,7 @@ public class LogIn extends javax.swing.JFrame {
     private javax.swing.JLabel etiquetaContrasena;
     private javax.swing.JLabel etiquetaUsuario;
     private javax.swing.JCheckBox jCheckBox1;
-    private javax.swing.JLabel lblLogo;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JPasswordField txtContrasena;
     private javax.swing.JTextField txtUsuario;
     // End of variables declaration//GEN-END:variables
