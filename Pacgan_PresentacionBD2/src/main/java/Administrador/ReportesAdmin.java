@@ -5,6 +5,10 @@
 package Administrador;
 
 import java.awt.Color;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import javax.swing.JMenu;
+import javax.swing.JMenuItem;
 
 /**
  *
@@ -18,12 +22,81 @@ public class ReportesAdmin extends javax.swing.JFrame {
     public ReportesAdmin() {
         initComponents();
         personalizador();
+
+        agregarOpcionesMenu();
     }
-    
-     public void personalizador() {
+
+    public void personalizador() {
         panelMenu.setBackground(Color.decode("#142132"));
         btnBuscar.setBackground(Color.decode("#142132"));
         btnGenerarReporte.setBackground(Color.decode("#142132"));
+
+    }
+
+    public void agregarOpcionesMenu() {
+
+        JMenu menuReportes = new JMenu("Reportes");
+        JMenuItem generarReporte = new JMenuItem("Generar Reportes");
+        generarReporte.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // Open your frame here
+                ReportesAdmin reportes = new ReportesAdmin();
+                reportes.setVisible(true);
+                dispose();
+
+            }
+        });
+
+        menuReportes.add(generarReporte);
+
+        JMenu menuPagos = new JMenu("Pagos");
+        JMenuItem pagoAutorizado = new JMenuItem("Autorizados");
+        pagoAutorizado.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // Open your frame here
+                AutorizarPagos autorizar = new AutorizarPagos();
+                autorizar.setVisible(true);
+                dispose();
+
+            }
+        });
+
+        menuPagos.add(pagoAutorizado);
+
+        JMenuItem pagosPagados = new JMenuItem("Pagados");
+        pagosPagados.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // Open your frame here
+                PagarAdmin pagados = new PagarAdmin();
+                pagados.setVisible(true);
+                dispose();
+
+            }
+        });
+
+        menuPagos.add(pagosPagados);
+
+        JMenu menuBeneficiario = new JMenu("Beneficiarios");
+        JMenuItem adminBenef = new JMenuItem("Administrar Beneficiarios");
+        adminBenef.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // Open your frame here
+                BeneficiariosAdmin benef = new BeneficiariosAdmin();
+                benef.setVisible(true);
+                dispose();
+
+            }
+        });
+
+        menuBeneficiario.add(adminBenef);
+
+        MenuBarAdmin.add(menuReportes);
+        MenuBarAdmin.add(menuPagos);
+        MenuBarAdmin.add(menuBeneficiario);
 
     }
 
@@ -41,6 +114,7 @@ public class ReportesAdmin extends javax.swing.JFrame {
         panelMenu = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
+        jLabel9 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
         jLabel2 = new javax.swing.JLabel();
@@ -55,6 +129,7 @@ public class ReportesAdmin extends javax.swing.JFrame {
         jLabel8 = new javax.swing.JLabel();
         jComboBox3 = new javax.swing.JComboBox<>();
         btnGenerarReporte = new javax.swing.JButton();
+        MenuBarAdmin = new javax.swing.JMenuBar();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -75,6 +150,10 @@ public class ReportesAdmin extends javax.swing.JFrame {
 
         jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/LogoEsquina.jpg"))); // NOI18N
 
+        jLabel9.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        jLabel9.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel9.setText("Reportes");
+
         javax.swing.GroupLayout panelMenuLayout = new javax.swing.GroupLayout(panelMenu);
         panelMenu.setLayout(panelMenuLayout);
         panelMenuLayout.setHorizontalGroup(
@@ -82,14 +161,22 @@ public class ReportesAdmin extends javax.swing.JFrame {
             .addGroup(panelMenuLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel3)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 844, Short.MAX_VALUE))
+                .addGroup(panelMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(panelMenuLayout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 844, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelMenuLayout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 376, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(213, 213, 213))))
         );
         panelMenuLayout.setVerticalGroup(
             panelMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelMenuLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap()
+                .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel1))
             .addGroup(panelMenuLayout.createSequentialGroup()
                 .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -174,6 +261,8 @@ public class ReportesAdmin extends javax.swing.JFrame {
         });
         Agrupador.add(btnGenerarReporte, new org.netbeans.lib.awtextra.AbsoluteConstraints(640, 170, 130, 30));
 
+        setJMenuBar(MenuBarAdmin);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -190,7 +279,7 @@ public class ReportesAdmin extends javax.swing.JFrame {
 
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
         // TODO add your handling code here:
-       
+
     }//GEN-LAST:event_btnBuscarActionPerformed
 
     private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
@@ -246,6 +335,7 @@ public class ReportesAdmin extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel Agrupador;
+    private javax.swing.JMenuBar MenuBarAdmin;
     private javax.swing.JButton btnBuscar;
     private javax.swing.JButton btnGenerarReporte;
     private com.github.lgooddatepicker.components.DatePicker datePicker1;
@@ -261,6 +351,7 @@ public class ReportesAdmin extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
     private javax.swing.JPanel panelMenu;

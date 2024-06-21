@@ -39,7 +39,6 @@ public class CrearBeneficiario extends javax.swing.JFrame {
         btnRegistrarse3 = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         txtClaveContrato = new javax.swing.JTextField();
-        jLabel11 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
@@ -52,6 +51,7 @@ public class CrearBeneficiario extends javax.swing.JFrame {
         txtContrasena = new javax.swing.JPasswordField();
         jCheckBox1 = new javax.swing.JCheckBox();
         txtAMaterno = new javax.swing.JTextField();
+        jLabel2 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -86,9 +86,6 @@ public class CrearBeneficiario extends javax.swing.JFrame {
         txtClaveContrato.setBackground(new java.awt.Color(242, 242, 242));
         txtClaveContrato.setForeground(new java.awt.Color(0, 0, 0));
         Agrupador.add(txtClaveContrato, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 250, 240, 30));
-
-        jLabel11.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/PacGan Logo (1).jpg"))); // NOI18N
-        Agrupador.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, 160, -1));
 
         jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(255, 255, 255));
@@ -149,6 +146,9 @@ public class CrearBeneficiario extends javax.swing.JFrame {
         txtAMaterno.setForeground(new java.awt.Color(0, 0, 0));
         Agrupador.add(txtAMaterno, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 200, 180, 30));
 
+        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/PacGanCrear.jpg"))); // NOI18N
+        Agrupador.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 50, 170, 170));
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -164,8 +164,9 @@ public class CrearBeneficiario extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnCancelar3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelar3ActionPerformed
-        LogIn inicio = new LogIn();
-        inicio.setVisible(true);
+        BeneficiariosAdmin adminben = new BeneficiariosAdmin();
+        
+       adminben.setVisible(true);
         dispose();
     }//GEN-LAST:event_btnCancelar3ActionPerformed
 
@@ -224,7 +225,7 @@ public class CrearBeneficiario extends javax.swing.JFrame {
     private javax.swing.JButton btnRegistrarse3;
     private javax.swing.JCheckBox jCheckBox1;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
