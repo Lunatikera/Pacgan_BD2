@@ -148,7 +148,7 @@ public class ReportesAdmin extends javax.swing.JFrame {
 
         panelMenu.setBackground(new java.awt.Color(0, 51, 102));
 
-        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/LogoEsquina.jpg"))); // NOI18N
+        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/logos/LogoEsquina.jpg"))); // NOI18N
 
         jLabel9.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         jLabel9.setForeground(new java.awt.Color(255, 255, 255));

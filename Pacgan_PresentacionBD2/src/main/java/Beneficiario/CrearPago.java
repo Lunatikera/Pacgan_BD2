@@ -43,7 +43,7 @@ public class CrearPago extends javax.swing.JFrame {
 
         panelMenu3.setBackground(new java.awt.Color(0, 51, 102));
 
-        jLabel13.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/LogoEsquina.jpg"))); // NOI18N
+        jLabel13.setIcon(new javax.swing.ImageIcon(getClass().getResource("/logos/LogoEsquina.jpg"))); // NOI18N
 
         jLabel14.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         jLabel14.setForeground(new java.awt.Color(255, 255, 255));
