@@ -52,86 +52,88 @@ public class CrearBeneficiario extends javax.swing.JFrame {
         jCheckBox1 = new javax.swing.JCheckBox();
         txtAMaterno = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
+        jLabel9 = new javax.swing.JLabel();
+        txtContrasena1 = new javax.swing.JPasswordField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         Agrupador.setBackground(new java.awt.Color(0, 51, 102));
         Agrupador.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
+        btnCancelar3.setText("Cancelar");
         btnCancelar3.setBackground(new java.awt.Color(255, 255, 255));
         btnCancelar3.setForeground(new java.awt.Color(0, 0, 0));
-        btnCancelar3.setText("Cancelar");
         btnCancelar3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnCancelar3ActionPerformed(evt);
             }
         });
-        Agrupador.add(btnCancelar3, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 480, 150, 50));
+        Agrupador.add(btnCancelar3, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 490, 140, 40));
 
+        btnRegistrarse3.setText("Registrarse");
         btnRegistrarse3.setBackground(new java.awt.Color(255, 255, 255));
         btnRegistrarse3.setForeground(new java.awt.Color(0, 0, 0));
-        btnRegistrarse3.setText("Registrarse");
         btnRegistrarse3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnRegistrarse3ActionPerformed(evt);
             }
         });
-        Agrupador.add(btnRegistrarse3, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 480, 150, 50));
+        Agrupador.add(btnRegistrarse3, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 490, 130, 40));
 
+        jLabel1.setText("Crear Beneficiario");
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 36)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel1.setText("Crear Beneficiario");
-        Agrupador.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 30, 310, 50));
+        Agrupador.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 10, 310, 50));
 
         txtClaveContrato.setBackground(new java.awt.Color(242, 242, 242));
         txtClaveContrato.setForeground(new java.awt.Color(0, 0, 0));
-        Agrupador.add(txtClaveContrato, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 250, 240, 30));
+        Agrupador.add(txtClaveContrato, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 230, 240, 30));
 
+        jLabel3.setText("Apellido Materno*");
         jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel3.setText("Apellido Materno*");
-        Agrupador.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 160, 160, 30));
+        Agrupador.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 140, 160, 30));
 
+        jLabel4.setText("Nombre*");
         jLabel4.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel4.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel4.setText("Nombre*");
-        Agrupador.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 90, 90, 20));
+        Agrupador.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 70, 90, 20));
 
+        jLabel5.setText("Contraseña*");
         jLabel5.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel5.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel5.setText("Contraseña*");
-        Agrupador.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 370, 160, 30));
+        Agrupador.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 350, 160, 30));
 
         txtUsuario.setBackground(new java.awt.Color(242, 242, 242));
         txtUsuario.setForeground(new java.awt.Color(0, 0, 0));
-        Agrupador.add(txtUsuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 330, 390, 30));
+        Agrupador.add(txtUsuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 310, 390, 30));
 
         txtAPaterno.setBackground(new java.awt.Color(242, 242, 242));
         txtAPaterno.setForeground(new java.awt.Color(0, 0, 0));
-        Agrupador.add(txtAPaterno, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 200, 180, 30));
+        Agrupador.add(txtAPaterno, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 180, 180, 30));
 
+        jLabel6.setText("Apellido Paterno*");
         jLabel6.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel6.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel6.setText("Apellido Paterno*");
-        Agrupador.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 160, 160, 30));
+        Agrupador.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 140, 160, 30));
 
+        jLabel7.setText("Clave Contrato*");
         jLabel7.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel7.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel7.setText("Clave Contrato*");
-        Agrupador.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 250, 160, 30));
+        Agrupador.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 230, 160, 30));
 
         txtNombre.setBackground(new java.awt.Color(242, 242, 242));
         txtNombre.setForeground(new java.awt.Color(0, 0, 0));
-        Agrupador.add(txtNombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 120, 390, 30));
+        Agrupador.add(txtNombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 100, 390, 30));
 
+        jLabel8.setText("Usuario*");
         jLabel8.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel8.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel8.setText("Usuario*");
-        Agrupador.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 290, 160, 30));
+        Agrupador.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 270, 160, 30));
 
         txtContrasena.setBackground(new java.awt.Color(255, 255, 255));
         txtContrasena.setForeground(new java.awt.Color(0, 0, 0));
-        Agrupador.add(txtContrasena, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 400, 390, 30));
+        Agrupador.add(txtContrasena, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 380, 390, 30));
 
         jCheckBox1.setForeground(new java.awt.Color(255, 255, 255));
         jCheckBox1.setText("Ver");
@@ -144,10 +146,19 @@ public class CrearBeneficiario extends javax.swing.JFrame {
 
         txtAMaterno.setBackground(new java.awt.Color(242, 242, 242));
         txtAMaterno.setForeground(new java.awt.Color(0, 0, 0));
-        Agrupador.add(txtAMaterno, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 200, 180, 30));
+        Agrupador.add(txtAMaterno, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 180, 180, 30));
 
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/logos/PacGanCrear.jpg"))); // NOI18N
         Agrupador.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 50, 170, 170));
+
+        jLabel9.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jLabel9.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel9.setText("Confirmar Contraseña*");
+        Agrupador.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 410, 210, 30));
+
+        txtContrasena1.setBackground(new java.awt.Color(255, 255, 255));
+        txtContrasena1.setForeground(new java.awt.Color(0, 0, 0));
+        Agrupador.add(txtContrasena1, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 440, 390, 30));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -232,10 +243,12 @@ public class CrearBeneficiario extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JTextField txtAMaterno;
     private javax.swing.JTextField txtAPaterno;
     private javax.swing.JTextField txtClaveContrato;
     private javax.swing.JPasswordField txtContrasena;
+    private javax.swing.JPasswordField txtContrasena1;
     private javax.swing.JTextField txtNombre;
     private javax.swing.JTextField txtUsuario;
     // End of variables declaration//GEN-END:variables

@@ -4,6 +4,16 @@
  */
 package Beneficiario;
 
+import Administrador.AutorizarPagos;
+import Administrador.BeneficiariosAdmin;
+import Administrador.PagarAdmin;
+import Administrador.ReportesAdmin;
+import java.awt.Color;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import javax.swing.JMenu;
+import javax.swing.JMenuItem;
+
 /**
  *
  * @author jesus
@@ -15,6 +25,77 @@ public class Abonos extends javax.swing.JFrame {
      */
     public Abonos() {
         initComponents();
+        personalizador();
+        agregarOpcionesMenu();
+    }
+
+    public void personalizador() {
+        panelMenu.setBackground(Color.decode("#142132"));
+        btnBuscar.setBackground(Color.decode("#142132"));
+
+    }
+
+    public void agregarOpcionesMenu() {
+
+        JMenu menuPagos = new JMenu("Pagos");
+        JMenuItem misPagos = new JMenuItem("Mis pagos");
+        misPagos.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Pagos Pagos = new Pagos();
+                Pagos.setVisible(true);
+                dispose();
+
+            }
+        });
+
+        menuPagos.add(misPagos);
+
+        JMenu menuAbonos = new JMenu("Abonos");
+        JMenuItem misAbonos = new JMenuItem("Mis Abonos");
+        misAbonos.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Abonos Abonos = new Abonos();
+                Abonos.setVisible(true);
+                dispose();
+
+            }
+        });
+
+        menuAbonos.add(misAbonos);
+
+        JMenu menuCuentas = new JMenu("Cuentas");
+        JMenuItem misCuentas = new JMenuItem("Mis cuentas");
+        misCuentas.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Cuentas Cuentas = new Cuentas();
+                Cuentas.setVisible(true);
+                dispose();
+
+            }
+        });
+
+        menuCuentas.add(misCuentas);
+
+        JMenu menuSalir = new JMenu("Salir");
+        JMenuItem salir = new JMenuItem("Salir");
+        salir.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                dispose();
+
+            }
+        });
+
+        menuSalir.add(salir);
+
+        MenuBarAdmin.add(menuAbonos);
+        MenuBarAdmin.add(menuPagos);
+        MenuBarAdmin.add(menuCuentas);
+        MenuBarAdmin.add(menuSalir);
+
     }
 
     /**
@@ -26,17 +107,96 @@ public class Abonos extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        Agrupador = new javax.swing.JPanel();
+        panelMenu = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTable1 = new javax.swing.JTable();
+        jLabel5 = new javax.swing.JLabel();
+        btnBuscar = new javax.swing.JButton();
+        MenuBarAdmin = new javax.swing.JMenuBar();
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        Agrupador.setBackground(new java.awt.Color(255, 255, 255));
+        Agrupador.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        panelMenu.setBackground(new java.awt.Color(0, 51, 102));
+
+        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/logos/LogoEsquina.jpg"))); // NOI18N
+
+        jLabel2.setText("Abonos");
+        jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(255, 255, 255));
+
+        javax.swing.GroupLayout panelMenuLayout = new javax.swing.GroupLayout(panelMenu);
+        panelMenu.setLayout(panelMenuLayout);
+        panelMenuLayout.setHorizontalGroup(
+            panelMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelMenuLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel3)
+                .addGroup(panelMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(panelMenuLayout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(panelMenuLayout.createSequentialGroup()
+                        .addGap(353, 353, 353)
+                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(0, 407, Short.MAX_VALUE))
+        );
+        panelMenuLayout.setVerticalGroup(
+            panelMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelMenuLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel1))
+            .addGroup(panelMenuLayout.createSequentialGroup()
+                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
+        );
+
+        Agrupador.add(panelMenu, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 960, 60));
+
+        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jTable1.setBackground(new java.awt.Color(234, 234, 234));
+        jScrollPane1.setViewportView(jTable1);
+
+        Agrupador.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 170, 880, 350));
+
+        jLabel5.setText("Mis Abonos");
+        jLabel5.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        jLabel5.setForeground(new java.awt.Color(0, 0, 0));
+        Agrupador.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 80, 140, 30));
+
+        btnBuscar.setForeground(new java.awt.Color(255, 255, 255));
+        btnBuscar.setText("Actualizar");
+        Agrupador.add(btnBuscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(810, 130, 100, 30));
+
+        setJMenuBar(MenuBarAdmin);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addComponent(Agrupador, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addComponent(Agrupador, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
@@ -78,5 +238,15 @@ public class Abonos extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JPanel Agrupador;
+    private javax.swing.JMenuBar MenuBarAdmin;
+    private javax.swing.JButton btnBuscar;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTable jTable1;
+    private javax.swing.JPanel panelMenu;
     // End of variables declaration//GEN-END:variables
 }

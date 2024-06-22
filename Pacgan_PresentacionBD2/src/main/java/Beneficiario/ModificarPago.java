@@ -4,6 +4,12 @@
  */
 package Beneficiario;
 
+import java.awt.Color;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import javax.swing.JMenu;
+import javax.swing.JMenuItem;
+
 /**
  *
  * @author filor
@@ -15,6 +21,67 @@ public class ModificarPago extends javax.swing.JFrame {
      */
     public ModificarPago() {
         initComponents();
+        personalizador();
+        agregarOpcionesMenu();
+    }
+
+    public void personalizador() {
+        panelMenu.setBackground(Color.decode("#142132"));
+        btnCancelar.setBackground(Color.decode("#142132"));
+        btnCrear.setBackground(Color.decode("#142132"));
+    }
+
+    public void agregarOpcionesMenu() {
+
+        JMenu menuPagos = new JMenu("Pagos");
+        JMenuItem misPagos = new JMenuItem("Mis pagos");
+        misPagos.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // Open your frame here
+                Pagos Pagos = new Pagos();
+                Pagos.setVisible(true);
+                dispose();
+
+            }
+        });
+
+        menuPagos.add(misPagos);
+
+        JMenu menuAbonos = new JMenu("Abonos");
+        JMenuItem misAbonos = new JMenuItem("Mis Abonos");
+        misAbonos.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // Open your frame here
+                Abonos Abonos = new Abonos();
+                Abonos.setVisible(true);
+                dispose();
+
+            }
+        });
+
+        menuAbonos.add(misAbonos);
+
+        JMenu menuCuentas = new JMenu("Cuentas");
+        JMenuItem misCuentas = new JMenuItem("Mis cuentas");
+        misCuentas.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // Open your frame here
+                Cuentas Cuentas = new Cuentas();
+                Cuentas.setVisible(true);
+                dispose();
+
+            }
+        });
+
+        menuCuentas.add(misCuentas);
+
+        MenuBarAdmin.add(menuAbonos);
+        MenuBarAdmin.add(menuPagos);
+        MenuBarAdmin.add(menuCuentas);
+
     }
 
     /**
@@ -26,28 +93,34 @@ public class ModificarPago extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        Agrupador = new javax.swing.JPanel();
         panelMenu = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
-        jLabel5 = new javax.swing.JLabel();
-        jLabel6 = new javax.swing.JLabel();
-        cbxCuentas = new javax.swing.JComboBox<>();
-        cbxTiposPago = new javax.swing.JComboBox<>();
-        txtMonto = new javax.swing.JTextField();
-        btnAceptar = new javax.swing.JButton();
-        btnActualizar = new javax.swing.JButton();
+        jLabel55 = new javax.swing.JLabel();
+        jLabel56 = new javax.swing.JLabel();
+        jLabel57 = new javax.swing.JLabel();
+        jLabel58 = new javax.swing.JLabel();
+        cbxCuentas1 = new javax.swing.JComboBox<>();
+        jLabel59 = new javax.swing.JLabel();
+        cbxTiposPago1 = new javax.swing.JComboBox<>();
+        jLabel60 = new javax.swing.JLabel();
+        txtMonto1 = new javax.swing.JTextField();
+        btnCancelar = new javax.swing.JButton();
+        btnCrear = new javax.swing.JButton();
+        MenuBarAdmin = new javax.swing.JMenuBar();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setBackground(new java.awt.Color(255, 255, 255));
+
+        Agrupador.setBackground(new java.awt.Color(255, 255, 255));
+        Agrupador.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         panelMenu.setBackground(new java.awt.Color(0, 51, 102));
 
-        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/logos/LogoEsquina.jpg"))); // NOI18N
+        jLabel56.setIcon(new javax.swing.ImageIcon(getClass().getResource("/logos/LogoEsquina.jpg"))); // NOI18N
 
-        jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
-        jLabel2.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel2.setText("Modificar pago");
+        jLabel57.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        jLabel57.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel57.setText("Crear pago");
 
         javax.swing.GroupLayout panelMenuLayout = new javax.swing.GroupLayout(panelMenu);
         panelMenu.setLayout(panelMenuLayout);
@@ -55,128 +128,110 @@ public class ModificarPago extends javax.swing.JFrame {
             panelMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelMenuLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel3)
+                .addComponent(jLabel56)
                 .addGroup(panelMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(panelMenuLayout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 454, Short.MAX_VALUE))
+                        .addComponent(jLabel55, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelMenuLayout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 376, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 127, Short.MAX_VALUE)
+                        .addComponent(jLabel57, javax.swing.GroupLayout.PREFERRED_SIZE, 376, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addContainerGap())))
         );
         panelMenuLayout.setVerticalGroup(
             panelMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelMenuLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel1))
             .addGroup(panelMenuLayout.createSequentialGroup()
-                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addGroup(panelMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(panelMenuLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jLabel57, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLabel56, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel55))
         );
 
-        jLabel4.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        jLabel4.setText("Seleccione la cuenta:");
+        Agrupador.add(panelMenu, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 570, -1));
 
-        jLabel5.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        jLabel5.setText("Tipo de Pago:");
+        jLabel58.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        jLabel58.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel58.setText("Seleccione la cuenta*");
+        Agrupador.add(jLabel58, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 80, -1, -1));
 
-        jLabel6.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        jLabel6.setText("Ingrese el monto:");
-
-        cbxCuentas.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        cbxCuentas.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        cbxCuentas.addActionListener(new java.awt.event.ActionListener() {
+        cbxCuentas1.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        cbxCuentas1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cbxCuentas1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cbxCuentasActionPerformed(evt);
+                cbxCuentas1ActionPerformed(evt);
             }
         });
+        Agrupador.add(cbxCuentas1, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 120, -1, -1));
 
-        cbxTiposPago.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        cbxTiposPago.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jLabel59.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        jLabel59.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel59.setText("Tipo de Pago*");
+        Agrupador.add(jLabel59, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 180, -1, -1));
 
-        txtMonto.setColumns(12);
-        txtMonto.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        cbxTiposPago1.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        cbxTiposPago1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        Agrupador.add(cbxTiposPago1, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 210, -1, -1));
 
-        btnAceptar.setBackground(new java.awt.Color(0, 102, 153));
-        btnAceptar.setForeground(new java.awt.Color(255, 255, 255));
-        btnAceptar.setText("Aceptar");
-        btnAceptar.addActionListener(new java.awt.event.ActionListener() {
+        jLabel60.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        jLabel60.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel60.setText("Ingrese el monto*");
+        Agrupador.add(jLabel60, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 260, -1, -1));
+
+        txtMonto1.setColumns(12);
+        txtMonto1.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        Agrupador.add(txtMonto1, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 300, -1, -1));
+
+        btnCancelar.setBackground(new java.awt.Color(0, 102, 153));
+        btnCancelar.setForeground(new java.awt.Color(255, 255, 255));
+        btnCancelar.setText("Cancelar");
+        btnCancelar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnAceptarActionPerformed(evt);
+                btnCancelarActionPerformed(evt);
             }
         });
+        Agrupador.add(btnCancelar, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 360, 90, 40));
 
-        btnActualizar.setBackground(new java.awt.Color(0, 102, 153));
-        btnActualizar.setForeground(new java.awt.Color(255, 255, 255));
-        btnActualizar.setText("Cancelar");
-        btnActualizar.addActionListener(new java.awt.event.ActionListener() {
+        btnCrear.setBackground(new java.awt.Color(0, 102, 153));
+        btnCrear.setForeground(new java.awt.Color(255, 255, 255));
+        btnCrear.setText("Crear");
+        btnCrear.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnActualizarActionPerformed(evt);
+                btnCrearActionPerformed(evt);
             }
         });
+        Agrupador.add(btnCrear, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 360, 90, 40));
+
+        setJMenuBar(MenuBarAdmin);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(panelMenu, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(cbxTiposPago, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(cbxCuentas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel4)
-                    .addComponent(jLabel5)
-                    .addComponent(jLabel6)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addGroup(layout.createSequentialGroup()
-                            .addComponent(btnAceptar)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(btnActualizar))
-                        .addComponent(txtMonto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addComponent(Agrupador, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(panelMenu, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jLabel4)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(cbxCuentas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jLabel5)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(cbxTiposPago, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jLabel6)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(txtMonto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnAceptar)
-                    .addComponent(btnActualizar))
-                .addContainerGap(35, Short.MAX_VALUE))
+            .addComponent(Agrupador, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void cbxCuentasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxCuentasActionPerformed
+    private void cbxCuentas1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxCuentas1ActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_cbxCuentasActionPerformed
+    }//GEN-LAST:event_cbxCuentas1ActionPerformed
 
-    private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed
+    private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_btnAceptarActionPerformed
+    }//GEN-LAST:event_btnCancelarActionPerformed
 
-    private void btnActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarActionPerformed
+    private void btnCrearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCrearActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_btnActualizarActionPerformed
+    }//GEN-LAST:event_btnCrearActionPerformed
 
     /**
      * @param args the command line arguments
@@ -215,17 +270,19 @@ public class ModificarPago extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnAceptar;
-    private javax.swing.JButton btnActualizar;
-    private javax.swing.JComboBox<String> cbxCuentas;
-    private javax.swing.JComboBox<String> cbxTiposPago;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
+    private javax.swing.JPanel Agrupador;
+    private javax.swing.JMenuBar MenuBarAdmin;
+    private javax.swing.JButton btnCancelar;
+    private javax.swing.JButton btnCrear;
+    private javax.swing.JComboBox<String> cbxCuentas1;
+    private javax.swing.JComboBox<String> cbxTiposPago1;
+    private javax.swing.JLabel jLabel55;
+    private javax.swing.JLabel jLabel56;
+    private javax.swing.JLabel jLabel57;
+    private javax.swing.JLabel jLabel58;
+    private javax.swing.JLabel jLabel59;
+    private javax.swing.JLabel jLabel60;
     private javax.swing.JPanel panelMenu;
-    private javax.swing.JTextField txtMonto;
+    private javax.swing.JTextField txtMonto1;
     // End of variables declaration//GEN-END:variables
 }
