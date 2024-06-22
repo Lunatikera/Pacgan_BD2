@@ -14,12 +14,12 @@ import javax.swing.JMenuItem;
  *
  * @author jesus
  */
-public class Pagos extends javax.swing.JFrame {
+public class Cuentas extends javax.swing.JFrame {
 
     /**
-     * Creates new form Pagos
+     * Creates new form Cuentas
      */
-    public Pagos() {
+    public Cuentas() {
         initComponents();
         personalizador();
         agregarOpcionesMenu();
@@ -27,11 +27,11 @@ public class Pagos extends javax.swing.JFrame {
 
     public void personalizador() {
         panelMenu.setBackground(Color.decode("#142132"));
-        btnBuscar.setBackground(Color.decode("#142132"));
-        btnCrearPago.setBackground(Color.decode("#142132"));
+        btnCrearCuenta.setBackground(Color.decode("#142132"));
 
     }
 
+    
     public void agregarOpcionesMenu() {
 
         JMenu menuPagos = new JMenu("Pagos");
@@ -112,8 +112,7 @@ public class Pagos extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
         jLabel5 = new javax.swing.JLabel();
-        btnCrearPago = new javax.swing.JButton();
-        btnBuscar = new javax.swing.JButton();
+        btnCrearCuenta = new javax.swing.JButton();
         MenuBarAdmin = new javax.swing.JMenuBar();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -127,7 +126,7 @@ public class Pagos extends javax.swing.JFrame {
 
         jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel2.setText("Pagos");
+        jLabel2.setText("Mis Cuentas");
 
         javax.swing.GroupLayout panelMenuLayout = new javax.swing.GroupLayout(panelMenu);
         panelMenu.setLayout(panelMenuLayout);
@@ -175,23 +174,19 @@ public class Pagos extends javax.swing.JFrame {
 
         Agrupador.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 170, 880, 350));
 
-        jLabel5.setText("Mis Pagos");
         jLabel5.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         jLabel5.setForeground(new java.awt.Color(0, 0, 0));
-        Agrupador.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 80, 140, 30));
+        jLabel5.setText("Adminsitrar Cuentas Bancarias");
+        Agrupador.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 80, 380, 30));
 
-        btnCrearPago.setForeground(new java.awt.Color(255, 255, 255));
-        btnCrearPago.setText("Crear Pago");
-        btnCrearPago.addActionListener(new java.awt.event.ActionListener() {
+        btnCrearCuenta.setForeground(new java.awt.Color(255, 255, 255));
+        btnCrearCuenta.setText("Crear Cuenta");
+        btnCrearCuenta.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnCrearPagoActionPerformed(evt);
+                btnCrearCuentaActionPerformed(evt);
             }
         });
-        Agrupador.add(btnCrearPago, new org.netbeans.lib.awtextra.AbsoluteConstraints(680, 130, 100, 30));
-
-        btnBuscar.setForeground(new java.awt.Color(255, 255, 255));
-        btnBuscar.setText("Actualizar");
-        Agrupador.add(btnBuscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(810, 130, 100, 30));
+        Agrupador.add(btnCrearCuenta, new org.netbeans.lib.awtextra.AbsoluteConstraints(800, 130, 100, 30));
 
         setJMenuBar(MenuBarAdmin);
 
@@ -203,19 +198,19 @@ public class Pagos extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(Agrupador, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(Agrupador, javax.swing.GroupLayout.DEFAULT_SIZE, 542, Short.MAX_VALUE)
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnCrearPagoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCrearPagoActionPerformed
+    private void btnCrearCuentaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCrearCuentaActionPerformed
         // TODO add your handling code here:
         CrearPago crearPago = new CrearPago();
-        
+
         crearPago.setVisible(true);
         dispose();
-    }//GEN-LAST:event_btnCrearPagoActionPerformed
+    }//GEN-LAST:event_btnCrearCuentaActionPerformed
 
     /**
      * @param args the command line arguments
@@ -234,20 +229,20 @@ public class Pagos extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Pagos.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Cuentas.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Pagos.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Cuentas.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Pagos.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Cuentas.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Pagos.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Cuentas.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Pagos().setVisible(true);
+                new Cuentas().setVisible(true);
             }
         });
     }
@@ -255,8 +250,7 @@ public class Pagos extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel Agrupador;
     private javax.swing.JMenuBar MenuBarAdmin;
-    private javax.swing.JButton btnBuscar;
-    private javax.swing.JButton btnCrearPago;
+    private javax.swing.JButton btnCrearCuenta;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
