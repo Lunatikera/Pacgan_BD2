@@ -4,11 +4,16 @@
  */
 package Administrador;
 
+import com.formdev.flatlaf.FlatLaf;
+import com.formdev.flatlaf.fonts.roboto.FlatRobotoFont;
+import com.formdev.flatlaf.themes.FlatMacDarkLaf;
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
+import javax.swing.UIManager;
 
 /**
  *
@@ -129,6 +134,7 @@ public class ReportesAdmin extends javax.swing.JFrame {
         jLabel8 = new javax.swing.JLabel();
         jComboBox3 = new javax.swing.JComboBox<>();
         btnGenerarReporte = new javax.swing.JButton();
+        comboBoxMultiSelection1 = new raven.combobox.ComboBoxMultiSelection();
         MenuBarAdmin = new javax.swing.JMenuBar();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -165,7 +171,7 @@ public class ReportesAdmin extends javax.swing.JFrame {
                     .addGroup(panelMenuLayout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 844, Short.MAX_VALUE))
+                        .addGap(0, 874, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelMenuLayout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 376, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -183,7 +189,7 @@ public class ReportesAdmin extends javax.swing.JFrame {
                 .addGap(0, 0, Short.MAX_VALUE))
         );
 
-        Agrupador.add(panelMenu, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 960, 60));
+        Agrupador.add(panelMenu, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 990, 60));
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -211,7 +217,7 @@ public class ReportesAdmin extends javax.swing.JFrame {
                 jComboBox1ActionPerformed(evt);
             }
         });
-        Agrupador.add(jComboBox1, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 140, 90, 20));
+        Agrupador.add(jComboBox1, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 180, 90, 20));
 
         jLabel4.setForeground(new java.awt.Color(0, 0, 0));
         jLabel4.setText("Estatus:");
@@ -236,7 +242,7 @@ public class ReportesAdmin extends javax.swing.JFrame {
         jLabel7.setForeground(new java.awt.Color(0, 0, 0));
         jLabel7.setText("Abonos Terminados");
         Agrupador.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 100, -1, -1));
-        Agrupador.add(datePicker1, new org.netbeans.lib.awtextra.AbsoluteConstraints(680, 100, 180, 30));
+        Agrupador.add(datePicker1, new org.netbeans.lib.awtextra.AbsoluteConstraints(680, 100, 190, 30));
         Agrupador.add(datePicker2, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 100, 180, 30));
 
         jLabel8.setForeground(new java.awt.Color(0, 0, 0));
@@ -260,6 +266,9 @@ public class ReportesAdmin extends javax.swing.JFrame {
             }
         });
         Agrupador.add(btnGenerarReporte, new org.netbeans.lib.awtextra.AbsoluteConstraints(640, 170, 130, 30));
+
+        comboBoxMultiSelection1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Hola", "como", "estas", " " }));
+        Agrupador.add(comboBoxMultiSelection1, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 160, 170, -1));
 
         setJMenuBar(MenuBarAdmin);
 
@@ -302,30 +311,10 @@ public class ReportesAdmin extends javax.swing.JFrame {
      * @param args the command line arguments
      */
     public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(ReportesAdmin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(ReportesAdmin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(ReportesAdmin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(ReportesAdmin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
+        FlatRobotoFont.install();
+        FlatLaf.registerCustomDefaultsSource("raven.combobox");
+        UIManager.put("defaultFont", new Font(FlatRobotoFont.FAMILY, Font.PLAIN, 13));
+        FlatMacDarkLaf.setup();
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new ReportesAdmin().setVisible(true);
@@ -338,6 +327,7 @@ public class ReportesAdmin extends javax.swing.JFrame {
     private javax.swing.JMenuBar MenuBarAdmin;
     private javax.swing.JButton btnBuscar;
     private javax.swing.JButton btnGenerarReporte;
+    private raven.combobox.ComboBoxMultiSelection comboBoxMultiSelection1;
     private com.github.lgooddatepicker.components.DatePicker datePicker1;
     private com.github.lgooddatepicker.components.DatePicker datePicker2;
     private javax.swing.JComboBox<String> jComboBox1;

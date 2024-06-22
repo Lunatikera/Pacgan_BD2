@@ -47,6 +47,7 @@ public class LogIn extends javax.swing.JFrame {
         txtContrasena = new javax.swing.JPasswordField();
         jCheckBox1 = new javax.swing.JCheckBox();
         jLabel2 = new javax.swing.JLabel();
+        radModoAdmin = new javax.swing.JRadioButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -107,6 +108,9 @@ public class LogIn extends javax.swing.JFrame {
 
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/logos/LogoPacGan.jpg"))); // NOI18N
         Agrupador.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 20, 270, 240));
+
+        radModoAdmin.setText("Modo Administrador");
+        Agrupador.add(radModoAdmin, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 380, -1, -1));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -188,6 +192,7 @@ public class LogIn extends javax.swing.JFrame {
     private javax.swing.JLabel etiquetaUsuario;
     private javax.swing.JCheckBox jCheckBox1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JRadioButton radModoAdmin;
     private javax.swing.JPasswordField txtContrasena;
     private javax.swing.JTextField txtUsuario;
     // End of variables declaration//GEN-END:variables
