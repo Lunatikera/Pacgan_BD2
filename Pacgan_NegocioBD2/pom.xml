@@ -18,5 +18,12 @@
             <artifactId>Pacgan_PersistenciaBD2</artifactId>
             <version>${project.version}</version>
         </dependency>
+        
+        <dependency>
+            <groupId>org.jasypt</groupId>
+            <artifactId>jasypt</artifactId>
+            <version>1.9.3</version>
+        </dependency>
+
     </dependencies>
 </project>
