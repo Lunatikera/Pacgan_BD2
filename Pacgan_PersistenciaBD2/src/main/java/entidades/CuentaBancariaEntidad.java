@@ -30,23 +30,23 @@ public class CuentaBancariaEntidad implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id_cuentaBancaria;
 
-    @Column(name = "numeroCuenta")
+    @Column(name = "numeroCuenta", length = 20, nullable = false, unique = true)
     private String numeroCuenta;
 
-    @Column(name = "clabe")
+    @Column(name = "clabe", length = 18, nullable = false, unique = true)
     private String clabe;
 
-    @Column(name = "nombreBanco")
+    @Column(name = "nombreBanco", length = 60, nullable = false)
     private String nombreBanco;
 
-    @Column(name = "estaEliminada")
-    private boolean estaEliminada;
+    @Column(name = "estaEliminada",  nullable = false)
+    private boolean estaEliminada = false;
 
     @ManyToOne(targetEntity = BeneficiarioEntidad.class)
     @JoinColumn(name = "id_beneficiario", nullable = false)
     private BeneficiarioEntidad beneficiarioCuenta;
 
-     @OneToMany(mappedBy = "cuentaBancaria", cascade = {CascadeType.PERSIST})
+    @OneToMany(mappedBy = "cuentaBancaria", cascade = {CascadeType.PERSIST})
     private List<PagoEntidad> cuentaBancariaPagos;
 
     public CuentaBancariaEntidad() {
@@ -121,6 +121,5 @@ public class CuentaBancariaEntidad implements Serializable {
     public String toString() {
         return "CuentaBancariaEntidad{" + "id_cuentaBancaria=" + id_cuentaBancaria + ", numeroCuenta=" + numeroCuenta + ", clabe=" + clabe + ", nombreBanco=" + nombreBanco + ", estaEliminada=" + estaEliminada + ", beneficiarioCuenta=" + beneficiarioCuenta + ", cuentaBancaria=" + cuentaBancariaPagos + '}';
     }
-     
-     
+
 }

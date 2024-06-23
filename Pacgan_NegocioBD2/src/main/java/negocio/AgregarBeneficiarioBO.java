@@ -11,6 +11,7 @@ import excepciones.NegocioException;
 import excepciones.PersistenciaException;
 import interfaces.IAgregarBeneficiarioBO;
 import interfaces.IBeneficiarioDAO;
+import java.math.BigDecimal;
 
 /**
  *
@@ -51,7 +52,7 @@ public class AgregarBeneficiarioBO implements IAgregarBeneficiarioBO {
         }
 
         // Verificar que el saldo sea mayor que cero (si es una restricción)
-        if (beneficiario.getSaldo() <= 0) {
+        if (beneficiario.getSaldo().compareTo(BigDecimal.ZERO) <= 0) {
             throw new NegocioException("El saldo del beneficiario debe ser mayor que cero");
         }
 

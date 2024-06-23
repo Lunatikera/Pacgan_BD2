@@ -28,7 +28,7 @@ public class TipoPagoEntidad implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id_tipoPagos;
 
-    @Column(name = "nombreTipo")
+    @Column(name = "nombreTipo", length = 50) 
     private String nombreTipo;
 
     @Column(name = "numeroParcialidades")

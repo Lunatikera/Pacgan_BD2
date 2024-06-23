@@ -4,6 +4,7 @@
  */
 package dtos;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 /**
@@ -17,13 +18,13 @@ public class BeneficiarioDTO {
     private String nombre;
     private String apellidoPA;
     private String apellidoMA;
-    private double saldo;
+    private BigDecimal saldo;
     private String nombreUsuario;
     private String contraseña;
     private List<Long> beneficiarioPagoIds;
     private List<Long> beneficiarioCuentaIds;
 
-    public BeneficiarioDTO(Long beneficiarioId, String claveContrato, String nombre, String apellidoPA, String apellidoMA, double saldo, String nombreUsuario, String contraseña, List<Long> beneficiarioPagoIds, List<Long> beneficiarioCuentaIds) {
+    public BeneficiarioDTO(Long beneficiarioId, String claveContrato, String nombre, String apellidoPA, String apellidoMA, BigDecimal saldo, String nombreUsuario, String contraseña, List<Long> beneficiarioPagoIds, List<Long> beneficiarioCuentaIds) {
         this.beneficiarioId = beneficiarioId;
         this.claveContrato = claveContrato;
         this.nombre = nombre;
@@ -79,11 +80,11 @@ public class BeneficiarioDTO {
         this.apellidoMA = apellidoMA;
     }
 
-    public double getSaldo() {
+    public BigDecimal getSaldo() {
         return saldo;
     }
 
-    public void setSaldo(double saldo) {
+    public void setSaldo(BigDecimal saldo) {
         this.saldo = saldo;
     }
 

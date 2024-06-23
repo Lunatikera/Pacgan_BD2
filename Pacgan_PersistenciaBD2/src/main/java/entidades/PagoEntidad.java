@@ -31,7 +31,7 @@ public class PagoEntidad implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id_pago;
 
-    @Column(name = "monto")
+    @Column(name = "monto", precision = 10, scale = 2,  nullable = false)
     private double monto;
 
     @Lob
