@@ -6,6 +6,7 @@ interfaces\IBeneficiarioDAO.class
 entidades\AbonoEntidad.class
 entidades\BeneficiarioEntidad_.class
 excepciones\PersistenciaException.class
+reportes\Reportes.class
 entidades\AbonoEntidad_.class
 entidades\CuentaBancariaEntidad_.class
 entidades\PagoEntidad_.class

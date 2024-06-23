@@ -20,6 +20,10 @@ public class AgregarBeneficiarioBO implements IAgregarBeneficiarioBO {
 
     IBeneficiarioDAO beneficiarioDAO;
 
+    public AgregarBeneficiarioBO() {
+    }
+
+    
     public AgregarBeneficiarioBO(IBeneficiarioDAO beneficiarioDAO) {
         this.beneficiarioDAO = beneficiarioDAO;
     }

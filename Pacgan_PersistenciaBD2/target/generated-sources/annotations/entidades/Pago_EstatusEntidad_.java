@@ -7,7 +7,7 @@ import javax.annotation.processing.Generated;
 import javax.persistence.metamodel.SingularAttribute;
 import javax.persistence.metamodel.StaticMetamodel;
 
-@Generated(value="org.eclipse.persistence.internal.jpa.modelgen.CanonicalModelProcessor", date="2024-06-23T11:37:00", comments="EclipseLink-2.7.10.v20211216-rNA")
+@Generated(value="org.eclipse.persistence.internal.jpa.modelgen.CanonicalModelProcessor", date="2024-06-23T16:56:10", comments="EclipseLink-2.7.10.v20211216-rNA")
 @StaticMetamodel(Pago_EstatusEntidad.class)
 public class Pago_EstatusEntidad_ { 
 

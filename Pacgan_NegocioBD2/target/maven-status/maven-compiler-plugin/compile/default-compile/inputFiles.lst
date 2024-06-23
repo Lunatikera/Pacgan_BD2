@@ -14,6 +14,7 @@ C:\Users\jesus\OneDrive\Documentos\GitHub\Main\Pacgan_BD2\Pacgan_NegocioBD2\src\
 C:\Users\jesus\OneDrive\Documentos\GitHub\Main\Pacgan_BD2\Pacgan_NegocioBD2\src\main\java\fachadas\GestionarBeneficiariosFacade.java
 C:\Users\jesus\OneDrive\Documentos\GitHub\Main\Pacgan_BD2\Pacgan_NegocioBD2\src\main\java\interfaces\IIniciarSesionBO.java
 C:\Users\jesus\OneDrive\Documentos\GitHub\Main\Pacgan_BD2\Pacgan_NegocioBD2\src\main\java\interfaces\IAgregarAbonoBO.java
+C:\Users\jesus\OneDrive\Documentos\GitHub\Main\Pacgan_BD2\Pacgan_NegocioBD2\src\main\java\controladores\ReporteController.java
 C:\Users\jesus\OneDrive\Documentos\GitHub\Main\Pacgan_BD2\Pacgan_NegocioBD2\src\main\java\interfaces\IAgregarCuentaBancariaBO.java
 C:\Users\jesus\OneDrive\Documentos\GitHub\Main\Pacgan_BD2\Pacgan_NegocioBD2\src\main\java\negocio\CrearPagoBO.java
 C:\Users\jesus\OneDrive\Documentos\GitHub\Main\Pacgan_BD2\Pacgan_NegocioBD2\src\main\java\convertidores\ConvertidorBeneficiario.java
@@ -25,6 +26,7 @@ C:\Users\jesus\OneDrive\Documentos\GitHub\Main\Pacgan_BD2\Pacgan_NegocioBD2\src\
 C:\Users\jesus\OneDrive\Documentos\GitHub\Main\Pacgan_BD2\Pacgan_NegocioBD2\src\main\java\dtos\CuentaBancariaDTO.java
 C:\Users\jesus\OneDrive\Documentos\GitHub\Main\Pacgan_BD2\Pacgan_NegocioBD2\src\main\java\interfaces\IEditarCuentaBancariaBO.java
 C:\Users\jesus\OneDrive\Documentos\GitHub\Main\Pacgan_BD2\Pacgan_NegocioBD2\src\main\java\negocio\ConsultarPagoBO.java
+C:\Users\jesus\OneDrive\Documentos\GitHub\Main\Pacgan_BD2\Pacgan_NegocioBD2\src\main\java\Main.java
 C:\Users\jesus\OneDrive\Documentos\GitHub\Main\Pacgan_BD2\Pacgan_NegocioBD2\src\main\java\negocio\ConsultarBeneficiarioBO.java
 C:\Users\jesus\OneDrive\Documentos\GitHub\Main\Pacgan_BD2\Pacgan_NegocioBD2\src\main\java\dtos\AbonoDTO.java
 C:\Users\jesus\OneDrive\Documentos\GitHub\Main\Pacgan_BD2\Pacgan_NegocioBD2\src\main\java\negocio\AgregarCuentaBancariaBO.java

@@ -70,6 +70,18 @@ public class BeneficiarioEntidad implements Serializable {
         this.beneficiarioCuenta = beneficiarioCuenta;
     }
 
+    public BeneficiarioEntidad(Long id_beneficiario, String claveContrato, String nombres, String apellidoPA, String apellidoMA, double saldo, String nombreUsuario, String contraseña) {
+        this.id_beneficiario = id_beneficiario;
+        this.claveContrato = claveContrato;
+        this.nombres = nombres;
+        this.apellidoPA = apellidoPA;
+        this.apellidoMA = apellidoMA;
+        this.saldo = saldo;
+        this.nombreUsuario = nombreUsuario;
+        this.contraseña = contraseña;
+    }
+
+    
     public Long getId() {
         return id_beneficiario;
     }
