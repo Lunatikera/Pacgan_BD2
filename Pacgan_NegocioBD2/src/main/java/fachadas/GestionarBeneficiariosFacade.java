@@ -55,5 +55,10 @@ public class GestionarBeneficiariosFacade implements IGestionarBeneficiarios {
     public void eliminarBeneficiario(Long id) throws NegocioException {
          eliminarBeneficiarioBO.eliminarBeneficiario(id);
     }
+
+    @Override
+    public List<BeneficiarioDTO> listaBeneficiariosPaginado(int numeroPagina, int tamanoPagina) throws NegocioException {
+        return consultarBeneficiarioBO.listaBeneficiariosPaginado(numeroPagina, tamanoPagina);
+    }
     
 }
