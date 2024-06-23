@@ -17,7 +17,8 @@ import javax.persistence.EntityTransaction;
  * @author Usuario
  */
 public class BeneficiarioDAO implements IBeneficiarioDAO {
-   private IConexionBD conexionBD;
+
+    private IConexionBD conexionBD;
 
     public BeneficiarioDAO() {
         this.conexionBD = new ConexionBD();
@@ -77,6 +78,25 @@ public class BeneficiarioDAO implements IBeneficiarioDAO {
         return beneficiarios;
     }
 
+    @Override
+    public List<BeneficiarioEntidad> listaBeneficiariosPaginado(int numeroPagina, int tamanoPagina) throws PersistenciaException {
+        EntityManager entityManager = conexionBD.obtenerEntityManager();
+        List<BeneficiarioEntidad> beneficiarios = null;
+
+        try {
+            beneficiarios = entityManager.createQuery("SELECT b FROM BeneficiarioEntidad b", BeneficiarioEntidad.class)
+                    .setFirstResult((numeroPagina - 1) * tamanoPagina)
+                    .setMaxResults(tamanoPagina)
+                    .getResultList();
+        } catch (Exception e) {
+            throw new PersistenciaException("Error al leer todos los beneficiarios", e);
+        } finally {
+            entityManager.close();
+        }
+
+        return beneficiarios;
+    }
+
     // Actualizar un beneficiario
     @Override
     public void editarBeneficiario(BeneficiarioEntidad beneficiario) throws PersistenciaException {
@@ -106,7 +126,7 @@ public class BeneficiarioDAO implements IBeneficiarioDAO {
         try {
             entityTransaction.begin();
             BeneficiarioEntidad beneficiario = entityManager.find(BeneficiarioEntidad.class, id);
-            if (beneficiario!= null) {
+            if (beneficiario != null) {
                 entityManager.remove(beneficiario);
             }
             entityTransaction.commit();

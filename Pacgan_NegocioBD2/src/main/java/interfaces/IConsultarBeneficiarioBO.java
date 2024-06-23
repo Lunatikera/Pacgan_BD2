@@ -17,4 +17,6 @@ public interface IConsultarBeneficiarioBO {
     public BeneficiarioDTO consultarBeneficiarioPorID(Long id) throws NegocioException;
 
     public List<BeneficiarioDTO> listaBeneficiarios() throws NegocioException;
+
+    public List<BeneficiarioDTO> listaBeneficiariosPaginado(int numeroPagina, int tamanoPagina) throws NegocioException;
 }

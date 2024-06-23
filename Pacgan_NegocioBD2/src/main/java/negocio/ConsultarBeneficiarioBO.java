@@ -46,10 +46,10 @@ public class ConsultarBeneficiarioBO implements IConsultarBeneficiarioBO {
     @Override
     public List<BeneficiarioDTO> listaBeneficiarios() throws NegocioException {
         try {
-            
+
             List<BeneficiarioEntidad> listaBeneficiariosEntidad = beneficiarioDAO.listaBeneficiarios();
             List<BeneficiarioDTO> listaBeneficiariosDTO = new ArrayList<>();
-            
+
             for (BeneficiarioEntidad beneficiarioEntidad : listaBeneficiariosEntidad) {
                 try {
                     BeneficiarioDTO beneficiarioDTO = convertirEntidadADTO(beneficiarioEntidad);
@@ -62,6 +62,23 @@ public class ConsultarBeneficiarioBO implements IConsultarBeneficiarioBO {
         } catch (PersistenciaException e) {
             // Capturar excepción de persistencia y lanzar como NegocioException
             throw new NegocioException("Error al obtener la lista de abonos desde la base de datos.", e);
+        }
+    }
+    
+    // método para obtener la lista de beneficiarios paginados
+   @Override
+    public List<BeneficiarioDTO> listaBeneficiariosPaginado(int numeroPagina, int tamanoPagina) throws NegocioException {
+        try {
+            List<BeneficiarioEntidad> listaBeneficiariosEntidad = beneficiarioDAO.listaBeneficiariosPaginado(numeroPagina, tamanoPagina);
+            List<BeneficiarioDTO> listaBeneficiariosDTO = new ArrayList<>();
+
+            for (BeneficiarioEntidad beneficiarioEntidad : listaBeneficiariosEntidad) {
+                BeneficiarioDTO beneficiarioDTO = ConvertidorBeneficiario.convertirEntidadADTO(beneficiarioEntidad);
+                listaBeneficiariosDTO.add(beneficiarioDTO);
+            }
+            return listaBeneficiariosDTO;
+        } catch (PersistenciaException e) {
+            throw new NegocioException("Error al obtener la lista de beneficiarios desde la base de datos.", e);
         }
     }
 }

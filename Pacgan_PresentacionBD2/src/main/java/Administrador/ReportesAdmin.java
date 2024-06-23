@@ -35,6 +35,8 @@ public class ReportesAdmin extends javax.swing.JFrame {
         panelMenu.setBackground(Color.decode("#142132"));
         btnBuscar.setBackground(Color.decode("#142132"));
         btnGenerarReporte.setBackground(Color.decode("#142132"));
+        btnAtras.setBackground(Color.decode("#142132"));
+        btnSiguiente.setBackground(Color.decode("#142132"));
 
     }
 
@@ -135,6 +137,9 @@ public class ReportesAdmin extends javax.swing.JFrame {
         comboBoxMultiSelection1 = new raven.combobox.ComboBoxMultiSelection();
         datePicker3 = new com.github.lgooddatepicker.components.DatePicker();
         datePicker4 = new com.github.lgooddatepicker.components.DatePicker();
+        btnAtras = new javax.swing.JButton();
+        lblPagina = new javax.swing.JLabel();
+        btnSiguiente = new javax.swing.JButton();
         MenuBarAdmin = new javax.swing.JMenuBar();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -263,6 +268,31 @@ public class ReportesAdmin extends javax.swing.JFrame {
         Agrupador.add(datePicker3, new org.netbeans.lib.awtextra.AbsoluteConstraints(690, 100, 190, 30));
         Agrupador.add(datePicker4, new org.netbeans.lib.awtextra.AbsoluteConstraints(690, 100, 190, 30));
 
+        btnAtras.setBackground(new java.awt.Color(0, 102, 153));
+        btnAtras.setForeground(new java.awt.Color(255, 255, 255));
+        btnAtras.setText("Atras");
+        btnAtras.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAtrasActionPerformed(evt);
+            }
+        });
+        Agrupador.add(btnAtras, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 560, 130, 30));
+
+        lblPagina.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        lblPagina.setForeground(new java.awt.Color(0, 0, 0));
+        lblPagina.setText("Pagina 1");
+        Agrupador.add(lblPagina, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 570, -1, -1));
+
+        btnSiguiente.setBackground(new java.awt.Color(0, 102, 153));
+        btnSiguiente.setForeground(new java.awt.Color(255, 255, 255));
+        btnSiguiente.setText("Siguiente");
+        btnSiguiente.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSiguienteActionPerformed(evt);
+            }
+        });
+        Agrupador.add(btnSiguiente, new org.netbeans.lib.awtextra.AbsoluteConstraints(730, 560, 130, 30));
+
         setJMenuBar(MenuBarAdmin);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -296,6 +326,14 @@ public class ReportesAdmin extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_btnGenerarReporteActionPerformed
 
+    private void btnAtrasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAtrasActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnAtrasActionPerformed
+
+    private void btnSiguienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSiguienteActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnSiguienteActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -314,8 +352,10 @@ public class ReportesAdmin extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel Agrupador;
     private javax.swing.JMenuBar MenuBarAdmin;
+    private javax.swing.JButton btnAtras;
     private javax.swing.JButton btnBuscar;
     private javax.swing.JButton btnGenerarReporte;
+    private javax.swing.JButton btnSiguiente;
     private raven.combobox.ComboBoxMultiSelection comboBoxMultiSelection1;
     private com.github.lgooddatepicker.components.DatePicker datePicker1;
     private com.github.lgooddatepicker.components.DatePicker datePicker3;
@@ -333,6 +373,7 @@ public class ReportesAdmin extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel9;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
+    private javax.swing.JLabel lblPagina;
     private javax.swing.JPanel panelMenu;
     // End of variables declaration//GEN-END:variables
 }
