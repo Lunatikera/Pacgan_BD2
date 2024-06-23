@@ -76,27 +76,7 @@ public class AbonoDAO implements IAbonoDAO {
         }
 
         return abonos;
-    }
-
-    // Actualizar un abono
-    @Override
-    public void editarAbono(AbonoEntidad abono) throws PersistenciaException {
-        EntityManager entityManager = conexionBD.obtenerEntityManager();
-        EntityTransaction entityTransaction = entityManager.getTransaction();
-
-        try {
-            entityTransaction.begin();
-            entityManager.merge(abono);
-            entityTransaction.commit();
-        } catch (Exception e) {
-            if (entityTransaction.isActive()) {
-                entityTransaction.rollback();
-            }
-            throw new PersistenciaException("Error al actualizar abono", e);
-        } finally {
-            entityManager.close();
-        }
-    }
+    }  
 
     // Eliminar un abono
     @Override

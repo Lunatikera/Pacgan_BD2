@@ -20,7 +20,5 @@ public interface IAbonoDAO {
 
     public List<AbonoEntidad> listaAbonos() throws PersistenciaException;
 
-    public void editarAbono(AbonoEntidad abono) throws PersistenciaException;
-
     public void eliminarAbono(Long id) throws PersistenciaException;
 }

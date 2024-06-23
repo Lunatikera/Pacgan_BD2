@@ -50,7 +50,7 @@ public class PagoEntidad implements Serializable {
     private CuentaBancariaEntidad cuentaBancaria;
 
     @OneToMany(mappedBy = "pagoAbono", cascade = {CascadeType.PERSIST})
-    private List<AbonoEntidad> pagoAbono;
+    private List<AbonoEntidad> pagoAbonos;
 
     @OneToMany(mappedBy = "pagoEstatus", cascade = {CascadeType.PERSIST})
     private List<Pago_EstatusEntidad> pagoEstatus;
@@ -64,15 +64,15 @@ public class PagoEntidad implements Serializable {
         this.tipoPago = tipoPago;
         this.beneficiarioPago = beneficiarioPago;
         this.cuentaBancaria = cuentaBancaria;
-        this.pagoAbono = pagoAbono;
+        this.pagoAbonos = pagoAbono;
         this.pagoEstatus = pagoEstatus;
     }
 
-    public Long getId_pago() {
+    public Long getId() {
         return id_pago;
     }
 
-    public void setId_pago(Long id_pago) {
+    public void setId(Long id_pago) {
         this.id_pago = id_pago;
     }
 
@@ -116,12 +116,12 @@ public class PagoEntidad implements Serializable {
         this.cuentaBancaria = cuentaBancaria;
     }
 
-    public List<AbonoEntidad> getPagoAbono() {
-        return pagoAbono;
+    public List<AbonoEntidad> getPagoAbonos() {
+        return pagoAbonos;
     }
 
-    public void setPagoAbono(List<AbonoEntidad> pagoAbono) {
-        this.pagoAbono = pagoAbono;
+    public void setPagoAbonos(List<AbonoEntidad> pagoAbono) {
+        this.pagoAbonos = pagoAbono;
     }
 
     public List<Pago_EstatusEntidad> getPagoEstatus() {
