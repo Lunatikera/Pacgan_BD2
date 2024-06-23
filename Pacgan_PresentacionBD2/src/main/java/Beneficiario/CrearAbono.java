@@ -46,6 +46,7 @@ public class CrearAbono extends javax.swing.JFrame {
         lclNumeroRestantes = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setBackground(new java.awt.Color(255, 255, 255));
 
         panelMenu.setBackground(new java.awt.Color(0, 51, 102));
 

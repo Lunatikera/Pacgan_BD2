@@ -24,14 +24,16 @@ public class AutorizarPagos extends javax.swing.JFrame {
         personalizador();
         agregarOpcionesMenu();
     }
-    
+
     public void personalizador() {
         panelMenu.setBackground(Color.decode("#142132"));
         btnBuscar.setBackground(Color.decode("#142132"));
+        btnAtras.setBackground(Color.decode("#142132"));
+        btnSiguiente.setBackground(Color.decode("#142132"));
 
     }
 
-     public void agregarOpcionesMenu() {
+    public void agregarOpcionesMenu() {
 
         JMenu menuReportes = new JMenu("Reportes");
         JMenuItem generarReporte = new JMenuItem("Generar Reportes");
@@ -108,7 +110,7 @@ public class AutorizarPagos extends javax.swing.JFrame {
     private void initComponents() {
 
         Agrupador = new javax.swing.JPanel();
-        btnBuscar = new javax.swing.JButton();
+        btnAtras = new javax.swing.JButton();
         panelMenu = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
@@ -118,6 +120,9 @@ public class AutorizarPagos extends javax.swing.JFrame {
         jLabel5 = new javax.swing.JLabel();
         txtBuscar = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
+        btnBuscar = new javax.swing.JButton();
+        btnSiguiente = new javax.swing.JButton();
+        lblPagina = new javax.swing.JLabel();
         MenuBarAdmin = new javax.swing.JMenuBar();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -125,15 +130,15 @@ public class AutorizarPagos extends javax.swing.JFrame {
         Agrupador.setBackground(new java.awt.Color(255, 255, 255));
         Agrupador.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        btnBuscar.setBackground(new java.awt.Color(0, 102, 153));
-        btnBuscar.setForeground(new java.awt.Color(255, 255, 255));
-        btnBuscar.setText("Buscar");
-        btnBuscar.addActionListener(new java.awt.event.ActionListener() {
+        btnAtras.setBackground(new java.awt.Color(0, 102, 153));
+        btnAtras.setForeground(new java.awt.Color(255, 255, 255));
+        btnAtras.setText("Atras");
+        btnAtras.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnBuscarActionPerformed(evt);
+                btnAtrasActionPerformed(evt);
             }
         });
-        Agrupador.add(btnBuscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 100, 130, 30));
+        Agrupador.add(btnAtras, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 560, 130, 30));
 
         panelMenu.setBackground(new java.awt.Color(0, 51, 102));
 
@@ -199,6 +204,31 @@ public class AutorizarPagos extends javax.swing.JFrame {
         jLabel6.setText("Filtro");
         Agrupador.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 70, -1, -1));
 
+        btnBuscar.setBackground(new java.awt.Color(0, 102, 153));
+        btnBuscar.setForeground(new java.awt.Color(255, 255, 255));
+        btnBuscar.setText("Buscar");
+        btnBuscar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBuscarActionPerformed(evt);
+            }
+        });
+        Agrupador.add(btnBuscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 100, 130, 30));
+
+        btnSiguiente.setBackground(new java.awt.Color(0, 102, 153));
+        btnSiguiente.setForeground(new java.awt.Color(255, 255, 255));
+        btnSiguiente.setText("Siguiente");
+        btnSiguiente.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSiguienteActionPerformed(evt);
+            }
+        });
+        Agrupador.add(btnSiguiente, new org.netbeans.lib.awtextra.AbsoluteConstraints(730, 560, 130, 30));
+
+        lblPagina.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        lblPagina.setForeground(new java.awt.Color(0, 0, 0));
+        lblPagina.setText("Pagina 1");
+        Agrupador.add(lblPagina, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 570, -1, -1));
+
         setJMenuBar(MenuBarAdmin);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -209,15 +239,23 @@ public class AutorizarPagos extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(Agrupador, javax.swing.GroupLayout.DEFAULT_SIZE, 552, Short.MAX_VALUE)
+            .addComponent(Agrupador, javax.swing.GroupLayout.DEFAULT_SIZE, 619, Short.MAX_VALUE)
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void btnAtrasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAtrasActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnAtrasActionPerformed
+
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_btnBuscarActionPerformed
+
+    private void btnSiguienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSiguienteActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnSiguienteActionPerformed
 
     /**
      * @param args the command line arguments
@@ -257,7 +295,9 @@ public class AutorizarPagos extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel Agrupador;
     private javax.swing.JMenuBar MenuBarAdmin;
+    private javax.swing.JButton btnAtras;
     private javax.swing.JButton btnBuscar;
+    private javax.swing.JButton btnSiguiente;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -265,6 +305,7 @@ public class AutorizarPagos extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
+    private javax.swing.JLabel lblPagina;
     private javax.swing.JPanel panelMenu;
     private javax.swing.JTextField txtBuscar;
     // End of variables declaration//GEN-END:variables
