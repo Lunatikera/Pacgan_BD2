@@ -11,6 +11,7 @@ import excepciones.NegocioException;
 import excepciones.PersistenciaException;
 import interfaces.IAbonoDAO;
 import interfaces.IAgregarAbonoBO;
+import java.math.BigDecimal;
 import javax.persistence.PersistenceException;
 
 /**
@@ -43,13 +44,11 @@ public class AgregarAbonoBO implements IAgregarAbonoBO {
         if (abonoDTO == null) {
             throw new NegocioException("El abono no puede ser nulo.");
         }
-
-        if (abonoDTO.getMonto() <= 0) {
-            throw new NegocioException("El monto del abono debe ser mayor que cero.");
-        }
-
         if (abonoDTO.getPagoId() == null || abonoDTO.getPagoId() <= 0) {
             throw new NegocioException("El ID del pago asociado no es válido.");
+        }
+         if (abonoDTO.getMonto().compareTo(BigDecimal.ZERO) <=0) {
+            throw new NegocioException("El monto del abono debe ser mayor que cero.");
         }
     }
 

@@ -28,7 +28,7 @@ public class EstatusEntidad implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id_estatus;
 
-    @Column(name = "nombre")
+    @Column(name = "nombre", length = 50, nullable = false)
     private String nombre;
 
     @OneToMany(mappedBy = "estatus", cascade = {CascadeType.PERSIST})
@@ -70,6 +70,5 @@ public class EstatusEntidad implements Serializable {
     public String toString() {
         return "EstatusEntidad{" + "id_estatus=" + id_estatus + ", nombre=" + nombre + ", estatus=" + estatus + '}';
     }
-    
-    
+
 }

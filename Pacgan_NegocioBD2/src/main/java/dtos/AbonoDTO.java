@@ -4,6 +4,7 @@
  */
 package dtos;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
@@ -14,12 +15,12 @@ import java.time.LocalTime;
 public class AbonoDTO {
 
     private Long abonoId;
-    private double monto;
+    private BigDecimal monto;
     private LocalDate fecha;
     private LocalTime hora;
     private Long pagoId;
 
-    public AbonoDTO(Long abonoId, double monto, LocalDate fecha, LocalTime hora, Long pagoId) {
+    public AbonoDTO(Long abonoId, BigDecimal monto, LocalDate fecha, LocalTime hora, Long pagoId) {
         this.abonoId = abonoId;
         this.monto = monto;
         this.fecha = fecha;
@@ -38,11 +39,11 @@ public class AbonoDTO {
         this.abonoId = abonoId;
     }
 
-    public double getMonto() {
+    public BigDecimal getMonto() {
         return monto;
     }
 
-    public void setMonto(double monto) {
+    public void setMonto(BigDecimal monto) {
         this.monto = monto;
     }
 

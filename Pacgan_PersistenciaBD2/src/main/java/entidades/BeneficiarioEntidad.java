@@ -5,7 +5,9 @@
 package entidades;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.List;
+import java.util.UUID;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -13,6 +15,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.PrePersist;
 import javax.persistence.Table;
 
 /**
@@ -28,37 +31,37 @@ public class BeneficiarioEntidad implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id_beneficiario;
 
-    @Column(name = "claveContrato")
+    @Column(name = "claveContrato", unique = true, length = 10, nullable = false)
     private String claveContrato;
 
-    @Column(name = "nombres")
+    @Column(name = "nombres", length = 50, nullable = false)
     private String nombres;
 
-    @Column(name = "apellidoPA")
+    @Column(name = "apellidoPA", length = 50,  nullable = false)
     private String apellidoPA;
 
-    @Column(name = "apellidoMA")
+    @Column(name = "apellidoMA", length = 50)
     private String apellidoMA;
 
-    @Column(name = "saldo")
-    private double saldo;
+    @Column(name = "saldo", precision = 10, scale = 2,  nullable = false)
+    private BigDecimal saldo;
 
-    @Column(name = "nombreUsuario")
+    @Column(name = "nombreUsuario", length = 50, nullable = false, unique = true)
     private String nombreUsuario;
 
-    @Column(name = "contraseña")
+    @Column(name = "contraseña", length = 100, nullable = false)
     private String contraseña;
 
     @OneToMany(mappedBy = "beneficiarioPago", cascade = {CascadeType.PERSIST})
     private List<PagoEntidad> beneficiarioPago;
-    
+
     @OneToMany(mappedBy = "beneficiarioCuenta", cascade = {CascadeType.PERSIST})
     private List<CuentaBancariaEntidad> beneficiarioCuenta;
 
     public BeneficiarioEntidad() {
     }
 
-    public BeneficiarioEntidad(String claveContrato, String nombres, String apellidoPA, String apellidoMA, double saldo, String nombreUsuario, String contraseña, List<PagoEntidad> beneficiarioPago, List<CuentaBancariaEntidad> beneficiarioCuenta) {
+    public BeneficiarioEntidad(String claveContrato, String nombres, String apellidoPA, String apellidoMA, BigDecimal saldo, String nombreUsuario, String contraseña, List<PagoEntidad> beneficiarioPago, List<CuentaBancariaEntidad> beneficiarioCuenta) {
         this.claveContrato = claveContrato;
         this.nombres = nombres;
         this.apellidoPA = apellidoPA;
@@ -110,11 +113,11 @@ public class BeneficiarioEntidad implements Serializable {
         this.apellidoMA = apellidoMA;
     }
 
-    public double getSaldo() {
+    public BigDecimal getSaldo() {
         return saldo;
     }
 
-    public void setSaldo(double saldo) {
+    public void setSaldo(BigDecimal saldo) {
         this.saldo = saldo;
     }
 
@@ -150,10 +153,19 @@ public class BeneficiarioEntidad implements Serializable {
         this.beneficiarioCuenta = beneficiarioCuenta;
     }
 
+    private String generarClaveContrato() {
+        String uuid = UUID.randomUUID().toString().replace("-", "");
+        return uuid.substring(0, Math.min(uuid.length(), 10)); // Cortar a 10 caracteres máximo
+    }
+
+    @PrePersist
+    public void prePersist() {
+        claveContrato = generarClaveContrato();
+    }
+
     @Override
     public String toString() {
         return "BeneficiarioEntidad{" + "id_beneficiario=" + id_beneficiario + ", claveContrato=" + claveContrato + ", nombres=" + nombres + ", apellidoPA=" + apellidoPA + ", apellidoMA=" + apellidoMA + ", saldo=" + saldo + ", nombreUsuario=" + nombreUsuario + ", contrase\u00f1a=" + contraseña + ", beneficiarioPago=" + beneficiarioPago + ", beneficiarioCuenta=" + beneficiarioCuenta + '}';
     }
-    
-    
+
 }

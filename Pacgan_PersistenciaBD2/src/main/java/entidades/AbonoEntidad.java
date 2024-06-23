@@ -5,6 +5,7 @@
 package entidades;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -13,6 +14,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.PrePersist;
 import javax.persistence.Table;
 
 /**
@@ -28,10 +30,10 @@ public class AbonoEntidad implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id_abono;
 
-    @Column(name = "monto")
-    private double monto;
+    @Column(name = "monto", precision = 10, scale = 2, nullable = false)
+    private BigDecimal monto;
 
-    @Column(name = "fechaHora")
+    @Column(name = "fechaHora", nullable = false)
     private LocalDateTime fechaHora;
 
     @ManyToOne(targetEntity = PagoEntidad.class)
@@ -41,7 +43,7 @@ public class AbonoEntidad implements Serializable {
     public AbonoEntidad() {
     }
 
-    public AbonoEntidad(double monto, LocalDateTime fechaHora, PagoEntidad pagoAbono) {
+    public AbonoEntidad(BigDecimal monto, LocalDateTime fechaHora, PagoEntidad pagoAbono) {
         this.monto = monto;
         this.fechaHora = fechaHora;
         this.pagoAbono = pagoAbono;
@@ -55,11 +57,11 @@ public class AbonoEntidad implements Serializable {
         this.id_abono = id_abono;
     }
 
-    public double getMonto() {
+    public BigDecimal getMonto() {
         return monto;
     }
 
-    public void setMonto(double monto) {
+    public void setMonto(BigDecimal monto) {
         this.monto = monto;
     }
 
@@ -77,13 +79,17 @@ public class AbonoEntidad implements Serializable {
 
     public void setPagoAbono(PagoEntidad pagoAbono) {
         this.pagoAbono = pagoAbono;
+
+    }
+
+    @PrePersist
+    public void prePersist() {
+        fechaHora = LocalDateTime.now();
     }
 
     @Override
     public String toString() {
         return "AbonoEntidad{" + "id_abono=" + id_abono + ", monto=" + monto + ", fechaHora=" + fechaHora + ", pagoAbono=" + pagoAbono + '}';
     }
-    
-    
 
 }
