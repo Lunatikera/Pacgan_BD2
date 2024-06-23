@@ -23,6 +23,7 @@ C:\Users\Usuario\Documents\GitHub\Pacgan_BD2\Pacgan_NegocioBD2\src\main\java\fac
 C:\Users\Usuario\Documents\GitHub\Pacgan_BD2\Pacgan_NegocioBD2\src\main\java\negocio\EliminarAbonoBO.java
 C:\Users\Usuario\Documents\GitHub\Pacgan_BD2\Pacgan_NegocioBD2\src\main\java\interfaces\IAgregarBeneficiarioBO.java
 C:\Users\Usuario\Documents\GitHub\Pacgan_BD2\Pacgan_NegocioBD2\src\main\java\interfaces\IConsultarBeneficiarioBO.java
+C:\Users\Usuario\Documents\GitHub\Pacgan_BD2\Pacgan_NegocioBD2\src\main\java\Encriptadores\Encriptacion.java
 C:\Users\Usuario\Documents\GitHub\Pacgan_BD2\Pacgan_NegocioBD2\src\main\java\interfaces\IConsultarAbonoBO.java
 C:\Users\Usuario\Documents\GitHub\Pacgan_BD2\Pacgan_NegocioBD2\src\main\java\interfaces\IEditarBeneficiarioBO.java
 C:\Users\Usuario\Documents\GitHub\Pacgan_BD2\Pacgan_NegocioBD2\src\main\java\interfaces\IEliminarPagoBO.java

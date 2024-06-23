@@ -45,6 +45,7 @@ negocio\AgregarAbonoBO.class
 negocio\ConsultarPagoBO.class
 excepciones\NegocioException.class
 servicios\IGestionarPagos.class
+Encriptadores\Encriptacion.class
 negocio\VerMensajePagoBO.class
 interfaces\IEditarPagoBO.class
 interfaces\IVerMensajePagoBO.class
