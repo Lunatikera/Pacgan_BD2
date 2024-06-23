@@ -8,16 +8,25 @@ import entidades.PagoEntidad;
 import excepciones.PersistenciaException;
 import interfaces.IConexionBD;
 import interfaces.IPagoDAO;
+import java.time.LocalDate;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
+
+import java.util.ArrayList;
+import javax.persistence.PersistenceContext;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
 
 /**
  *
  * @author Usuario
  */
 public class PagoDAO implements IPagoDAO {
-   private IConexionBD conexionBD;
+
+    private IConexionBD conexionBD;
 
     public PagoDAO() {
         this.conexionBD = new ConexionBD();
@@ -106,7 +115,7 @@ public class PagoDAO implements IPagoDAO {
         try {
             entityTransaction.begin();
             PagoEntidad pago = entityManager.find(PagoEntidad.class, id);
-            if (pago!= null) {
+            if (pago != null) {
                 entityManager.remove(pago);
             }
             entityTransaction.commit();
@@ -118,5 +127,38 @@ public class PagoDAO implements IPagoDAO {
         } finally {
             entityManager.close();
         }
+    }
+
+    @PersistenceContext
+    private EntityManager em;
+
+    public List<PagoEntidad> buscarPagosFiltrados(LocalDate fechaInicio, LocalDate fechaFin, 
+                                                  Long tipoId, Boolean abonosTerminados, 
+                                                  Long estatusId) {
+        CriteriaBuilder cb = em.getCriteriaBuilder();
+        CriteriaQuery<PagoEntidad> cq = cb.createQuery(PagoEntidad.class);
+        Root<PagoEntidad> pago = cq.from(PagoEntidad.class);
+        
+        List<Predicate> predicates = new ArrayList<>();
+        
+        if (fechaInicio != null && fechaFin != null) {
+            predicates.add(cb.between(pago.get("fechaHora").as(LocalDate.class), fechaInicio, fechaFin));
+        }
+
+        if (tipoId != null) {
+            predicates.add(cb.equal(pago.get("tipoPago").get("id"), tipoId));
+        }
+
+        if (abonosTerminados != null) {
+            // Implementa la lógica para abonos terminados
+        }
+
+        if (estatusId != null) {
+            predicates.add(cb.equal(pago.get("pagoEstatus").get("estatus").get("id"), estatusId));
+        }
+
+        cq.where(predicates.toArray(new Predicate[0]));
+
+        return em.createQuery(cq).getResultList();
     }
 }

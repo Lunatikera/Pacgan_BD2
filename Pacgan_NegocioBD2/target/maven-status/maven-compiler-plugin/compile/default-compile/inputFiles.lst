@@ -7,6 +7,7 @@ C:\Users\jesus\OneDrive\Documentos\GitHub\Main\Pacgan_BD2\Pacgan_NegocioBD2\src\
 C:\Users\jesus\OneDrive\Documentos\GitHub\Main\Pacgan_BD2\Pacgan_NegocioBD2\src\main\java\com\mycompany\pacgan_negociobd\Pacgan_NegocioBD.java
 C:\Users\jesus\OneDrive\Documentos\GitHub\Main\Pacgan_BD2\Pacgan_NegocioBD2\src\main\java\fachadas\GestionarCuentasBancariasFacade.java
 C:\Users\jesus\OneDrive\Documentos\GitHub\Main\Pacgan_BD2\Pacgan_NegocioBD2\src\main\java\interfaces\IConsultarBeneficiarioBO.java
+C:\Users\jesus\OneDrive\Documentos\GitHub\Main\Pacgan_BD2\Pacgan_NegocioBD2\src\main\java\servicios\ReporteService.java
 C:\Users\jesus\OneDrive\Documentos\GitHub\Main\Pacgan_BD2\Pacgan_NegocioBD2\src\main\java\excepciones\NegocioException.java
 C:\Users\jesus\OneDrive\Documentos\GitHub\Main\Pacgan_BD2\Pacgan_NegocioBD2\src\main\java\servicios\IGestionarBeneficiarios.java
 C:\Users\jesus\OneDrive\Documentos\GitHub\Main\Pacgan_BD2\Pacgan_NegocioBD2\src\main\java\servicios\IGestionarPagos.java
