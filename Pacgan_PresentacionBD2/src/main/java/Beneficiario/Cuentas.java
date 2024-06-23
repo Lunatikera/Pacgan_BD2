@@ -158,18 +158,18 @@ public class Cuentas extends javax.swing.JFrame {
 
         Agrupador.add(panelMenu, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 960, 60));
 
+        jTable1.setBackground(new java.awt.Color(234, 234, 234));
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "Numero de Cuenta", "Clabe", "Banco", "Estatus", "", ""
             }
         ));
-        jTable1.setBackground(new java.awt.Color(234, 234, 234));
         jScrollPane1.setViewportView(jTable1);
 
         Agrupador.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 170, 880, 350));

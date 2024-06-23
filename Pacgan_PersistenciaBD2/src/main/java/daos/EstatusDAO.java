@@ -17,30 +17,11 @@ import javax.persistence.EntityTransaction;
  * @author Usuario
  */
 public class EstatusDAO implements IEstatusDAO {
-  private IConexionBD conexionBD;
+
+    private IConexionBD conexionBD;
 
     public EstatusDAO() {
         this.conexionBD = new ConexionBD();
-    }
-
-    // Crear un nuevo estatus
-    @Override
-    public void agregarEstatus(EstatusEntidad estatus) throws PersistenciaException {
-        EntityManager entityManager = conexionBD.obtenerEntityManager();
-        EntityTransaction entityTransaction = entityManager.getTransaction();
-
-        try {
-            entityTransaction.begin();
-            entityManager.persist(estatus);
-            entityTransaction.commit();
-        } catch (Exception e) {
-            if (entityTransaction.isActive()) {
-                entityTransaction.rollback();
-            }
-            throw new PersistenciaException("Error al crear estatus", e);
-        } finally {
-            entityManager.close();
-        }
     }
 
     // Leer un estatus por ID
@@ -77,46 +58,4 @@ public class EstatusDAO implements IEstatusDAO {
         return estatus;
     }
 
-    // Actualizar un estatus
-    @Override
-    public void editarEstatus(EstatusEntidad estatus) throws PersistenciaException {
-        EntityManager entityManager = conexionBD.obtenerEntityManager();
-        EntityTransaction entityTransaction = entityManager.getTransaction();
-
-        try {
-            entityTransaction.begin();
-            entityManager.merge(estatus);
-            entityTransaction.commit();
-        } catch (Exception e) {
-            if (entityTransaction.isActive()) {
-                entityTransaction.rollback();
-            }
-            throw new PersistenciaException("Error al actualizar estatus", e);
-        } finally {
-            entityManager.close();
-        }
-    }
-
-    // Eliminar un estatus
-    @Override
-    public void eliminarEstatus(Long id) throws PersistenciaException {
-        EntityManager entityManager = conexionBD.obtenerEntityManager();
-        EntityTransaction entityTransaction = entityManager.getTransaction();
-
-        try {
-            entityTransaction.begin();
-            EstatusEntidad estatus = entityManager.find(EstatusEntidad.class, id);
-            if (estatus!= null) {
-                entityManager.remove(estatus);
-            }
-            entityTransaction.commit();
-        } catch (Exception e) {
-            if (entityTransaction.isActive()) {
-                entityTransaction.rollback();
-            }
-            throw new PersistenciaException("Error al eliminar estatus", e);
-        } finally {
-            entityManager.close();
-        }
-    }
 }

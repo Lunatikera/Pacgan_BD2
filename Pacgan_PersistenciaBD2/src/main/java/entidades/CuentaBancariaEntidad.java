@@ -47,7 +47,7 @@ public class CuentaBancariaEntidad implements Serializable {
     private BeneficiarioEntidad beneficiarioCuenta;
 
      @OneToMany(mappedBy = "cuentaBancaria", cascade = {CascadeType.PERSIST})
-    private List<PagoEntidad> cuentaBancaria;
+    private List<PagoEntidad> cuentaBancariaPagos;
 
     public CuentaBancariaEntidad() {
     }
@@ -58,7 +58,7 @@ public class CuentaBancariaEntidad implements Serializable {
         this.nombreBanco = nombreBanco;
         this.estaEliminada = estaEliminada;
         this.beneficiarioCuenta = beneficiarioCuenta;
-        this.cuentaBancaria = cuentaBancaria;
+        this.cuentaBancariaPagos = cuentaBancaria;
     }
 
     public Long getId() {
@@ -109,17 +109,17 @@ public class CuentaBancariaEntidad implements Serializable {
         this.beneficiarioCuenta = beneficiarioCuenta;
     }
 
-    public List<PagoEntidad> getCuentaBancaria() {
-        return cuentaBancaria;
+    public List<PagoEntidad> getCuentaBancariaPagos() {
+        return cuentaBancariaPagos;
     }
 
-    public void setCuentaBancaria(List<PagoEntidad> cuentaBancaria) {
-        this.cuentaBancaria = cuentaBancaria;
+    public void setCuentaBancariaPagos(List<PagoEntidad> cuentaBancaria) {
+        this.cuentaBancariaPagos = cuentaBancaria;
     }
 
     @Override
     public String toString() {
-        return "CuentaBancariaEntidad{" + "id_cuentaBancaria=" + id_cuentaBancaria + ", numeroCuenta=" + numeroCuenta + ", clabe=" + clabe + ", nombreBanco=" + nombreBanco + ", estaEliminada=" + estaEliminada + ", beneficiarioCuenta=" + beneficiarioCuenta + ", cuentaBancaria=" + cuentaBancaria + '}';
+        return "CuentaBancariaEntidad{" + "id_cuentaBancaria=" + id_cuentaBancaria + ", numeroCuenta=" + numeroCuenta + ", clabe=" + clabe + ", nombreBanco=" + nombreBanco + ", estaEliminada=" + estaEliminada + ", beneficiarioCuenta=" + beneficiarioCuenta + ", cuentaBancaria=" + cuentaBancariaPagos + '}';
     }
      
      

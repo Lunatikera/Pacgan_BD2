@@ -123,18 +123,18 @@ public class ReportesAdmin extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
         jLabel2 = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox<>();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         jComboBox2 = new javax.swing.JComboBox<>();
         jLabel7 = new javax.swing.JLabel();
         datePicker1 = new com.github.lgooddatepicker.components.DatePicker();
-        datePicker2 = new com.github.lgooddatepicker.components.DatePicker();
         jLabel8 = new javax.swing.JLabel();
         jComboBox3 = new javax.swing.JComboBox<>();
         btnGenerarReporte = new javax.swing.JButton();
         comboBoxMultiSelection1 = new raven.combobox.ComboBoxMultiSelection();
+        datePicker3 = new com.github.lgooddatepicker.components.DatePicker();
+        datePicker4 = new com.github.lgooddatepicker.components.DatePicker();
         MenuBarAdmin = new javax.swing.JMenuBar();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -193,13 +193,13 @@ public class ReportesAdmin extends javax.swing.JFrame {
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "Tipo", "Monto", "Nombre Beneficiario", "Abonos Terminados", "Cuenta Deposito", "Estatus"
             }
         ));
         jTable1.setBackground(new java.awt.Color(234, 234, 234));
@@ -211,14 +211,6 @@ public class ReportesAdmin extends javax.swing.JFrame {
         jLabel2.setText("Tipos");
         Agrupador.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 100, -1, -1));
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        jComboBox1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jComboBox1ActionPerformed(evt);
-            }
-        });
-        Agrupador.add(jComboBox1, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 180, 90, 20));
-
         jLabel4.setForeground(new java.awt.Color(0, 0, 0));
         jLabel4.setText("Estatus:");
         Agrupador.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 140, -1, -1));
@@ -227,9 +219,9 @@ public class ReportesAdmin extends javax.swing.JFrame {
         jLabel5.setText("Filtros");
         Agrupador.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 70, -1, -1));
 
-        jLabel6.setForeground(new java.awt.Color(0, 0, 0));
         jLabel6.setText("a");
-        Agrupador.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(660, 110, 20, -1));
+        jLabel6.setForeground(new java.awt.Color(0, 0, 0));
+        Agrupador.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(670, 110, 20, -1));
 
         jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         jComboBox2.addActionListener(new java.awt.event.ActionListener() {
@@ -242,11 +234,10 @@ public class ReportesAdmin extends javax.swing.JFrame {
         jLabel7.setForeground(new java.awt.Color(0, 0, 0));
         jLabel7.setText("Abonos Terminados");
         Agrupador.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 100, -1, -1));
-        Agrupador.add(datePicker1, new org.netbeans.lib.awtextra.AbsoluteConstraints(680, 100, 190, 30));
-        Agrupador.add(datePicker2, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 100, 180, 30));
+        Agrupador.add(datePicker1, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 100, 190, 30));
 
-        jLabel8.setForeground(new java.awt.Color(0, 0, 0));
         jLabel8.setText("Periodo:");
+        jLabel8.setForeground(new java.awt.Color(0, 0, 0));
         Agrupador.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 80, -1, -1));
 
         jComboBox3.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
@@ -268,7 +259,9 @@ public class ReportesAdmin extends javax.swing.JFrame {
         Agrupador.add(btnGenerarReporte, new org.netbeans.lib.awtextra.AbsoluteConstraints(640, 170, 130, 30));
 
         comboBoxMultiSelection1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Hola", "como", "estas", " " }));
-        Agrupador.add(comboBoxMultiSelection1, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 160, 170, -1));
+        Agrupador.add(comboBoxMultiSelection1, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 140, 170, -1));
+        Agrupador.add(datePicker3, new org.netbeans.lib.awtextra.AbsoluteConstraints(690, 100, 190, 30));
+        Agrupador.add(datePicker4, new org.netbeans.lib.awtextra.AbsoluteConstraints(690, 100, 190, 30));
 
         setJMenuBar(MenuBarAdmin);
 
@@ -290,10 +283,6 @@ public class ReportesAdmin extends javax.swing.JFrame {
         // TODO add your handling code here:
 
     }//GEN-LAST:event_btnBuscarActionPerformed
-
-    private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jComboBox1ActionPerformed
 
     private void jComboBox2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox2ActionPerformed
         // TODO add your handling code here:
@@ -329,8 +318,8 @@ public class ReportesAdmin extends javax.swing.JFrame {
     private javax.swing.JButton btnGenerarReporte;
     private raven.combobox.ComboBoxMultiSelection comboBoxMultiSelection1;
     private com.github.lgooddatepicker.components.DatePicker datePicker1;
-    private com.github.lgooddatepicker.components.DatePicker datePicker2;
-    private javax.swing.JComboBox<String> jComboBox1;
+    private com.github.lgooddatepicker.components.DatePicker datePicker3;
+    private com.github.lgooddatepicker.components.DatePicker datePicker4;
     private javax.swing.JComboBox<String> jComboBox2;
     private javax.swing.JComboBox<String> jComboBox3;
     private javax.swing.JLabel jLabel1;
