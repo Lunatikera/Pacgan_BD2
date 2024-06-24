@@ -16,6 +16,7 @@ import java.util.logging.Logger;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import javax.swing.table.DefaultTableModel;
+import servicios.IGestionarBeneficiarios;
 
 /**
  *
@@ -26,7 +27,7 @@ public class BeneficiariosAdmin extends javax.swing.JFrame {
     private int numeroPaginaActual = 1; // Variable para almacenar el número de página actual
     private int tamanoPagina = 10;
 
-    IConsultarBeneficiarioBO consultarBeneficiarioBO;
+    IGestionarBeneficiarios gestionarBeneficiarios;
 
     /**
      * Creates new form BeneficiariosAdmin
@@ -115,7 +116,7 @@ public class BeneficiariosAdmin extends javax.swing.JFrame {
     public void cargarBeneficiariosPaginado(int numeroPagina, int tamanoPagina) {
         try {
             // Llamar al método correspondiente en la capa de negocio para obtener la lista paginada de DTO
-            List<BeneficiarioDTO> listaBeneficiarios = consultarBeneficiarioBO.listaBeneficiariosPaginado(numeroPaginaActual, tamanoPagina);
+            List<BeneficiarioDTO> listaBeneficiarios = gestionarBeneficiarios.listaBeneficiariosPaginado(numeroPaginaActual, tamanoPagina);
 
             // Limpiar la tabla antes de cargar nuevos datos
             DefaultTableModel model = (DefaultTableModel) tblBeneficiarios.getModel();

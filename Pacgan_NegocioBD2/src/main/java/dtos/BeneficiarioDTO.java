@@ -37,6 +37,18 @@ public class BeneficiarioDTO {
         this.beneficiarioCuentaIds = beneficiarioCuentaIds;
     }
 
+    public BeneficiarioDTO(Long beneficiarioId, String claveContrato, String nombre, String apellidoPA, String apellidoMA, BigDecimal saldo, String nombreUsuario, String contraseña) {
+        this.beneficiarioId = beneficiarioId;
+        this.claveContrato = claveContrato;
+        this.nombre = nombre;
+        this.apellidoPA = apellidoPA;
+        this.apellidoMA = apellidoMA;
+        this.saldo = saldo;
+        this.nombreUsuario = nombreUsuario;
+        this.contraseña = contraseña;
+    }
+
+    
     public BeneficiarioDTO() {
     }
 

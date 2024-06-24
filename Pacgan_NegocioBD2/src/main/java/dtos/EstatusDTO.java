@@ -8,29 +8,29 @@ import java.util.List;
 
 /**
  *
- * @author triny
+ * @author jesus
  */
 public class EstatusDTO {
-    
-    private Long estatusId;
+
+    private Long id;
     private String nombre;
-    private List<Long> estatus;
+    private List<Long> estatusId;
 
     public EstatusDTO() {
     }
 
-    public EstatusDTO(Long estatusId, String nombre, List<Long> estatus) {
-        this.estatusId = estatusId;
+    public EstatusDTO(Long id, String nombre, List<Long> estatusId) {
+        this.id = id;
         this.nombre = nombre;
-        this.estatus = estatus;
-    }
-
-    public Long getEstatusId() {
-        return estatusId;
-    }
-
-    public void setEstatusId(Long estatusId) {
         this.estatusId = estatusId;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getNombre() {
@@ -41,21 +41,19 @@ public class EstatusDTO {
         this.nombre = nombre;
     }
 
-    public List<Long> getEstatus() {
-        return estatus;
+    public List<Long> getEstatusId() {
+        return estatusId;
     }
 
-    public void setEstatus(List<Long> estatus) {
-        this.estatus = estatus;
+    public void setEstatusId(List<Long> estatusId) {
+        this.estatusId = estatusId;
     }
 
     @Override
     public String toString() {
-        return "EstatusDto{" +
-                "id_estatus=" + estatusId +
-                ", nombre='" + nombre + '\'' +
-                ", estatus=" + estatus +
-                '}';
+        return "EstatusDTO{" + "id=" + id
+                + ", nombre=" + nombre
+                + ", estatusId=" + estatusId + '}';
     }
-}
 
+}

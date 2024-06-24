@@ -19,10 +19,12 @@ public interface IBeneficiarioDAO {
     public BeneficiarioEntidad consultarBeneficiarioPorID(Long id) throws PersistenciaException;
 
     public List<BeneficiarioEntidad> listaBeneficiarios() throws PersistenciaException;
-    
+
     public List<BeneficiarioEntidad> listaBeneficiariosPaginado(int numeroPagina, int tamanoPagina) throws PersistenciaException;
 
     public void editarBeneficiario(BeneficiarioEntidad beneficiario) throws PersistenciaException;
-    
-     public void eliminarBeneficiario(Long id) throws PersistenciaException;
+
+    public void eliminarBeneficiario(Long id) throws PersistenciaException;
+
+    public BeneficiarioEntidad consultarBeneficiarioPorNombreUsuario(String nombreUsuario) throws PersistenciaException;
 }
