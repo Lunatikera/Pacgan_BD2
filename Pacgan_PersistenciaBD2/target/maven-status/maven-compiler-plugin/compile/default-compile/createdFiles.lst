@@ -8,6 +8,7 @@ entidades\BeneficiarioEntidad_.class
 excepciones\PersistenciaException.class
 entidades\AbonoEntidad_.class
 entidades\CuentaBancariaEntidad_.class
+daos\Pago_EstatusDAO.class
 entidades\PagoEntidad_.class
 interfaces\IEstatusDAO.class
 daos\EstatusDAO.class
@@ -24,6 +25,7 @@ daos\BeneficiarioDAO.class
 entidades\Pago_EstatusEntidad.class
 interfaces\IAbonoDAO.class
 entidades\Pago_EstatusEntidad_.class
+interfaces\IPago_EstatusDAO.class
 entidades\TipoPagoEntidad_.class
 interfaces\IConexionBD.class
 daos\ConexionBD.class

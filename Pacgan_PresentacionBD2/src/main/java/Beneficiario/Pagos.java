@@ -5,6 +5,7 @@
 package Beneficiario;
 
 import dtos.CuentaBancariaDTO;
+import dtos.EstatusDTO;
 import dtos.PagoDTO;
 import dtos.Pago_EstadoDTO;
 import excepciones.NegocioException;
@@ -55,7 +56,7 @@ public class Pagos extends javax.swing.JFrame {
     public void cargarPagosEnTabla() {
         try {
             List<PagoDTO> pagoLista = this.gestionarPagos.listaPagosPaginado(this.LIMITE, this.pagina);
-            this.llenarTablaAlumnos(pagoLista);
+            //this.llenarTablaAlumnos(pagoLista);
         } catch (NegocioException ex) {
             JOptionPane.showMessageDialog(this, ex.getMessage(), "Información", JOptionPane.ERROR_MESSAGE);
             pagina--;
@@ -77,11 +78,12 @@ public class Pagos extends javax.swing.JFrame {
                 try {
                     CuentaBancariaDTO cuentaBancaria = gestionarCuentasBancarias.consultarCuentaBancariaPorID(row.getCuentaBancariaId());
                     Pago_EstadoDTO pago_EstadoDTO = consultarEstadoPagos.obtenerEstadoDelPago(row.getPagoId());
-
+                    EstatusDTO estatusDTO= consultarEstadoPagos.consultarEstatusPorID(pago_EstadoDTO.getIdEstatus());
+                    
                     Object[] fila = new Object[4];
                     fila[0] = cuentaBancaria.getNumeroCuenta();
                     fila[1] = row.getMonto();
-                    fila[2] = row.getApellidoPaterno();
+                    fila[2] = estatusDTO.getNombre();
                     fila[3] = pago_EstadoDTO.getMensaje();
 
                     modeloTabla.addRow(fila);
