@@ -4,10 +4,15 @@
  */
 package interfaces;
 
+import dtos.Pago_EstadoDTO;
+import excepciones.NegocioException;
+
 /**
  *
  * @author Usuario
  */
-public interface IVerMensajePagoBO {
-    
+public interface IVerEstadoPagoBO {
+
+    public Pago_EstadoDTO obtenerEstadoDelPago(long pagoId) throws NegocioException;
+
 }

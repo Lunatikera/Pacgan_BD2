@@ -53,4 +53,21 @@ public class ConsultarPagoBO implements IConsultarPagoBO {
             throw new NegocioException("Error al consultar lista de pagos", e);
         }
     }
+
+    @Override
+    public List<PagoDTO> listaPagosPaginado(int numeroPagina, int tamanoPagina) throws NegocioException {
+        try {
+            List<PagoEntidad> listaPagosEntidad= pagoDAO.listaPagosPaginado(numeroPagina, tamanoPagina);
+            List<PagoDTO> listaPagosDTO = new ArrayList<>();
+
+            for (PagoEntidad beneficiarioEntidad : listaPagosEntidad) {
+                PagoDTO pagoDTO = convertirEntidadADTO(beneficiarioEntidad);
+                listaPagosDTO.add(pagoDTO);
+            }
+            return listaPagosDTO;
+        } catch (PersistenciaException e) {
+            throw new NegocioException("Error al obtener la lista de beneficiarios desde la base de datos.", e);
+        }
+    }
 }
+

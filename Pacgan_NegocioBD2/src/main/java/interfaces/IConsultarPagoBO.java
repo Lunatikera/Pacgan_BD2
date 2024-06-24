@@ -17,4 +17,7 @@ public interface IConsultarPagoBO {
     public PagoDTO consultarPagoPorID(Long id) throws NegocioException;
 
     public List<PagoDTO> listaPagos() throws NegocioException;
+
+    public List<PagoDTO> listaPagosPaginado(int numeroPagina, int tamanoPagina) throws NegocioException;
+
 }

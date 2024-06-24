@@ -10,6 +10,7 @@ import entidades.CuentaBancariaEntidad;
 import entidades.PagoEntidad;
 import excepciones.PersistenciaException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -46,6 +47,10 @@ public class ConvertidorBeneficiario {
     }
 
     private static List<PagoEntidad> convertirListaPagoIds(List<Long> beneficiarioPagoIds) throws PersistenciaException {
+        if (beneficiarioPagoIds == null || beneficiarioPagoIds.isEmpty()) {
+            return Collections.emptyList(); // Devuelve una lista vacía si la lista de IDs es nula o vacía
+        }
+
         List<PagoEntidad> pagos = new ArrayList<>();
         for (Long pagoId : beneficiarioPagoIds) {
             PagoEntidad pagoEntidad = new PagoEntidad();
@@ -66,8 +71,7 @@ public class ConvertidorBeneficiario {
         }
         return cuentas;
     }
-    
-    
+
     // Entidad a DTO 
     public static BeneficiarioDTO convertirEntidadADTO(BeneficiarioEntidad beneficiarioEntidad) throws PersistenciaException {
         BeneficiarioDTO beneficiarioDTO = new BeneficiarioDTO();
@@ -113,5 +117,3 @@ public class ConvertidorBeneficiario {
         return cuentaIds;
     }
 }
-
-

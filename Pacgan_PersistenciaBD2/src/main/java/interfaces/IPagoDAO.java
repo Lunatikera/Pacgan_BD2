@@ -20,6 +20,8 @@ public interface IPagoDAO {
 
     public List<PagoEntidad> listaPagos() throws PersistenciaException;
 
+    public List<PagoEntidad> listaPagosPaginado(int numeroPagina, int tamanoPagina) throws PersistenciaException;
+
     public void editarPago(PagoEntidad pago) throws PersistenciaException;
 
     public void eliminarPago(Long id) throws PersistenciaException;

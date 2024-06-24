@@ -20,9 +20,10 @@ public class EstatusDAO implements IEstatusDAO {
 
     private IConexionBD conexionBD;
 
-    public EstatusDAO() {
-        this.conexionBD = new ConexionBD();
+     public EstatusDAO(IConexionBD conexionBD) {
+        this.conexionBD = conexionBD;
     }
+
 
     // Leer un estatus por ID
     @Override
