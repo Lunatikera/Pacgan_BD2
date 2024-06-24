@@ -5,13 +5,20 @@
 package Administrador;
 
 import Inicio.LogIn;
+import dtos.BeneficiarioDTO;
+import interfaces.IAgregarBeneficiarioBO;
 import java.awt.Color;
+import java.math.BigDecimal;
+import javax.swing.JOptionPane;
+import negocio.AgregarBeneficiarioBO;
 
 /**
  *
  * @author jesus
  */
 public class CrearBeneficiario extends javax.swing.JFrame {
+
+    IAgregarBeneficiarioBO agregarBeneficiarioBO = new AgregarBeneficiarioBO();
 
     /**
      * Creates new form CrearBeneficiario
@@ -176,12 +183,57 @@ public class CrearBeneficiario extends javax.swing.JFrame {
 
     private void btnCancelar3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelar3ActionPerformed
         BeneficiariosAdmin adminben = new BeneficiariosAdmin();
-        
-       adminben.setVisible(true);
+
+        adminben.setVisible(true);
         dispose();
     }//GEN-LAST:event_btnCancelar3ActionPerformed
 
     private void btnRegistrarse3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarse3ActionPerformed
+
+        String claveContrato = txtClaveContrato.getText();
+        String nombre = txtNombre.getText();
+        String aPaterno = txtAPaterno.getText();
+        String aMaterno = txtAMaterno.getText();
+        String usuario = txtUsuario.getText();
+        String contrasena = new String(txtContrasena.getPassword());
+        String contrasenaRepetida = new String(txtContrasena1.getPassword());
+
+        if (!contrasena.equals(contrasenaRepetida)) {
+            // Mostrar mensaje de error
+            JOptionPane.showMessageDialog(this, "Las contraseñas no coinciden", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        try {
+            BeneficiarioDTO beneficiario = new BeneficiarioDTO();
+            beneficiario.setClaveContrato(claveContrato);
+            beneficiario.setNombre(nombre);
+            beneficiario.setApellidoPA(aPaterno);
+            beneficiario.setApellidoMA(aMaterno);
+            beneficiario.setNombreUsuario(usuario);
+            beneficiario.setContraseña(contrasena);
+            beneficiario.setSaldo(new BigDecimal(1000000));
+
+            agregarBeneficiarioBO.agregarBeneficiario(beneficiario);
+
+            // Mostrar mensaje de éxito
+            JOptionPane.showMessageDialog(this, "Beneficiario registrado exitosamente", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+
+            // Limpiar campos del formulario
+            txtClaveContrato.setText("");
+            txtNombre.setText("");
+            txtAPaterno.setText("");
+            txtAMaterno.setText("");
+            txtUsuario.setText("");
+            txtContrasena.setText("");
+            txtContrasena1.setText("");
+
+        } catch (Exception e) {
+            // Mostrar mensaje de error
+            System.out.println("ERROR:" + e);
+            JOptionPane.showMessageDialog(this, "Error al registrar el beneficiario: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
+
 
     }//GEN-LAST:event_btnRegistrarse3ActionPerformed
 
@@ -190,8 +242,11 @@ public class CrearBeneficiario extends javax.swing.JFrame {
 
         if (jCheckBox1.isSelected()) {
             txtContrasena.setEchoChar((char) 0);
+            txtContrasena1.setEchoChar((char) 0);
+
         } else {
             txtContrasena.setEchoChar('*');
+            txtContrasena1.setEchoChar('*');
         }
     }//GEN-LAST:event_jCheckBox1ActionPerformed
 
