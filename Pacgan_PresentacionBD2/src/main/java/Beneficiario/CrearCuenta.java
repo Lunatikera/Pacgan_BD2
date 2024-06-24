@@ -30,6 +30,7 @@ public class CrearCuenta extends javax.swing.JFrame {
     IBeneficiarioDAO bene = new BeneficiarioDAO();
     IConsultarBeneficiarioBO beneficiario = new ConsultarBeneficiarioBO(bene);
     ConvertidorCuentaBancaria conv = new ConvertidorCuentaBancaria(bene);
+
     /**
      * Creates new form CrearCuenta
      */
@@ -40,6 +41,37 @@ public class CrearCuenta extends javax.swing.JFrame {
 
     public void personalizador() {
         Agrupador.setBackground(Color.decode("#142132"));
+    }
+
+    public void creacionCuenta() {
+
+        String numeroCuenta = txtNumeroCuenta.getText();
+        String clabe = txtClabe.getText();
+        String nombreBanco = txtBanco.getText();
+
+        try {
+            CuentaBancariaDTO cuenta = new CuentaBancariaDTO();
+            cuenta.setNumeroCuenta(numeroCuenta);
+            cuenta.setClabe(clabe);
+            cuenta.setNombreBanco(nombreBanco);
+            cuenta.setEstaEliminada(false);
+            cuenta.setBeneficiarioId(Long.valueOf("1"));
+            List<Long> lista = new ArrayList<>();
+            cuenta.setPagoIds(lista);
+            agregarCuenta.agregarCuentaBancaria(cuenta);
+            JOptionPane.showMessageDialog(this, "Cuenta registrada exitosamente", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+
+            Cuentas cuentas = new Cuentas();
+
+            cuentas.setVisible(true);
+            dispose();
+        } catch (NegocioException ex) {
+            Logger.getLogger(CrearCuenta.class.getName()).log(Level.SEVERE, null, ex);
+
+            txtNumeroCuenta.setText("");
+            txtClabe.setText("");
+            txtBanco.setText("");
+        }
     }
 
     /**
@@ -151,28 +183,7 @@ public class CrearCuenta extends javax.swing.JFrame {
 
     private void btnCrearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCrearActionPerformed
 
-        String numeroCuenta = txtNumeroCuenta.getText();
-        String clabe = txtClabe.getText();
-        String nombreBanco = txtBanco.getText();
-
-        try {
-            CuentaBancariaDTO cuenta = new CuentaBancariaDTO();
-            cuenta.setNumeroCuenta(numeroCuenta);
-            cuenta.setClabe(clabe);
-            cuenta.setNombreBanco(nombreBanco);
-            cuenta.setEstaEliminada(false);
-            cuenta.setBeneficiarioId(Long.valueOf("1"));
-            List<Long> lista = new ArrayList<>();
-            cuenta.setPagoIds(lista);
-            agregarCuenta.agregarCuentaBancaria(cuenta);
-            JOptionPane.showMessageDialog(this, "Cuenta registrada exitosamente", "Éxito", JOptionPane.INFORMATION_MESSAGE);
-        } catch (NegocioException ex) {
-            Logger.getLogger(CrearCuenta.class.getName()).log(Level.SEVERE, null, ex);
-            
-            txtNumeroCuenta.setText("");
-            txtClabe.setText("");
-            txtBanco.setText("");
-        }
+        creacionCuenta();
     }//GEN-LAST:event_btnCrearActionPerformed
 
     /**

@@ -118,12 +118,11 @@ public class BeneficiariosAdmin extends javax.swing.JFrame {
         });
 
         menuSalir.add(salir);
-        MenuBarAdmin.add(menuSalir);
 
         MenuBarAdmin.add(menuReportes);
         MenuBarAdmin.add(menuPagos);
         MenuBarAdmin.add(menuBeneficiario);
-
+        MenuBarAdmin.add(menuSalir);
     }
 
     public void cargarBeneficiariosPaginado(int numeroPagina, int tamanoPagina) {
@@ -144,8 +143,6 @@ public class BeneficiariosAdmin extends javax.swing.JFrame {
             Logger.getLogger(BeneficiariosAdmin.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
-    
 
     /**
      * This method is called from within the constructor to initialize the form.

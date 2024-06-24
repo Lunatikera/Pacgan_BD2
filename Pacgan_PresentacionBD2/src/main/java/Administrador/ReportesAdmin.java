@@ -112,12 +112,11 @@ public class ReportesAdmin extends javax.swing.JFrame {
         });
 
         menuSalir.add(salir);
-        MenuBarAdmin.add(menuSalir);
 
         MenuBarAdmin.add(menuReportes);
         MenuBarAdmin.add(menuPagos);
         MenuBarAdmin.add(menuBeneficiario);
-
+        MenuBarAdmin.add(menuSalir);
     }
 
     /**

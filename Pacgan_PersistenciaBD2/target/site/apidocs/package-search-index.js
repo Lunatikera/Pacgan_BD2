@@ -1,1 +1,0 @@
-packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html"},{"l":"com.mycompany.pacgan_persistenciabd2"},{"l":"daos"},{"l":"entidades"},{"l":"excepciones"},{"l":"interfaces"}];updateSearchResults();

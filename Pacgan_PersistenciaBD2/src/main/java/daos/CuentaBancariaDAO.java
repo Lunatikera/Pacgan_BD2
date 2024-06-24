@@ -26,6 +26,10 @@ public class CuentaBancariaDAO implements ICuentaBancariaDAO {
     public CuentaBancariaDAO(IConexionBD conexionBD) {
         this.conexionBD = conexionBD;
     }
+    
+    public CuentaBancariaDAO() {
+        this.conexionBD = new ConexionBD();
+    }
 
     /**
      * Crea un nuevo registro de cuenta bancaria en la base de datos.

@@ -93,8 +93,8 @@ public class AutorizarPagos extends javax.swing.JFrame {
         });
 
         menuBeneficiario.add(adminBenef);
-        
-          JMenu menuSalir = new JMenu("Salir");
+
+        JMenu menuSalir = new JMenu("Salir");
         JMenuItem salir = new JMenuItem("Salir");
         salir.addActionListener(new ActionListener() {
             @Override
@@ -105,12 +105,11 @@ public class AutorizarPagos extends javax.swing.JFrame {
         });
 
         menuSalir.add(salir);
-        MenuBarAdmin.add(menuSalir);
 
         MenuBarAdmin.add(menuReportes);
         MenuBarAdmin.add(menuPagos);
         MenuBarAdmin.add(menuBeneficiario);
-
+        MenuBarAdmin.add(menuSalir);
     }
 
     /**
