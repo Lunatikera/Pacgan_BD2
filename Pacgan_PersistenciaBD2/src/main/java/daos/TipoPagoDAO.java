@@ -13,8 +13,10 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 
 /**
- *
- * @author Usuario
+ * Clase que implementa las operaciones de acceso a datos para la entidad TipoPagoEntidad.
+ * Esta clase utiliza una conexión a la base de datos proporcionada por un objeto IConexionBD.
+ * Proporciona métodos para agregar, consultar, listar, editar y eliminar tipos de pago.
+ * @autor Usuario
  */
 public class TipoPagoDAO implements ITipoPagoDAO {
     private IConexionBD conexionBD;
@@ -22,8 +24,11 @@ public class TipoPagoDAO implements ITipoPagoDAO {
    public TipoPagoDAO(IConexionBD conexionBD) {
         this.conexionBD = conexionBD;
     }
-    // Crear un nuevo tipo de pago
-    @Override
+ /**
+     * Agrega un nuevo tipo de pago a la base de datos.
+     * @param tipoPago El objeto TipoPagoEntidad que se desea agregar.
+     * @throws PersistenciaException Si ocurre un error durante la creación del tipo de pago.
+     */    @Override
     public void agregarTipoPago(TipoPagoEntidad tipoPago) throws PersistenciaException {
         EntityManager entityManager = conexionBD.obtenerEntityManager();
         EntityTransaction entityTransaction = entityManager.getTransaction();
@@ -42,8 +47,12 @@ public class TipoPagoDAO implements ITipoPagoDAO {
         }
     }
 
-    // Leer un tipo de pago por ID
-    @Override
+  /**
+     * Consulta un tipo de pago por su ID.
+     * @param id El ID del tipo de pago que se desea consultar.
+     * @return El objeto TipoPagoEntidad correspondiente al ID especificado.
+     * @throws PersistenciaException Si ocurre un error durante la consulta del tipo de pago.
+     */    @Override
     public TipoPagoEntidad consultarTipoPagoPorID(Long id) throws PersistenciaException {
         EntityManager entityManager = conexionBD.obtenerEntityManager();
         TipoPagoEntidad tipoPago = null;
@@ -59,8 +68,11 @@ public class TipoPagoDAO implements ITipoPagoDAO {
         return tipoPago;
     }
 
-    // Leer todos los tipos de pago
-    @Override
+/**
+     * Lista todos los tipos de pago.
+     * @return Una lista de objetos TipoPagoEntidad que representan todos los tipos de pago.
+     * @throws PersistenciaException Si ocurre un error durante la consulta de los tipos de pago.
+     */    @Override
     public List<TipoPagoEntidad> listaTiposPago() throws PersistenciaException {
         EntityManager entityManager = conexionBD.obtenerEntityManager();
         List<TipoPagoEntidad> tiposPago = null;
@@ -76,8 +88,11 @@ public class TipoPagoDAO implements ITipoPagoDAO {
         return tiposPago;
     }
 
-    // Actualizar un tipo de pago
-    @Override
+ /**
+     * Actualiza un tipo de pago existente en la base de datos.
+     * @param tipoPago El objeto TipoPagoEntidad con la información actualizada.
+     * @throws PersistenciaException Si ocurre un error durante la actualización del tipo de pago.
+     */    @Override
     public void editarTipoPago(TipoPagoEntidad tipoPago) throws PersistenciaException {
         EntityManager entityManager = conexionBD.obtenerEntityManager();
         EntityTransaction entityTransaction = entityManager.getTransaction();
@@ -96,8 +111,11 @@ public class TipoPagoDAO implements ITipoPagoDAO {
         }
     }
 
-    // Eliminar un tipo de pago
-    @Override
+    /**
+     * Elimina un tipo de pago de la base de datos por su ID.
+     * @param id El ID del tipo de pago que se desea eliminar.
+     * @throws PersistenciaException Si ocurre un error durante la eliminación del tipo de pago.
+     */    @Override
     public void eliminarTipoPago(Long id) throws PersistenciaException {
         EntityManager entityManager = conexionBD.obtenerEntityManager();
         EntityTransaction entityTransaction = entityManager.getTransaction();

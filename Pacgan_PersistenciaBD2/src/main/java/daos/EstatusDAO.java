@@ -13,6 +13,9 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 
 /**
+ * Clase que implementa las operaciones de acceso a datos para la entidad
+ * Estatus. Esta clase utiliza una conexión a la base de datos proporcionada por
+ * un objeto IConexionBD.
  *
  * @author Usuario
  */
@@ -24,8 +27,13 @@ public class EstatusDAO implements IEstatusDAO {
         this.conexionBD = conexionBD;
     }
 
-  
-    // Leer un estatus por ID
+    /**
+     * Consulta un estatus por su ID en la base de datos.
+     *
+     * @param id El ID del estatus a consultar.
+     * @return El objeto EstatusEntidad correspondiente al ID proporcionado.
+     * @throws PersistenciaException Si ocurre un error durante la consulta.
+     */
     @Override
     public EstatusEntidad consultarEstatusPorID(Long id) throws PersistenciaException {
         EntityManager entityManager = conexionBD.obtenerEntityManager();
@@ -42,7 +50,14 @@ public class EstatusDAO implements IEstatusDAO {
         return estatus;
     }
 
-    // Leer todos los estatus
+    /**
+     * Obtiene una lista de todos los estatus almacenados en la base de datos.
+     *
+     * @return Una lista de objetos EstatusEntidad que representan todos los
+     * estatus.
+     * @throws PersistenciaException Si ocurre un error durante la obtención de
+     * la lista de estatus.
+     */
     @Override
     public List<EstatusEntidad> listaEstatus() throws PersistenciaException {
         EntityManager entityManager = conexionBD.obtenerEntityManager();
@@ -59,9 +74,16 @@ public class EstatusDAO implements IEstatusDAO {
         return estatus;
     }
 
+    /**
+     * Agrega un nuevo estatus a la base de datos.
+     *
+     * @param estatus Objeto EstatusEntidad que representa el estatus a agregar.
+     * @throws PersistenciaException Si ocurre un error durante la operación de
+     * agregado.
+     */
     @Override
     public void agregarEstatus(EstatusEntidad estatus) throws PersistenciaException {
-            EntityManager entityManager = conexionBD.obtenerEntityManager();
+        EntityManager entityManager = conexionBD.obtenerEntityManager();
         EntityTransaction entityTransaction = entityManager.getTransaction();
 
         try {

@@ -14,6 +14,9 @@ import javax.persistence.EntityTransaction;
 import javax.persistence.NoResultException;
 
 /**
+ * Clase que implementa las operaciones de acceso a datos para la entidad
+ * Beneficiario. Esta clase utiliza una conexión a la base de datos
+ * proporcionada por un objeto IConexionBD.
  *
  * @author Usuario
  */
@@ -30,7 +33,14 @@ public class BeneficiarioDAO implements IBeneficiarioDAO {
 
     }
 
-    // Crear un nuevo beneficiario
+    /**
+     * Crea un nuevo registro de beneficiario en la base de datos.
+     *
+     * @param beneficiario Objeto BeneficiarioEntidad que representa el
+     * beneficiario a crear.
+     * @throws PersistenciaException Si ocurre un error durante la operación de
+     * persistencia.
+     */
     @Override
     public void agregarBeneficiario(BeneficiarioEntidad beneficiario) throws PersistenciaException {
         EntityManager entityManager = conexionBD.obtenerEntityManager();
@@ -50,7 +60,14 @@ public class BeneficiarioDAO implements IBeneficiarioDAO {
         }
     }
 
-    // Leer un beneficiario por ID
+    /**
+     * Consulta un beneficiario por su ID en la base de datos.
+     *
+     * @param id El ID del beneficiario a consultar.
+     * @return El objeto BeneficiarioEntidad correspondiente al ID
+     * proporcionado.
+     * @throws PersistenciaException Si ocurre un error durante la consulta.
+     */
     @Override
     public BeneficiarioEntidad consultarBeneficiarioPorID(Long id) throws PersistenciaException {
         EntityManager entityManager = conexionBD.obtenerEntityManager();
@@ -67,7 +84,15 @@ public class BeneficiarioDAO implements IBeneficiarioDAO {
         return beneficiario;
     }
 
-    // Leer todos los beneficiarios
+    /**
+     * Obtiene una lista de todos los beneficiarios almacenados en la base de
+     * datos.
+     *
+     * @return Una lista de objetos BeneficiarioEntidad que representan todos
+     * los beneficiarios.
+     * @throws PersistenciaException Si ocurre un error durante la obtención de
+     * la lista de beneficiarios.
+     */
     @Override
     public List<BeneficiarioEntidad> listaBeneficiarios() throws PersistenciaException {
         EntityManager entityManager = conexionBD.obtenerEntityManager();
@@ -84,6 +109,18 @@ public class BeneficiarioDAO implements IBeneficiarioDAO {
         return beneficiarios;
     }
 
+    /**
+     * Obtiene una lista paginada de beneficiarios almacenados en la base de
+     * datos.
+     *
+     * @param numeroPagina El número de página a obtener.
+     * @param tamanoPagina El tamaño de la página (número de elementos por
+     * página).
+     * @return Una lista de objetos BeneficiarioEntidad que representan los
+     * beneficiarios de la página especificada.
+     * @throws PersistenciaException Si ocurre un error durante la obtención de
+     * la lista de beneficiarios paginada.
+     */
     @Override
     public List<BeneficiarioEntidad> listaBeneficiariosPaginado(int numeroPagina, int tamanoPagina) throws PersistenciaException {
         EntityManager entityManager = conexionBD.obtenerEntityManager();
@@ -103,7 +140,14 @@ public class BeneficiarioDAO implements IBeneficiarioDAO {
         return beneficiarios;
     }
 
-    // Actualizar un beneficiario
+    /**
+     * Actualiza un beneficiario en la base de datos.
+     *
+     * @param beneficiario Objeto BeneficiarioEntidad que representa el
+     * beneficiario a actualizar.
+     * @throws PersistenciaException Si ocurre un error durante la operación de
+     * actualización.
+     */
     @Override
     public void editarBeneficiario(BeneficiarioEntidad beneficiario) throws PersistenciaException {
         EntityManager entityManager = conexionBD.obtenerEntityManager();
@@ -123,7 +167,13 @@ public class BeneficiarioDAO implements IBeneficiarioDAO {
         }
     }
 
-    // Eliminar un beneficiario
+    /**
+     * Elimina un beneficiario de la base de datos por su ID.
+     *
+     * @param id El ID del beneficiario a eliminar.
+     * @throws PersistenciaException Si ocurre un error durante la eliminación
+     * del beneficiario.
+     */
     @Override
     public void eliminarBeneficiario(Long id) throws PersistenciaException {
         EntityManager entityManager = conexionBD.obtenerEntityManager();
@@ -146,6 +196,14 @@ public class BeneficiarioDAO implements IBeneficiarioDAO {
         }
     }
 
+    /**
+     * Consulta un beneficiario por su nombre de usuario en la base de datos.
+     *
+     * @param nombreUsuario El nombre de usuario del beneficiario a consultar.
+     * @return El objeto BeneficiarioEntidad correspondiente al nombre de
+     * usuario proporcionado.
+     * @throws PersistenciaException Si ocurre un error durante la consulta.
+     */
     @Override
     public BeneficiarioEntidad consultarBeneficiarioPorNombreUsuario(String nombreUsuario) throws PersistenciaException {
         EntityManager entityManager = conexionBD.obtenerEntityManager();
