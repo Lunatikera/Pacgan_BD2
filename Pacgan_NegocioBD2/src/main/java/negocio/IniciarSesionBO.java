@@ -4,10 +4,15 @@
  */
 package negocio;
 
+import interfaces.IIniciarSesionBO;
+
 /**
  *
  * @author Usuario
  */
-public class IniciarSesionBO {
+public class IniciarSesionBO implements IIniciarSesionBO {
+
+    public IniciarSesionBO() {
+    }
   
 }

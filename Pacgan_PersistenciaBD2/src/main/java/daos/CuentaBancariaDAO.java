@@ -19,8 +19,8 @@ import javax.persistence.EntityTransaction;
 public class CuentaBancariaDAO implements ICuentaBancariaDAO {
    private IConexionBD conexionBD;
 
-    public CuentaBancariaDAO() {
-        this.conexionBD = new ConexionBD();
+    public CuentaBancariaDAO(IConexionBD conexionBD) {
+        this.conexionBD = conexionBD;
     }
 
     // Crear una nueva cuenta bancaria

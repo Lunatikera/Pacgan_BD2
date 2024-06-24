@@ -20,8 +20,8 @@ public class AbonoDAO implements IAbonoDAO {
 
     private IConexionBD conexionBD;
 
-    public AbonoDAO() {
-        this.conexionBD = new ConexionBD();
+    public AbonoDAO(IConexionBD conexionBD) {
+        this.conexionBD = conexionBD;
     }
 
     // Crear un nuevo abono
@@ -76,7 +76,7 @@ public class AbonoDAO implements IAbonoDAO {
         }
 
         return abonos;
-    }  
+    }
 
     // Eliminar un abono
     @Override

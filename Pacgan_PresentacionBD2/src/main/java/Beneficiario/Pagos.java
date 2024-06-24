@@ -4,23 +4,33 @@
  */
 package Beneficiario;
 
+import dtos.PagoDTO;
+import excepciones.NegocioException;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.List;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import servicios.IGestionarCuentasBancarias;
+import servicios.IGestionarPagos;
 
 /**
  *
  * @author jesus
  */
 public class Pagos extends javax.swing.JFrame {
+    IGestionarCuentasBancarias gestionarCuentasBancarias;
+    IGestionarPagos gestionarPagos;
+    private int pagina = 1;
+    private final int LIMITE = 10;
 
-    /**
-     * Creates new form Pagos
-     */
     public Pagos() {
         initComponents();
+        this.gestionarPagos = gestionarPagos;
+        this.gestionarCuentasBancarias=gestionarCuentasBancarias;
         personalizador();
         agregarOpcionesMenu();
     }
@@ -33,6 +43,40 @@ public class Pagos extends javax.swing.JFrame {
         btnSiguiente.setBackground(Color.decode("#142132"));
 
     }
+    public void cargarPagosEnTabla(){
+          try {
+            List<PagoDTO> pagoLista = this.gestionarPagos.listaPagosPaginado(this.LIMITE, this.pagina);
+            this.llenarTablaAlumnos(pagoLista);
+        } catch (NegocioException ex) {
+            JOptionPane.showMessageDialog(this, ex.getMessage(), "Información", JOptionPane.ERROR_MESSAGE);
+            pagina--;
+        }
+    }
+
+    private void llenarTablaPagos(List<PagoDTO> pagoLista) {
+        DefaultTableModel modeloTabla = (DefaultTableModel) this.tblPagos.getModel();
+
+        if (modeloTabla.getRowCount() > 0) {
+            for (int i = modeloTabla.getRowCount() - 1; i > -1; i--) {
+                modeloTabla.removeRow(i);
+            }
+        }
+
+        if (pagoLista != null) {
+            pagoLista.forEach(row
+                    -> {
+                Object[] fila = new Object[5];
+                fila[0] = gestionarCuentasBancarias.consultarCuentaBancariaPorID(row.getCuentaBancariaId());
+                fila[1] = row.getMonto();
+                fila[2] = row.getApellidoPaterno();
+                fila[3] = row.getApellidoMaterno();
+                fila[4] = row.getEstatus();
+
+                modeloTabla.addRow(fila);
+            });
+        }
+    }
+
 
     public void agregarOpcionesMenu() {
 
@@ -112,7 +156,7 @@ public class Pagos extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tblPagos = new javax.swing.JTable();
         jLabel5 = new javax.swing.JLabel();
         btnCrearPago = new javax.swing.JButton();
         btnBuscar = new javax.swing.JButton();
@@ -164,8 +208,8 @@ public class Pagos extends javax.swing.JFrame {
 
         Agrupador.add(panelMenu, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 960, 60));
 
-        jTable1.setBackground(new java.awt.Color(234, 234, 234));
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tblPagos.setBackground(new java.awt.Color(234, 234, 234));
+        tblPagos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null, null},
                 {null, null, null, null, null, null},
@@ -176,13 +220,12 @@ public class Pagos extends javax.swing.JFrame {
                 "Cuenta", "Monto", "Estatus", "Comentarios", "", ""
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(tblPagos);
 
         Agrupador.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 170, 880, 350));
 
         jLabel5.setText("Mis Pagos");
         jLabel5.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
-        jLabel5.setForeground(new java.awt.Color(0, 0, 0));
         Agrupador.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 80, 140, 30));
 
         btnCrearPago.setForeground(new java.awt.Color(255, 255, 255));
@@ -209,7 +252,6 @@ public class Pagos extends javax.swing.JFrame {
         Agrupador.add(btnAtras, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 560, 130, 30));
 
         lblPagina.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        lblPagina.setForeground(new java.awt.Color(0, 0, 0));
         lblPagina.setText("Pagina 1");
         Agrupador.add(lblPagina, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 570, -1, -1));
 
@@ -302,8 +344,8 @@ public class Pagos extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
     private javax.swing.JLabel lblPagina;
     private javax.swing.JPanel panelMenu;
+    private javax.swing.JTable tblPagos;
     // End of variables declaration//GEN-END:variables
 }

@@ -19,10 +19,9 @@ import javax.persistence.EntityTransaction;
 public class TipoPagoDAO implements ITipoPagoDAO {
     private IConexionBD conexionBD;
 
-    public TipoPagoDAO() {
-        this.conexionBD = new ConexionBD();
+   public TipoPagoDAO(IConexionBD conexionBD) {
+        this.conexionBD = conexionBD;
     }
-
     // Crear un nuevo tipo de pago
     @Override
     public void agregarTipoPago(TipoPagoEntidad tipoPago) throws PersistenciaException {

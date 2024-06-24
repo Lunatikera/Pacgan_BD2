@@ -17,10 +17,11 @@ import javax.persistence.EntityTransaction;
  * @author Usuario
  */
 public class PagoDAO implements IPagoDAO {
-   private IConexionBD conexionBD;
 
-    public PagoDAO() {
-        this.conexionBD = new ConexionBD();
+    private IConexionBD conexionBD;
+
+   public PagoDAO(IConexionBD conexionBD) {
+        this.conexionBD = conexionBD;
     }
 
     // Crear un nuevo pago
@@ -58,6 +59,25 @@ public class PagoDAO implements IPagoDAO {
         }
 
         return pago;
+    }
+
+    @Override
+    public List<PagoEntidad> listaPagosPaginado(int numeroPagina, int tamanoPagina) throws PersistenciaException {
+        EntityManager entityManager = conexionBD.obtenerEntityManager();
+        List<PagoEntidad> pagos = null;
+
+        try {
+            pagos = entityManager.createQuery("SELECT p FROM PagoEntidad p", PagoEntidad.class)
+                    .setFirstResult((numeroPagina - 1) * tamanoPagina)
+                    .setMaxResults(tamanoPagina)
+                    .getResultList();
+        } catch (Exception e) {
+            throw new PersistenciaException("Error al leer todos los beneficiarios", e);
+        } finally {
+            entityManager.close();
+        }
+
+        return pagos;
     }
 
     // Leer todos los pagos
@@ -106,7 +126,7 @@ public class PagoDAO implements IPagoDAO {
         try {
             entityTransaction.begin();
             PagoEntidad pago = entityManager.find(PagoEntidad.class, id);
-            if (pago!= null) {
+            if (pago != null) {
                 entityManager.remove(pago);
             }
             entityTransaction.commit();
