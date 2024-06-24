@@ -4,6 +4,7 @@
  */
 package convertidores;
 
+import Encriptadores.Encriptacion;
 import dtos.BeneficiarioDTO;
 import entidades.BeneficiarioEntidad;
 import entidades.CuentaBancariaEntidad;
@@ -38,12 +39,20 @@ public class ConvertidorBeneficiario {
     private static void asignarAtributosSimples(BeneficiarioEntidad beneficiarioEntidad, BeneficiarioDTO beneficarioDTO) {
         beneficiarioEntidad.setId(beneficarioDTO.getBeneficiarioId());
         beneficiarioEntidad.setClaveContrato(beneficarioDTO.getClaveContrato());
-        beneficiarioEntidad.setNombres(beneficarioDTO.getNombre());
-        beneficiarioEntidad.setApellidoPA(beneficarioDTO.getApellidoPA());
-        beneficiarioEntidad.setApellidoMA(beneficarioDTO.getApellidoMA());
+
         beneficiarioEntidad.setSaldo(beneficarioDTO.getSaldo());
         beneficiarioEntidad.setNombreUsuario(beneficarioDTO.getNombreUsuario());
-        beneficiarioEntidad.setContraseña(beneficarioDTO.getContraseña());
+
+        // Encriptar la contraseña antes de asignarla a la entidad
+        String contraseñaEncriptada = Encriptacion.encriptar(beneficarioDTO.getContraseña());
+        String NombresEncriptada = Encriptacion.encriptar(beneficarioDTO.getNombre());
+        String ApellidoPAEncriptada = Encriptacion.encriptar(beneficarioDTO.getApellidoPA());
+        String ApellidoMAEncriptada = Encriptacion.encriptar(beneficarioDTO.getApellidoMA());
+
+        beneficiarioEntidad.setContraseña(contraseñaEncriptada);
+        beneficiarioEntidad.setNombres(NombresEncriptada);
+        beneficiarioEntidad.setApellidoPA(ApellidoPAEncriptada);
+        beneficiarioEntidad.setApellidoMA(ApellidoMAEncriptada);
     }
 
     private static List<PagoEntidad> convertirListaPagoIds(List<Long> beneficiarioPagoIds) throws PersistenciaException {
@@ -90,6 +99,16 @@ public class ConvertidorBeneficiario {
         // Convertir lista de entidades de cuentas a IDs de cuentas
         List<Long> cuentaIds = convertirListaCuentaEntidades(beneficiarioEntidad.getBeneficiarioCuenta());
         beneficiarioDTO.setBeneficiarioCuentaIds(cuentaIds);
+
+        // Desencriptar el nombre antes de asignarla al DTO
+        String nombreDesencriptado = Encriptacion.desencriptar(beneficiarioEntidad.getNombres());
+        beneficiarioDTO.setNombre(nombreDesencriptado);
+        
+         String ApellidoPADesencriptado = Encriptacion.desencriptar(beneficiarioEntidad.getApellidoPA());
+        beneficiarioDTO.setApellidoPA(ApellidoPADesencriptado);
+        
+         String ApellidoMADesencriptado = Encriptacion.desencriptar(beneficiarioEntidad.getApellidoMA());
+        beneficiarioDTO.setApellidoMA(ApellidoMADesencriptado);
 
         return beneficiarioDTO;
     }
