@@ -4,7 +4,21 @@
  */
 package Beneficiario;
 
+import convertidores.ConvertidorCuentaBancaria;
+import daos.BeneficiarioDAO;
+import dtos.CuentaBancariaDTO;
+import excepciones.NegocioException;
+import interfaces.IAgregarCuentaBancariaBO;
+import interfaces.IBeneficiarioDAO;
+import interfaces.IConsultarBeneficiarioBO;
 import java.awt.Color;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+import negocio.AgregarCuentaBancariaBO;
+import negocio.ConsultarBeneficiarioBO;
 
 /**
  *
@@ -12,6 +26,10 @@ import java.awt.Color;
  */
 public class CrearCuenta extends javax.swing.JFrame {
 
+    IAgregarCuentaBancariaBO agregarCuenta = new AgregarCuentaBancariaBO();
+    IBeneficiarioDAO bene = new BeneficiarioDAO();
+    IConsultarBeneficiarioBO beneficiario = new ConsultarBeneficiarioBO(bene);
+    ConvertidorCuentaBancaria conv = new ConvertidorCuentaBancaria(bene);
     /**
      * Creates new form CrearCuenta
      */
@@ -39,12 +57,12 @@ public class CrearCuenta extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
-        txtUsuario = new javax.swing.JTextField();
+        txtNumeroCuenta = new javax.swing.JTextField();
         jLabel8 = new javax.swing.JLabel();
-        txtContrasena = new javax.swing.JPasswordField();
+        txtClabe = new javax.swing.JPasswordField();
         jLabel2 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
-        txtContrasena1 = new javax.swing.JPasswordField();
+        txtBanco = new javax.swing.JPasswordField();
         jLabel6 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -52,8 +70,6 @@ public class CrearCuenta extends javax.swing.JFrame {
         Agrupador.setBackground(new java.awt.Color(0, 51, 102));
         Agrupador.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        btnCancelar3.setBackground(new java.awt.Color(255, 255, 255));
-        btnCancelar3.setForeground(new java.awt.Color(0, 0, 0));
         btnCancelar3.setText("Cancelar");
         btnCancelar3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -62,8 +78,6 @@ public class CrearCuenta extends javax.swing.JFrame {
         });
         Agrupador.add(btnCancelar3, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 490, 140, 40));
 
-        btnCrear.setBackground(new java.awt.Color(255, 255, 255));
-        btnCrear.setForeground(new java.awt.Color(0, 0, 0));
         btnCrear.setText("Crear");
         btnCrear.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -87,18 +101,14 @@ public class CrearCuenta extends javax.swing.JFrame {
         jLabel5.setText("Clabe*");
         Agrupador.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 280, 160, 30));
 
-        txtUsuario.setBackground(new java.awt.Color(242, 242, 242));
-        txtUsuario.setForeground(new java.awt.Color(0, 0, 0));
-        Agrupador.add(txtUsuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 230, 390, 30));
+        txtNumeroCuenta.setBackground(new java.awt.Color(242, 242, 242));
+        Agrupador.add(txtNumeroCuenta, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 230, 390, 30));
 
         jLabel8.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel8.setForeground(new java.awt.Color(255, 255, 255));
         jLabel8.setText("Numero de cuenta");
         Agrupador.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 190, 160, 30));
-
-        txtContrasena.setBackground(new java.awt.Color(255, 255, 255));
-        txtContrasena.setForeground(new java.awt.Color(0, 0, 0));
-        Agrupador.add(txtContrasena, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 310, 390, 30));
+        Agrupador.add(txtClabe, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 310, 390, 30));
 
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/logos/PacGanCrear.jpg"))); // NOI18N
         Agrupador.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 50, 170, 170));
@@ -107,10 +117,7 @@ public class CrearCuenta extends javax.swing.JFrame {
         jLabel9.setForeground(new java.awt.Color(255, 255, 255));
         jLabel9.setText("Banco*");
         Agrupador.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 370, 210, 30));
-
-        txtContrasena1.setBackground(new java.awt.Color(255, 255, 255));
-        txtContrasena1.setForeground(new java.awt.Color(0, 0, 0));
-        Agrupador.add(txtContrasena1, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 400, 390, 30));
+        Agrupador.add(txtBanco, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 400, 390, 30));
 
         jLabel6.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel6.setForeground(new java.awt.Color(255, 255, 255));
@@ -144,6 +151,28 @@ public class CrearCuenta extends javax.swing.JFrame {
 
     private void btnCrearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCrearActionPerformed
 
+        String numeroCuenta = txtNumeroCuenta.getText();
+        String clabe = txtClabe.getText();
+        String nombreBanco = txtBanco.getText();
+
+        try {
+            CuentaBancariaDTO cuenta = new CuentaBancariaDTO();
+            cuenta.setNumeroCuenta(numeroCuenta);
+            cuenta.setClabe(clabe);
+            cuenta.setNombreBanco(nombreBanco);
+            cuenta.setEstaEliminada(false);
+            cuenta.setBeneficiarioId(Long.valueOf("1"));
+            List<Long> lista = new ArrayList<>();
+            cuenta.setPagoIds(lista);
+            agregarCuenta.agregarCuentaBancaria(cuenta);
+            JOptionPane.showMessageDialog(this, "Cuenta registrada exitosamente", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+        } catch (NegocioException ex) {
+            Logger.getLogger(CrearCuenta.class.getName()).log(Level.SEVERE, null, ex);
+            
+            txtNumeroCuenta.setText("");
+            txtClabe.setText("");
+            txtBanco.setText("");
+        }
     }//GEN-LAST:event_btnCrearActionPerformed
 
     /**
@@ -192,8 +221,8 @@ public class CrearCuenta extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
-    private javax.swing.JPasswordField txtContrasena;
-    private javax.swing.JPasswordField txtContrasena1;
-    private javax.swing.JTextField txtUsuario;
+    private javax.swing.JPasswordField txtBanco;
+    private javax.swing.JPasswordField txtClabe;
+    private javax.swing.JTextField txtNumeroCuenta;
     // End of variables declaration//GEN-END:variables
 }

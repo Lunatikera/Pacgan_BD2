@@ -144,6 +144,8 @@ public class BeneficiariosAdmin extends javax.swing.JFrame {
             Logger.getLogger(BeneficiariosAdmin.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+    
+    
 
     /**
      * This method is called from within the constructor to initialize the form.

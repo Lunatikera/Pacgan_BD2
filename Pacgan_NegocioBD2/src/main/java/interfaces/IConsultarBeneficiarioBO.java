@@ -19,4 +19,6 @@ public interface IConsultarBeneficiarioBO {
     public List<BeneficiarioDTO> listaBeneficiarios() throws NegocioException;
 
     public List<BeneficiarioDTO> listaBeneficiariosPaginado(int numeroPagina, int tamanoPagina) throws NegocioException;
+    
+    public BeneficiarioDTO ConsultarBeneficiarioNombreUsuario(String nombreUsuario) throws NegocioException;
 }

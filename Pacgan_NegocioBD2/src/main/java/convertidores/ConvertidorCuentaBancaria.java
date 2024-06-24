@@ -36,7 +36,7 @@ public class ConvertidorCuentaBancaria {
         cuentaEntidad.setClabe(cuentaDTO.getClabe());
         cuentaEntidad.setNombreBanco(cuentaDTO.getNombreBanco());
         cuentaEntidad.setEstaEliminada(cuentaDTO.isEstaEliminada());
-
+        
         BeneficiarioEntidad beneficiario = beneficiarioDAO.consultarBeneficiarioPorID(cuentaDTO.getBeneficiarioId());
         cuentaEntidad.setBeneficiarioCuenta(beneficiario);
 
