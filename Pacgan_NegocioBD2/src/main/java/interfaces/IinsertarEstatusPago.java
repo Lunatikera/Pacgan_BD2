@@ -8,10 +8,11 @@ import excepciones.NegocioException;
 
 /**
  *
- * @author Usuario
+ * @author jesus
  */
-public interface IIniciarSesionBO {
+public interface IinsertarEstatusPago {
 
-    public boolean iniciarSesion(String nombreUsuario, String contraseña) throws NegocioException;
+    public void insertarTiposDePagoPredeterminados() throws NegocioException;
 
+    public void insertarTiposDeEstatusPredeterminados() throws NegocioException;
 }

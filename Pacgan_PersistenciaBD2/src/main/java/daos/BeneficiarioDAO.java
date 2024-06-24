@@ -11,6 +11,7 @@ import interfaces.IConexionBD;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
+import javax.persistence.NoResultException;
 
 /**
  *
@@ -143,5 +144,25 @@ public class BeneficiarioDAO implements IBeneficiarioDAO {
         } finally {
             entityManager.close();
         }
+    }
+
+    @Override
+    public BeneficiarioEntidad consultarBeneficiarioPorNombreUsuario(String nombreUsuario) throws PersistenciaException {
+        EntityManager entityManager = conexionBD.obtenerEntityManager();
+        BeneficiarioEntidad beneficiario = null;
+
+        try {
+            beneficiario = entityManager.createQuery("SELECT b FROM BeneficiarioEntidad b WHERE b.nombreUsuario = :nombreUsuario", BeneficiarioEntidad.class)
+                    .setParameter("nombreUsuario", nombreUsuario)
+                    .getSingleResult();
+        } catch (NoResultException e) {
+            // No se encontró ningún beneficiario con el nombre de usuario especificado
+        } catch (Exception e) {
+            throw new PersistenciaException("Error al leer beneficiario por nombre de usuario", e);
+        } finally {
+            entityManager.close();
+        }
+
+        return beneficiario;
     }
 }

@@ -4,14 +4,22 @@
  */
 package Inicio;
 
+import Beneficiario.Pagos;
+import excepciones.NegocioException;
+import insertadores.InsertarEstatusPago;
 import insertadores.insertarBeneficiario;
+import interfaces.IIniciarSesionBO;
 import interfaces.IinsertarBeneficiario;
+import interfaces.IinsertarEstatusPago;
 import java.awt.Color;
 import java.awt.Image;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
+import negocio.IniciarSesionBO;
 import servicios.IConsultarEstadoPagos;
 import servicios.IGestionarAbonos;
 import servicios.IGestionarBeneficiarios;
@@ -163,6 +171,36 @@ public class LogIn extends javax.swing.JFrame {
 
     private void btnIniciarSesionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIniciarSesionActionPerformed
 
+        String nombreUsuario = txtUsuario.getText(); // Suponiendo que tienes un campo de texto para el nombre de usuario
+        String contraseña = String.valueOf(txtContrasena.getPassword()); // Suponiendo que tienes un campo de contraseña
+
+        // Validar que se haya ingresado un nombre de usuario y una contraseña
+        if (nombreUsuario.isEmpty() || contraseña.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Por favor, ingresa el nombre de usuario y la contraseña.", "Error de inicio de sesión", JOptionPane.ERROR_MESSAGE);
+            return; // Salir del método si falta información
+        }
+
+        // Crear una instancia de IniciarSesionBO
+        IIniciarSesionBO iniciarSesionBO = new IniciarSesionBO();
+
+        try {
+            // Intentar iniciar sesión
+            if (iniciarSesionBO.iniciarSesion(nombreUsuario, contraseña)) {
+                // Inicio de sesión exitoso
+                JOptionPane.showMessageDialog(this, "Inicio de sesion exitoso.", "Inicio de sesion", JOptionPane.INFORMATION_MESSAGE);
+
+                Pagos pagos = new Pagos();
+                pagos.setVisible(true);
+                dispose();
+                
+            } else {
+                // Credenciales incorrectas
+                JOptionPane.showMessageDialog(this, "Nombre de usuario o contraseña incorrectos.", "Error de inicio de sesión", JOptionPane.ERROR_MESSAGE);
+            }
+        } catch (NegocioException ex) {
+            // Manejo de excepciones de negocio
+            JOptionPane.showMessageDialog(this, "Error al intentar iniciar sesión.", "Error de inicio de sesión", JOptionPane.ERROR_MESSAGE);
+        }
 
     }//GEN-LAST:event_btnIniciarSesionActionPerformed
 
@@ -185,7 +223,11 @@ public class LogIn extends javax.swing.JFrame {
         try {
             IinsertarBeneficiario insertar = new insertarBeneficiario();
 
+            IinsertarEstatusPago insertPagoEstatus = new InsertarEstatusPago();
+
             insertar.insertarBeneficiarios();
+            insertPagoEstatus.insertarTiposDeEstatusPredeterminados();
+            insertPagoEstatus.insertarTiposDePagoPredeterminados();
 
             JOptionPane.showMessageDialog(this, "Beneficiarios insertados exitosamente", "Éxito", JOptionPane.INFORMATION_MESSAGE);
 

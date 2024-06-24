@@ -5,6 +5,7 @@
 package negocio;
 
 import static convertidores.ConvertidorBeneficiario.convertirDTOAEntidad;
+import daos.BeneficiarioDAO;
 import dtos.BeneficiarioDTO;
 import entidades.BeneficiarioEntidad;
 import excepciones.NegocioException;
@@ -22,6 +23,10 @@ public class EditarBeneficiarioBO implements IEditarBeneficiarioBO {
 
     public EditarBeneficiarioBO(IBeneficiarioDAO beneficiarioDAO) {
         this.beneficiarioDAO = beneficiarioDAO;
+    }
+    
+      public EditarBeneficiarioBO() {
+        this.beneficiarioDAO = new BeneficiarioDAO();
     }
 
     @Override
@@ -52,9 +57,7 @@ public class EditarBeneficiarioBO implements IEditarBeneficiarioBO {
             throw new NegocioException("Apellido de beneficiario no puede ser nulo o vacío");
         }
         
-        if (beneficiario.getApellidoMA() == null || beneficiario.getApellidoMA().trim().isEmpty()) {
-            throw new NegocioException("Apellido de beneficiario no puede ser nulo o vacío");
-        }
+       
     }
 
 }
