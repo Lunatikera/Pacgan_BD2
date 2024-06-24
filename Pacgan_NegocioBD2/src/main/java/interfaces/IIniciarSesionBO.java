@@ -4,10 +4,14 @@
  */
 package interfaces;
 
+import excepciones.NegocioException;
+
 /**
  *
  * @author Usuario
  */
 public interface IIniciarSesionBO {
-    
+
+    public boolean iniciarSesion(String nombreUsuario, String contraseña) throws NegocioException;
+
 }

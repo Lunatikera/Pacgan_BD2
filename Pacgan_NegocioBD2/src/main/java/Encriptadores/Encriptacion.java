@@ -12,7 +12,7 @@ import org.jasypt.util.text.BasicTextEncryptor;
  */
 public class Encriptacion {
     
-      private static final String CLAVE_ENCRIPTACION = "";
+      private static final String CLAVE_ENCRIPTACION = "amiguito";
 
     public static String encriptar(String texto) {
         BasicTextEncryptor textEncryptor = new BasicTextEncryptor();

@@ -56,4 +56,9 @@ public class GestionarPagosFacade implements IGestionarPagos {
         eliminarPagoBO.eliminarPago(id);
     }
 
+    @Override
+    public List<PagoDTO> listaPagosPaginado(int numeroPagina, int tamanoPagina) throws NegocioException {
+        return consultarPagoBO.listaPagosPaginado(numeroPagina, tamanoPagina);
+    }
+
 }

@@ -4,13 +4,20 @@
  */
 package Administrador;
 
+import dtos.BeneficiarioDTO;
+import interfaces.IEditarBeneficiarioBO;
 import java.awt.Color;
+import java.math.BigDecimal;
+import javax.swing.JOptionPane;
+import negocio.EditarBeneficiarioBO;
 
 /**
  *
  * @author jesus
  */
 public class ModificarBeneficiario extends javax.swing.JFrame {
+
+    IEditarBeneficiarioBO editarBeneficiarioBO = new EditarBeneficiarioBO();
 
     /**
      * Creates new form ModificarBeneficiario
@@ -19,12 +26,57 @@ public class ModificarBeneficiario extends javax.swing.JFrame {
         initComponents();
         personalizador();
     }
-    
-     public void personalizador() {
+
+    public void personalizador() {
         Agrupador.setBackground(Color.decode("#142132"));
     }
-    
 
+    public void modificarBeneficiario() {
+
+        String claveContrato = txtClaveContrato.getText();
+        String nombre = txtNombre.getText();
+        String aPaterno = txtAPaterno.getText();
+        String aMaterno = txtAMaterno.getText();
+        String usuario = txtUsuario.getText();
+        String contrasena = new String(txtContrasena.getPassword());
+        String contrasenaRepetida = new String(txtContrasena1.getPassword());
+
+        if (!contrasena.equals(contrasenaRepetida)) {
+            // Mostrar mensaje de error
+            JOptionPane.showMessageDialog(this, "Las contraseñas no coinciden", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        try {
+            BeneficiarioDTO beneficiario = new BeneficiarioDTO();
+            beneficiario.setClaveContrato(claveContrato);
+            beneficiario.setNombre(nombre);
+            beneficiario.setApellidoPA(aPaterno);
+            beneficiario.setApellidoMA(aMaterno);
+            beneficiario.setNombreUsuario(usuario);
+            beneficiario.setContraseña(contrasena);
+
+            editarBeneficiarioBO.editarBeneficiario(beneficiario);
+
+            // Mostrar mensaje de éxito
+            JOptionPane.showMessageDialog(this, "Beneficiario modificado exitosamente", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+
+            // Limpiar campos del formulario
+            txtClaveContrato.setText("");
+            txtNombre.setText("");
+            txtAPaterno.setText("");
+            txtAMaterno.setText("");
+            txtUsuario.setText("");
+            txtContrasena.setText("");
+            txtContrasena1.setText("");
+
+        } catch (Exception e) {
+            // Mostrar mensaje de error
+            System.out.println("ERROR:" + e);
+            JOptionPane.showMessageDialog(this, "Error al modificar el beneficiario: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
+
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -36,8 +88,8 @@ public class ModificarBeneficiario extends javax.swing.JFrame {
     private void initComponents() {
 
         Agrupador = new javax.swing.JPanel();
-        btnCancelar3 = new javax.swing.JButton();
-        btnRegistrarse3 = new javax.swing.JButton();
+        btnCancelar = new javax.swing.JButton();
+        btnGuardar = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         txtClaveContrato = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
@@ -50,37 +102,36 @@ public class ModificarBeneficiario extends javax.swing.JFrame {
         txtNombre = new javax.swing.JTextField();
         jLabel8 = new javax.swing.JLabel();
         txtContrasena = new javax.swing.JPasswordField();
-        jCheckBox1 = new javax.swing.JCheckBox();
+        checkBoxVER = new javax.swing.JCheckBox();
         txtAMaterno = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
         txtContrasena1 = new javax.swing.JPasswordField();
-        jCheckBox2 = new javax.swing.JCheckBox();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         Agrupador.setBackground(new java.awt.Color(0, 51, 102));
         Agrupador.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        btnCancelar3.setBackground(new java.awt.Color(255, 255, 255));
-        btnCancelar3.setForeground(new java.awt.Color(0, 0, 0));
-        btnCancelar3.setText("Cancelar");
-        btnCancelar3.addActionListener(new java.awt.event.ActionListener() {
+        btnCancelar.setBackground(new java.awt.Color(255, 255, 255));
+        btnCancelar.setForeground(new java.awt.Color(0, 0, 0));
+        btnCancelar.setText("Cancelar");
+        btnCancelar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnCancelar3ActionPerformed(evt);
+                btnCancelarActionPerformed(evt);
             }
         });
-        Agrupador.add(btnCancelar3, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 490, 140, 40));
+        Agrupador.add(btnCancelar, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 490, 140, 40));
 
-        btnRegistrarse3.setBackground(new java.awt.Color(255, 255, 255));
-        btnRegistrarse3.setForeground(new java.awt.Color(0, 0, 0));
-        btnRegistrarse3.setText("Registrarse");
-        btnRegistrarse3.addActionListener(new java.awt.event.ActionListener() {
+        btnGuardar.setBackground(new java.awt.Color(255, 255, 255));
+        btnGuardar.setForeground(new java.awt.Color(0, 0, 0));
+        btnGuardar.setText("Guardar");
+        btnGuardar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnRegistrarse3ActionPerformed(evt);
+                btnGuardarActionPerformed(evt);
             }
         });
-        Agrupador.add(btnRegistrarse3, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 490, 120, 40));
+        Agrupador.add(btnGuardar, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 490, 120, 40));
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 36)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
@@ -137,14 +188,14 @@ public class ModificarBeneficiario extends javax.swing.JFrame {
         txtContrasena.setForeground(new java.awt.Color(0, 0, 0));
         Agrupador.add(txtContrasena, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 380, 390, 30));
 
-        jCheckBox1.setForeground(new java.awt.Color(255, 255, 255));
-        jCheckBox1.setText("Ver");
-        jCheckBox1.addActionListener(new java.awt.event.ActionListener() {
+        checkBoxVER.setForeground(new java.awt.Color(255, 255, 255));
+        checkBoxVER.setText("Ver");
+        checkBoxVER.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jCheckBox1ActionPerformed(evt);
+                checkBoxVERActionPerformed(evt);
             }
         });
-        Agrupador.add(jCheckBox1, new org.netbeans.lib.awtextra.AbsoluteConstraints(680, 390, -1, -1));
+        Agrupador.add(checkBoxVER, new org.netbeans.lib.awtextra.AbsoluteConstraints(680, 390, -1, -1));
 
         txtAMaterno.setBackground(new java.awt.Color(242, 242, 242));
         txtAMaterno.setForeground(new java.awt.Color(0, 0, 0));
@@ -162,15 +213,6 @@ public class ModificarBeneficiario extends javax.swing.JFrame {
         txtContrasena1.setForeground(new java.awt.Color(0, 0, 0));
         Agrupador.add(txtContrasena1, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 440, 390, 30));
 
-        jCheckBox2.setForeground(new java.awt.Color(255, 255, 255));
-        jCheckBox2.setText("Ver");
-        jCheckBox2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jCheckBox2ActionPerformed(evt);
-            }
-        });
-        Agrupador.add(jCheckBox2, new org.netbeans.lib.awtextra.AbsoluteConstraints(680, 450, -1, -1));
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -185,27 +227,31 @@ public class ModificarBeneficiario extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnCancelar3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelar3ActionPerformed
-       
-    }//GEN-LAST:event_btnCancelar3ActionPerformed
+    private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
 
-    private void btnRegistrarse3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarse3ActionPerformed
+        BeneficiariosAdmin benef = new BeneficiariosAdmin();
 
-    }//GEN-LAST:event_btnRegistrarse3ActionPerformed
+        benef.setVisible(true);
+        dispose();
+    }//GEN-LAST:event_btnCancelarActionPerformed
 
-    private void jCheckBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox1ActionPerformed
+    private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
+        modificarBeneficiario();
+    }//GEN-LAST:event_btnGuardarActionPerformed
+
+    private void checkBoxVERActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_checkBoxVERActionPerformed
         // TODO add your handling code here:
 
-        if (jCheckBox1.isSelected()) {
+        if (checkBoxVER.isSelected()) {
             txtContrasena.setEchoChar((char) 0);
+            txtContrasena1.setEchoChar((char) 0);
+
         } else {
             txtContrasena.setEchoChar('*');
-        }
-    }//GEN-LAST:event_jCheckBox1ActionPerformed
+            txtContrasena1.setEchoChar('*');
 
-    private void jCheckBox2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox2ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jCheckBox2ActionPerformed
+        }
+    }//GEN-LAST:event_checkBoxVERActionPerformed
 
     /**
      * @param args the command line arguments
@@ -244,10 +290,9 @@ public class ModificarBeneficiario extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel Agrupador;
-    private javax.swing.JButton btnCancelar3;
-    private javax.swing.JButton btnRegistrarse3;
-    private javax.swing.JCheckBox jCheckBox1;
-    private javax.swing.JCheckBox jCheckBox2;
+    private javax.swing.JButton btnCancelar;
+    private javax.swing.JButton btnGuardar;
+    private javax.swing.JCheckBox checkBoxVER;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

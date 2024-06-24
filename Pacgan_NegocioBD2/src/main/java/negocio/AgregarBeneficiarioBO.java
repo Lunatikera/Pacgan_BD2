@@ -5,6 +5,7 @@
 package negocio;
 
 import static convertidores.ConvertidorBeneficiario.convertirDTOAEntidad;
+import daos.BeneficiarioDAO;
 import dtos.BeneficiarioDTO;
 import entidades.BeneficiarioEntidad;
 import excepciones.NegocioException;
@@ -19,10 +20,14 @@ import java.math.BigDecimal;
  */
 public class AgregarBeneficiarioBO implements IAgregarBeneficiarioBO {
 
-    IBeneficiarioDAO beneficiarioDAO;
+    private IBeneficiarioDAO beneficiarioDAO;
 
     public AgregarBeneficiarioBO(IBeneficiarioDAO beneficiarioDAO) {
         this.beneficiarioDAO = beneficiarioDAO;
+    }
+
+    public AgregarBeneficiarioBO() {
+        this.beneficiarioDAO = new BeneficiarioDAO();
     }
 
     @Override
@@ -42,7 +47,7 @@ public class AgregarBeneficiarioBO implements IAgregarBeneficiarioBO {
 
     private void validarBeneficiario(BeneficiarioDTO beneficiario) throws NegocioException {
         // Verificar que el nombre no esté vacío
-        if (beneficiario.getNombre()== null || beneficiario.getNombre().isEmpty()) {
+        if (beneficiario.getNombre() == null || beneficiario.getNombre().isEmpty()) {
             throw new NegocioException("El nombre del beneficiario no puede estar vacío");
         }
 
@@ -55,15 +60,20 @@ public class AgregarBeneficiarioBO implements IAgregarBeneficiarioBO {
         if (beneficiario.getSaldo().compareTo(BigDecimal.ZERO) <= 0) {
             throw new NegocioException("El saldo del beneficiario debe ser mayor que cero");
         }
-
-        // Verificar que las listas de IDs no estén vacías (ejemplo: beneficiarioPagoIds y beneficiarioCuentaIds)
-        if (beneficiario.getBeneficiarioPagoIds() == null || beneficiario.getBeneficiarioPagoIds().isEmpty()) {
-            throw new NegocioException("La lista de IDs de pagos del beneficiario no puede estar vacía");
-        }
-
-        if (beneficiario.getBeneficiarioCuentaIds() == null || beneficiario.getBeneficiarioCuentaIds().isEmpty()) {
-            throw new NegocioException("La lista de IDs de cuentas del beneficiario no puede estar vacía");
-        }
-
+        /**
+         * // Verificar que las listas de IDs no estén vacías (ejemplo:
+         * beneficiarioPagoIds y beneficiarioCuentaIds) if
+         * (beneficiario.getBeneficiarioPagoIds() == null ||
+         * beneficiario.getBeneficiarioPagoIds().isEmpty()) { throw new
+         * NegocioException("La lista de IDs de pagos del beneficiario no puede
+         * estar vacía"); }
+         *
+         * if (beneficiario.getBeneficiarioCuentaIds() == null ||
+         * beneficiario.getBeneficiarioCuentaIds().isEmpty()) { throw new
+         * NegocioException("La lista de IDs de cuentas del beneficiario no
+         * puede estar vacía"); }
+         *
+         *
+         */
     }
 }

@@ -4,40 +4,56 @@
  */
 package Inicio;
 
-import Administrador.AutorizarPagos;
 import Beneficiario.Pagos;
+import excepciones.NegocioException;
+import insertadores.InsertarEstatusPago;
+import insertadores.insertarBeneficiario;
+import interfaces.IIniciarSesionBO;
+import interfaces.IinsertarBeneficiario;
+import interfaces.IinsertarEstatusPago;
 import java.awt.Color;
 import java.awt.Image;
 import java.net.MalformedURLException;
 import java.net.URL;
-import javax.swing.ImageIcon;
-import negocio.ConsultarBeneficiarioBO;
-import daos.BeneficiarioDAO;
-import excepciones.NegocioException;
-import interfaces.IBeneficiarioDAO;
-import interfaces.IConsultarBeneficiarioBO;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import Encriptadores.Encriptacion;
-import dtos.BeneficiarioDTO;
+import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
+import negocio.IniciarSesionBO;
+import servicios.IConsultarEstadoPagos;
+import servicios.IGestionarAbonos;
+import servicios.IGestionarBeneficiarios;
+import servicios.IGestionarCuentasBancarias;
+import servicios.IGestionarPagos;
+
 /**
  *
  * @author jesus
  */
 public class LogIn extends javax.swing.JFrame {
-    Encriptacion encriptacion = new Encriptacion();
-    IBeneficiarioDAO beneficiarioDAO = new BeneficiarioDAO();
-    IConsultarBeneficiarioBO beneficiarioBO = new ConsultarBeneficiarioBO(beneficiarioDAO);
-    /**
-     * Creates new form LogIn
-     */
-    public LogIn() {
+
+    IGestionarAbonos gestionarAbonos;
+    IGestionarBeneficiarios gestionarBeneficiarios;
+    IGestionarCuentasBancarias gestionarCuentasBancarias;
+    IGestionarPagos gestionarPagos;
+    IConsultarEstadoPagos consultarEstadoPagos;
+
+    public LogIn(IGestionarAbonos gestionarAbonos, IGestionarBeneficiarios gestionarBeneficiarios,
+            IGestionarCuentasBancarias gestionarCuentasBancarias, IGestionarPagos gestionarPagos, IConsultarEstadoPagos consultarEstadoPagos) {
+
         initComponents();
+        this.gestionarAbonos = gestionarAbonos;
+        this.gestionarBeneficiarios = gestionarBeneficiarios;
+        this.gestionarCuentasBancarias = gestionarCuentasBancarias;
+        this.gestionarPagos = gestionarPagos;
+        this.consultarEstadoPagos = consultarEstadoPagos;
         personalizador();
     }
 
     public void personalizador() {
         Agrupador.setBackground(Color.decode("#142132"));
+        checkboxVer.setOpaque(false);
+        radModoAdmin.setOpaque(false);
 
     }
 
@@ -57,9 +73,10 @@ public class LogIn extends javax.swing.JFrame {
         btnIniciarSesion = new javax.swing.JButton();
         btnSalir = new javax.swing.JButton();
         txtContrasena = new javax.swing.JPasswordField();
-        jCheckBox1 = new javax.swing.JCheckBox();
+        checkboxVer = new javax.swing.JCheckBox();
         jLabel2 = new javax.swing.JLabel();
         radModoAdmin = new javax.swing.JRadioButton();
+        btnInsertsMasivos = new javax.swing.JToggleButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -74,7 +91,7 @@ public class LogIn extends javax.swing.JFrame {
         etiquetaContrasena.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         etiquetaContrasena.setForeground(new java.awt.Color(255, 255, 255));
         etiquetaContrasena.setText("Contraseña:");
-        Agrupador.add(etiquetaContrasena, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 330, -1, -1));
+        Agrupador.add(etiquetaContrasena, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 340, -1, -1));
 
         txtUsuario.setBackground(new java.awt.Color(234, 234, 234));
         txtUsuario.setForeground(new java.awt.Color(51, 51, 51));
@@ -83,7 +100,7 @@ public class LogIn extends javax.swing.JFrame {
                 txtUsuarioActionPerformed(evt);
             }
         });
-        Agrupador.add(txtUsuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 270, 180, -1));
+        Agrupador.add(txtUsuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 270, 180, 30));
 
         btnIniciarSesion.setBackground(new java.awt.Color(255, 255, 255));
         btnIniciarSesion.setForeground(new java.awt.Color(0, 0, 0));
@@ -106,23 +123,33 @@ public class LogIn extends javax.swing.JFrame {
         Agrupador.add(btnSalir, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 440, 120, 40));
 
         txtContrasena.setBackground(new java.awt.Color(255, 255, 255));
-        txtContrasena.setForeground(new java.awt.Color(0, 0, 0));
-        Agrupador.add(txtContrasena, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 330, 170, -1));
+        Agrupador.add(txtContrasena, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 330, 170, 30));
 
-        jCheckBox1.setForeground(new java.awt.Color(255, 255, 255));
-        jCheckBox1.setText("Ver");
-        jCheckBox1.addActionListener(new java.awt.event.ActionListener() {
+        checkboxVer.setForeground(new java.awt.Color(255, 255, 255));
+        checkboxVer.setText("Ver");
+        checkboxVer.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jCheckBox1ActionPerformed(evt);
+                checkboxVerActionPerformed(evt);
             }
         });
-        Agrupador.add(jCheckBox1, new org.netbeans.lib.awtextra.AbsoluteConstraints(620, 340, -1, -1));
+        Agrupador.add(checkboxVer, new org.netbeans.lib.awtextra.AbsoluteConstraints(620, 340, -1, -1));
 
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/logos/LogoPacGan.jpg"))); // NOI18N
         Agrupador.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 20, 270, 240));
 
+        radModoAdmin.setForeground(new java.awt.Color(255, 255, 255));
         radModoAdmin.setText("Modo Administrador");
         Agrupador.add(radModoAdmin, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 380, -1, -1));
+
+        btnInsertsMasivos.setBackground(new java.awt.Color(255, 255, 255));
+        btnInsertsMasivos.setForeground(new java.awt.Color(0, 0, 0));
+        btnInsertsMasivos.setText("Inserts masivos");
+        btnInsertsMasivos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnInsertsMasivosActionPerformed(evt);
+            }
+        });
+        Agrupador.add(btnInsertsMasivos, new org.netbeans.lib.awtextra.AbsoluteConstraints(790, 40, -1, -1));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -144,83 +171,80 @@ public class LogIn extends javax.swing.JFrame {
 
     private void btnIniciarSesionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIniciarSesionActionPerformed
 
+        String nombreUsuario = txtUsuario.getText(); // Suponiendo que tienes un campo de texto para el nombre de usuario
+        String contraseña = String.valueOf(txtContrasena.getPassword()); // Suponiendo que tienes un campo de contraseña
+
+        // Validar que se haya ingresado un nombre de usuario y una contraseña
+        if (nombreUsuario.isEmpty() || contraseña.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Por favor, ingresa el nombre de usuario y la contraseña.", "Error de inicio de sesión", JOptionPane.ERROR_MESSAGE);
+            return; // Salir del método si falta información
+        }
+
+        // Crear una instancia de IniciarSesionBO
+        IIniciarSesionBO iniciarSesionBO = new IniciarSesionBO();
+
         try {
-            BeneficiarioDTO beneficiario = beneficiarioBO.ConsultarBeneficiarioNombreUsuario(txtUsuario.getText());
-            
-            if (beneficiario.getContraseña().equals(txtContrasena.getText())) {
-                if (radModoAdmin.isSelected()) {
-                    AutorizarPagos autorizarPagos = new AutorizarPagos();
-                    autorizarPagos.setVisible(true);
-                }else{
+            // Intentar iniciar sesión
+            if (iniciarSesionBO.iniciarSesion(nombreUsuario, contraseña)) {
+                // Inicio de sesión exitoso
+                JOptionPane.showMessageDialog(this, "Inicio de sesion exitoso.", "Inicio de sesion", JOptionPane.INFORMATION_MESSAGE);
+
                 Pagos pagos = new Pagos();
                 pagos.setVisible(true);
-                }
+                dispose();
                 
+            } else {
+                // Credenciales incorrectas
+                JOptionPane.showMessageDialog(this, "Nombre de usuario o contraseña incorrectos.", "Error de inicio de sesión", JOptionPane.ERROR_MESSAGE);
             }
-            System.out.println("Contraseña Erronea:");
         } catch (NegocioException ex) {
-            Logger.getLogger(LogIn.class.getName()).log(Level.SEVERE, null, ex);
-            
-            
+            // Manejo de excepciones de negocio
+            JOptionPane.showMessageDialog(this, "Error al intentar iniciar sesión.", "Error de inicio de sesión", JOptionPane.ERROR_MESSAGE);
         }
+
     }//GEN-LAST:event_btnIniciarSesionActionPerformed
 
     private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformed
         dispose();
     }//GEN-LAST:event_btnSalirActionPerformed
 
-    private void jCheckBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox1ActionPerformed
+    private void checkboxVerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_checkboxVerActionPerformed
         // TODO add your handling code here:
 
-        if (jCheckBox1.isSelected()) {
+        if (checkboxVer.isSelected()) {
             txtContrasena.setEchoChar((char) 0);
         } else {
             txtContrasena.setEchoChar('*');
         }
-    }//GEN-LAST:event_jCheckBox1ActionPerformed
+    }//GEN-LAST:event_checkboxVerActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
+    private void btnInsertsMasivosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInsertsMasivosActionPerformed
+        // TODO add your handling code here:
         try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(LogIn.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(LogIn.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(LogIn.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(LogIn.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
+            IinsertarBeneficiario insertar = new insertarBeneficiario();
 
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new LogIn().setVisible(true);
-            }
-        });
-    }
+            IinsertarEstatusPago insertPagoEstatus = new InsertarEstatusPago();
+
+            insertar.insertarBeneficiarios();
+            insertPagoEstatus.insertarTiposDeEstatusPredeterminados();
+            insertPagoEstatus.insertarTiposDePagoPredeterminados();
+
+            JOptionPane.showMessageDialog(this, "Beneficiarios insertados exitosamente", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Error al insertar: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_btnInsertsMasivosActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel Agrupador;
     private javax.swing.JButton btnIniciarSesion;
+    private javax.swing.JToggleButton btnInsertsMasivos;
     private javax.swing.JButton btnSalir;
+    private javax.swing.JCheckBox checkboxVer;
     private javax.swing.JLabel etiquetaContrasena;
     private javax.swing.JLabel etiquetaUsuario;
-    private javax.swing.JCheckBox jCheckBox1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JRadioButton radModoAdmin;
     private javax.swing.JPasswordField txtContrasena;
