@@ -10,11 +10,14 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
 /**
+ * Clase que implementa la interfaz IConexionBD para la gestión de la conexión a
+ * la base de datos. Esta clase utiliza EntityManagerFactory para obtener un
+ * EntityManager y realizar operaciones de persistencia.
  *
  * @author Usuario
  */
-public class ConexionBD implements IConexionBD{
-    
+public class ConexionBD implements IConexionBD {
+
     private EntityManagerFactory entityManagerFactory;
 
     public ConexionBD() {
@@ -26,6 +29,13 @@ public class ConexionBD implements IConexionBD{
         }
     }
 
+    /**
+     * Obtiene un EntityManager para realizar operaciones de persistencia.
+     *
+     * @return El EntityManager creado a partir de la EntityManagerFactory.
+     * @throws IllegalStateException Si la EntityManagerFactory no está
+     * inicializada.
+     */
     @Override
     public EntityManager obtenerEntityManager() {
         if (entityManagerFactory == null) {
@@ -41,4 +51,3 @@ public class ConexionBD implements IConexionBD{
         }
     }
 }
-
