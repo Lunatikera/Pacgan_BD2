@@ -24,6 +24,7 @@ C:\Users\jesus\OneDrive\Documentos\GitHub\Main\Pacgan_BD2\Pacgan_NegocioBD2\src\
 C:\Users\jesus\OneDrive\Documentos\GitHub\Main\Pacgan_BD2\Pacgan_NegocioBD2\src\main\java\negocio\EditarCuentaBancariaBO.java
 C:\Users\jesus\OneDrive\Documentos\GitHub\Main\Pacgan_BD2\Pacgan_NegocioBD2\src\main\java\interfaces\IAgregarBeneficiarioBO.java
 C:\Users\jesus\OneDrive\Documentos\GitHub\Main\Pacgan_BD2\Pacgan_NegocioBD2\src\main\java\insertadores\insertarBeneficiario.java
+C:\Users\jesus\OneDrive\Documentos\GitHub\Main\Pacgan_BD2\Pacgan_NegocioBD2\src\main\java\interfaces\IinsertarBeneficiario.java
 C:\Users\jesus\OneDrive\Documentos\GitHub\Main\Pacgan_BD2\Pacgan_NegocioBD2\src\main\java\prueba.java
 C:\Users\jesus\OneDrive\Documentos\GitHub\Main\Pacgan_BD2\Pacgan_NegocioBD2\src\main\java\dtos\CuentaBancariaDTO.java
 C:\Users\jesus\OneDrive\Documentos\GitHub\Main\Pacgan_BD2\Pacgan_NegocioBD2\src\main\java\interfaces\IEditarCuentaBancariaBO.java

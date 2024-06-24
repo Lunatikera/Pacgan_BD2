@@ -4,11 +4,14 @@
  */
 package Inicio;
 
+import insertadores.insertarBeneficiario;
+import interfaces.IinsertarBeneficiario;
 import java.awt.Color;
 import java.awt.Image;
 import java.net.MalformedURLException;
 import java.net.URL;
 import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
 import servicios.IConsultarEstadoPagos;
 import servicios.IGestionarAbonos;
 import servicios.IGestionarBeneficiarios;
@@ -35,12 +38,14 @@ public class LogIn extends javax.swing.JFrame {
         this.gestionarBeneficiarios = gestionarBeneficiarios;
         this.gestionarCuentasBancarias = gestionarCuentasBancarias;
         this.gestionarPagos = gestionarPagos;
-        this.consultarEstadoPagos=consultarEstadoPagos;
+        this.consultarEstadoPagos = consultarEstadoPagos;
         personalizador();
     }
 
     public void personalizador() {
         Agrupador.setBackground(Color.decode("#142132"));
+        checkboxVer.setOpaque(false);
+        radModoAdmin.setOpaque(false);
 
     }
 
@@ -60,9 +65,10 @@ public class LogIn extends javax.swing.JFrame {
         btnIniciarSesion = new javax.swing.JButton();
         btnSalir = new javax.swing.JButton();
         txtContrasena = new javax.swing.JPasswordField();
-        jCheckBox1 = new javax.swing.JCheckBox();
+        checkboxVer = new javax.swing.JCheckBox();
         jLabel2 = new javax.swing.JLabel();
         radModoAdmin = new javax.swing.JRadioButton();
+        btnInsertsMasivos = new javax.swing.JToggleButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -77,7 +83,7 @@ public class LogIn extends javax.swing.JFrame {
         etiquetaContrasena.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         etiquetaContrasena.setForeground(new java.awt.Color(255, 255, 255));
         etiquetaContrasena.setText("Contraseña:");
-        Agrupador.add(etiquetaContrasena, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 330, -1, -1));
+        Agrupador.add(etiquetaContrasena, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 340, -1, -1));
 
         txtUsuario.setBackground(new java.awt.Color(234, 234, 234));
         txtUsuario.setForeground(new java.awt.Color(51, 51, 51));
@@ -86,7 +92,7 @@ public class LogIn extends javax.swing.JFrame {
                 txtUsuarioActionPerformed(evt);
             }
         });
-        Agrupador.add(txtUsuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 270, 180, -1));
+        Agrupador.add(txtUsuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 270, 180, 30));
 
         btnIniciarSesion.setBackground(new java.awt.Color(255, 255, 255));
         btnIniciarSesion.setForeground(new java.awt.Color(0, 0, 0));
@@ -109,23 +115,33 @@ public class LogIn extends javax.swing.JFrame {
         Agrupador.add(btnSalir, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 440, 120, 40));
 
         txtContrasena.setBackground(new java.awt.Color(255, 255, 255));
-        txtContrasena.setForeground(new java.awt.Color(0, 0, 0));
-        Agrupador.add(txtContrasena, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 330, 170, -1));
+        Agrupador.add(txtContrasena, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 330, 170, 30));
 
-        jCheckBox1.setForeground(new java.awt.Color(255, 255, 255));
-        jCheckBox1.setText("Ver");
-        jCheckBox1.addActionListener(new java.awt.event.ActionListener() {
+        checkboxVer.setForeground(new java.awt.Color(255, 255, 255));
+        checkboxVer.setText("Ver");
+        checkboxVer.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jCheckBox1ActionPerformed(evt);
+                checkboxVerActionPerformed(evt);
             }
         });
-        Agrupador.add(jCheckBox1, new org.netbeans.lib.awtextra.AbsoluteConstraints(620, 340, -1, -1));
+        Agrupador.add(checkboxVer, new org.netbeans.lib.awtextra.AbsoluteConstraints(620, 340, -1, -1));
 
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/logos/LogoPacGan.jpg"))); // NOI18N
         Agrupador.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 20, 270, 240));
 
+        radModoAdmin.setForeground(new java.awt.Color(255, 255, 255));
         radModoAdmin.setText("Modo Administrador");
         Agrupador.add(radModoAdmin, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 380, -1, -1));
+
+        btnInsertsMasivos.setBackground(new java.awt.Color(255, 255, 255));
+        btnInsertsMasivos.setForeground(new java.awt.Color(0, 0, 0));
+        btnInsertsMasivos.setText("Inserts masivos");
+        btnInsertsMasivos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnInsertsMasivosActionPerformed(evt);
+            }
+        });
+        Agrupador.add(btnInsertsMasivos, new org.netbeans.lib.awtextra.AbsoluteConstraints(790, 40, -1, -1));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -154,24 +170,39 @@ public class LogIn extends javax.swing.JFrame {
         dispose();
     }//GEN-LAST:event_btnSalirActionPerformed
 
-    private void jCheckBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox1ActionPerformed
+    private void checkboxVerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_checkboxVerActionPerformed
         // TODO add your handling code here:
 
-        if (jCheckBox1.isSelected()) {
+        if (checkboxVer.isSelected()) {
             txtContrasena.setEchoChar((char) 0);
         } else {
             txtContrasena.setEchoChar('*');
         }
-    }//GEN-LAST:event_jCheckBox1ActionPerformed
+    }//GEN-LAST:event_checkboxVerActionPerformed
+
+    private void btnInsertsMasivosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInsertsMasivosActionPerformed
+        // TODO add your handling code here:
+        try {
+            IinsertarBeneficiario insertar = new insertarBeneficiario();
+
+            insertar.insertarBeneficiarios();
+
+            JOptionPane.showMessageDialog(this, "Beneficiarios insertados exitosamente", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Error al insertar: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_btnInsertsMasivosActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel Agrupador;
     private javax.swing.JButton btnIniciarSesion;
+    private javax.swing.JToggleButton btnInsertsMasivos;
     private javax.swing.JButton btnSalir;
+    private javax.swing.JCheckBox checkboxVer;
     private javax.swing.JLabel etiquetaContrasena;
     private javax.swing.JLabel etiquetaUsuario;
-    private javax.swing.JCheckBox jCheckBox1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JRadioButton radModoAdmin;
     private javax.swing.JPasswordField txtContrasena;

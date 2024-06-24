@@ -27,6 +27,7 @@ prueba.class
 servicios\IConsultarEstadoPagos.class
 convertidores\ConvertidorAbono.class
 insertadores\insertarBeneficiario.class
+interfaces\IinsertarBeneficiario.class
 fachadas\GestionarAbonosFacade.class
 dtos\Pago_EstadoDTO.class
 negocio\CrearPagoBO.class

@@ -9,6 +9,7 @@ import dtos.BeneficiarioDTO;
 import excepciones.NegocioException;
 import interfaces.IAgregarBeneficiarioBO;
 import interfaces.IBeneficiarioDAO;
+import interfaces.IinsertarBeneficiario;
 import java.math.BigDecimal;
 import negocio.AgregarBeneficiarioBO;
 
@@ -16,8 +17,9 @@ import negocio.AgregarBeneficiarioBO;
  *
  * @author jesus
  */
-public class insertarBeneficiario {
+public class insertarBeneficiario implements IinsertarBeneficiario{
 
+    @Override
     public void insertarBeneficiarios() {
 
         // Beneficiario 1
