@@ -14,7 +14,7 @@ public class EstatusDTO {
 
     private Long id;
     private String nombre;
-    private List<Long> estatusId;
+    private List<Long> pagoEstatusIds;
 
     public EstatusDTO() {
     }
@@ -22,7 +22,7 @@ public class EstatusDTO {
     public EstatusDTO(Long id, String nombre, List<Long> estatusId) {
         this.id = id;
         this.nombre = nombre;
-        this.estatusId = estatusId;
+        this.pagoEstatusIds = estatusId;
     }
 
     public Long getId() {
@@ -42,18 +42,18 @@ public class EstatusDTO {
     }
 
     public List<Long> getEstatusId() {
-        return estatusId;
+        return pagoEstatusIds;
     }
 
     public void setEstatusId(List<Long> estatusId) {
-        this.estatusId = estatusId;
+        this.pagoEstatusIds = estatusId;
     }
 
     @Override
     public String toString() {
         return "EstatusDTO{" + "id=" + id
                 + ", nombre=" + nombre
-                + ", estatusId=" + estatusId + '}';
+                + ", estatusId=" + pagoEstatusIds + '}';
     }
 
 }

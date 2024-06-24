@@ -1,8 +1,10 @@
 C:\Users\triny\Documents\GitHub\Pacgan_BD2\Pacgan_NegocioBD2\src\main\java\negocio\EliminarAbonoBO.java
 C:\Users\triny\Documents\GitHub\Pacgan_BD2\Pacgan_NegocioBD2\src\main\java\dtos\BeneficiarioDTO.java
 C:\Users\triny\Documents\GitHub\Pacgan_BD2\Pacgan_NegocioBD2\src\main\java\negocio\EliminarPagoBO.java
+C:\Users\triny\Documents\GitHub\Pacgan_BD2\Pacgan_NegocioBD2\src\main\java\convertidores\ConvertidorTipoPago.java
 C:\Users\triny\Documents\GitHub\Pacgan_BD2\Pacgan_NegocioBD2\src\main\java\negocio\ConsultarBeneficiarioBO.java
 C:\Users\triny\Documents\GitHub\Pacgan_BD2\Pacgan_NegocioBD2\src\main\java\convertidores\ConvertidorEstatus.java
+C:\Users\triny\Documents\GitHub\Pacgan_BD2\Pacgan_NegocioBD2\src\main\java\interfaces\IinsertarEstatusPago.java
 C:\Users\triny\Documents\GitHub\Pacgan_BD2\Pacgan_NegocioBD2\src\main\java\negocio\EditarBeneficiarioBO.java
 C:\Users\triny\Documents\GitHub\Pacgan_BD2\Pacgan_NegocioBD2\src\main\java\negocio\AgregarCuentaBancariaBO.java
 C:\Users\triny\Documents\GitHub\Pacgan_BD2\Pacgan_NegocioBD2\src\main\java\servicios\IConsultarEstadoPagos.java
@@ -15,11 +17,13 @@ C:\Users\triny\Documents\GitHub\Pacgan_BD2\Pacgan_NegocioBD2\src\main\java\negoc
 C:\Users\triny\Documents\GitHub\Pacgan_BD2\Pacgan_NegocioBD2\src\main\java\servicios\IGestionarPagos.java
 C:\Users\triny\Documents\GitHub\Pacgan_BD2\Pacgan_NegocioBD2\src\main\java\negocio\IniciarSesionBO.java
 C:\Users\triny\Documents\GitHub\Pacgan_BD2\Pacgan_NegocioBD2\src\main\java\interfaces\IConsultarPagoBO.java
+C:\Users\triny\Documents\GitHub\Pacgan_BD2\Pacgan_NegocioBD2\src\main\java\dtos\TipoPagoDTO.java
 C:\Users\triny\Documents\GitHub\Pacgan_BD2\Pacgan_NegocioBD2\src\main\java\interfaces\IAgregarBeneficiarioBO.java
 C:\Users\triny\Documents\GitHub\Pacgan_BD2\Pacgan_NegocioBD2\src\main\java\dtos\Pago_EstadoDTO.java
 C:\Users\triny\Documents\GitHub\Pacgan_BD2\Pacgan_NegocioBD2\src\main\java\negocio\HistorialEstadoPagoBO.java
 C:\Users\triny\Documents\GitHub\Pacgan_BD2\Pacgan_NegocioBD2\src\main\java\negocio\EditarCuentaBancariaBO.java
 C:\Users\triny\Documents\GitHub\Pacgan_BD2\Pacgan_NegocioBD2\src\main\java\negocio\VerEstadoPagoBO.java
+C:\Users\triny\Documents\GitHub\Pacgan_BD2\Pacgan_NegocioBD2\src\main\java\insertadores\InsertarEstatusPago.java
 C:\Users\triny\Documents\GitHub\Pacgan_BD2\Pacgan_NegocioBD2\src\main\java\fachadas\GestionarPagosFacade.java
 C:\Users\triny\Documents\GitHub\Pacgan_BD2\Pacgan_NegocioBD2\src\main\java\interfaces\IConsultarCuentaBancariaBO.java
 C:\Users\triny\Documents\GitHub\Pacgan_BD2\Pacgan_NegocioBD2\src\main\java\negocio\ConsultarPagoBO.java
@@ -33,6 +37,7 @@ C:\Users\triny\Documents\GitHub\Pacgan_BD2\Pacgan_NegocioBD2\src\main\java\inter
 C:\Users\triny\Documents\GitHub\Pacgan_BD2\Pacgan_NegocioBD2\src\main\java\com\mycompany\pacgan_negociobd\Pacgan_NegocioBD.java
 C:\Users\triny\Documents\GitHub\Pacgan_BD2\Pacgan_NegocioBD2\src\main\java\interfaces\IEditarCuentaBancariaBO.java
 C:\Users\triny\Documents\GitHub\Pacgan_BD2\Pacgan_NegocioBD2\src\main\java\interfaces\IEliminarPagoBO.java
+C:\Users\triny\Documents\GitHub\Pacgan_BD2\Pacgan_NegocioBD2\src\main\java\interfaces\IinsertarBeneficiario.java
 C:\Users\triny\Documents\GitHub\Pacgan_BD2\Pacgan_NegocioBD2\src\main\java\Encriptadores\Encriptacion.java
 C:\Users\triny\Documents\GitHub\Pacgan_BD2\Pacgan_NegocioBD2\src\main\java\interfaces\IVerEstadoPagoBO.java
 C:\Users\triny\Documents\GitHub\Pacgan_BD2\Pacgan_NegocioBD2\src\main\java\interfaces\IEliminarCuentaBancariaBO.java
@@ -48,8 +53,10 @@ C:\Users\triny\Documents\GitHub\Pacgan_BD2\Pacgan_NegocioBD2\src\main\java\inter
 C:\Users\triny\Documents\GitHub\Pacgan_BD2\Pacgan_NegocioBD2\src\main\java\convertidores\ConvertidorAbono.java
 C:\Users\triny\Documents\GitHub\Pacgan_BD2\Pacgan_NegocioBD2\src\main\java\negocio\ConsultarAbonoBO.java
 C:\Users\triny\Documents\GitHub\Pacgan_BD2\Pacgan_NegocioBD2\src\main\java\servicios\IGestionarAbonos.java
+C:\Users\triny\Documents\GitHub\Pacgan_BD2\Pacgan_NegocioBD2\src\main\java\insertadores\insertarBeneficiario.java
 C:\Users\triny\Documents\GitHub\Pacgan_BD2\Pacgan_NegocioBD2\src\main\java\negocio\EliminarCuentaBancariaBO.java
 C:\Users\triny\Documents\GitHub\Pacgan_BD2\Pacgan_NegocioBD2\src\main\java\negocio\CrearPagoBO.java
+C:\Users\triny\Documents\GitHub\Pacgan_BD2\Pacgan_NegocioBD2\src\main\java\prueba.java
 C:\Users\triny\Documents\GitHub\Pacgan_BD2\Pacgan_NegocioBD2\src\main\java\excepciones\NegocioException.java
 C:\Users\triny\Documents\GitHub\Pacgan_BD2\Pacgan_NegocioBD2\src\main\java\fachadas\GestionarBeneficiariosFacade.java
 C:\Users\triny\Documents\GitHub\Pacgan_BD2\Pacgan_NegocioBD2\src\main\java\negocio\EliminarBeneficiarioBO.java

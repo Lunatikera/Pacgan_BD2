@@ -7,12 +7,6 @@ package convertidores;
 import dtos.EstatusDTO;
 import entidades.EstatusEntidad;
 
-
-
-
-
- * @author jesus
- */
 public class ConvertidorEstatus {
 
     public static EstatusEntidad convertirDTOaEntidad(EstatusDTO estatusDTO) {
@@ -25,7 +19,7 @@ public class ConvertidorEstatus {
 
  public static EstatusDTO convertirEstatusADTO(EstatusEntidad estatus) {
         EstatusDTO dto = new EstatusDTO();
-        dto.setEstatusId(estatus.getId());
+        dto.setId(estatus.getId());
         dto.setNombre(estatus.getNombre());
         // Puedes necesitar lógica adicional para convertir otros campos si es necesario
         return dto;

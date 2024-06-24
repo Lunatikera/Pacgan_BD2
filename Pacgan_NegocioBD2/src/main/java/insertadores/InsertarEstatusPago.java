@@ -30,14 +30,11 @@ import javax.persistence.PersistenceContext;
  * @author jesus
  */
 public class InsertarEstatusPago implements IinsertarEstatusPago {
-
-    private IEstatusDAO estatusDAO = new EstatusDAO(new ConexionBD());
+    private IEstatusDAO estatusDAO;
 // Inicializar el objeto tipoPagoDAO antes de usarlo
-    ITipoPagoDAO tipoPagoDAO = new TipoPagoDAO(new ConexionBD());
-
+    ITipoPagoDAO tipoPagoDAO;
     public InsertarEstatusPago() {
     }
-
     public InsertarEstatusPago(ITipoPagoDAO tipoPagoDAO, IEstatusDAO estatusDAO) {
         this.tipoPagoDAO = tipoPagoDAO;
         this.estatusDAO = estatusDAO;

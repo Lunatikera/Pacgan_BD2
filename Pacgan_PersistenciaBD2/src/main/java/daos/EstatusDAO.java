@@ -24,26 +24,7 @@ public class EstatusDAO implements IEstatusDAO {
         this.conexionBD = conexionBD;
     }
 
-    // Implementación del método para agregar un nuevo estatus
-    @Override
-    public void agregarEstatus(EstatusEntidad estatus) throws PersistenciaException {
-        EntityManager entityManager = conexionBD.obtenerEntityManager();
-        EntityTransaction entityTransaction = entityManager.getTransaction();
-
-        try {
-            entityTransaction.begin();
-            entityManager.persist(estatus);
-            entityTransaction.commit();
-        } catch (Exception e) {
-            if (entityTransaction.isActive()) {
-                entityTransaction.rollback();
-            }
-            throw new PersistenciaException("Error al agregar estatus", e);
-        } finally {
-            entityManager.close();
-        }
-    }
-
+  
     // Leer un estatus por ID
     @Override
     public EstatusEntidad consultarEstatusPorID(Long id) throws PersistenciaException {
@@ -76,6 +57,25 @@ public class EstatusDAO implements IEstatusDAO {
         }
 
         return estatus;
+    }
+
+    @Override
+    public void agregarEstatus(EstatusEntidad estatus) throws PersistenciaException {
+            EntityManager entityManager = conexionBD.obtenerEntityManager();
+        EntityTransaction entityTransaction = entityManager.getTransaction();
+
+        try {
+            entityTransaction.begin();
+            entityManager.persist(estatus);
+            entityTransaction.commit();
+        } catch (Exception e) {
+            if (entityTransaction.isActive()) {
+                entityTransaction.rollback();
+            }
+            throw new PersistenciaException("Error al agregar estatus", e);
+        } finally {
+            entityManager.close();
+        }
     }
 
 }

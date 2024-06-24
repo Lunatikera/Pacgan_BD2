@@ -14,10 +14,10 @@ import java.util.List;
  */
 public interface IEstatusDAO {
 
-    public void agregarEstatus(EstatusEntidad estatus) throws PersistenciaException;
-
     public EstatusEntidad consultarEstatusPorID(Long id) throws PersistenciaException;
 
     public List<EstatusEntidad> listaEstatus() throws PersistenciaException;
+
+    public void agregarEstatus(EstatusEntidad estatus) throws PersistenciaException;
 
 }
