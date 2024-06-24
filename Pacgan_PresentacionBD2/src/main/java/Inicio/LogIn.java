@@ -4,18 +4,30 @@
  */
 package Inicio;
 
+import Administrador.AutorizarPagos;
+import Beneficiario.Pagos;
 import java.awt.Color;
 import java.awt.Image;
 import java.net.MalformedURLException;
 import java.net.URL;
 import javax.swing.ImageIcon;
-
+import negocio.ConsultarBeneficiarioBO;
+import daos.BeneficiarioDAO;
+import excepciones.NegocioException;
+import interfaces.IBeneficiarioDAO;
+import interfaces.IConsultarBeneficiarioBO;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import Encriptadores.Encriptacion;
+import dtos.BeneficiarioDTO;
 /**
  *
  * @author jesus
  */
 public class LogIn extends javax.swing.JFrame {
-
+    Encriptacion encriptacion = new Encriptacion();
+    IBeneficiarioDAO beneficiarioDAO = new BeneficiarioDAO();
+    IConsultarBeneficiarioBO beneficiarioBO = new ConsultarBeneficiarioBO(beneficiarioDAO);
     /**
      * Creates new form LogIn
      */
@@ -132,7 +144,25 @@ public class LogIn extends javax.swing.JFrame {
 
     private void btnIniciarSesionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIniciarSesionActionPerformed
 
-
+        try {
+            BeneficiarioDTO beneficiario = beneficiarioBO.ConsultarBeneficiarioNombreUsuario(txtUsuario.getText());
+            
+            if (beneficiario.getContraseña().equals(txtContrasena.getText())) {
+                if (radModoAdmin.isSelected()) {
+                    AutorizarPagos autorizarPagos = new AutorizarPagos();
+                    autorizarPagos.setVisible(true);
+                }else{
+                Pagos pagos = new Pagos();
+                pagos.setVisible(true);
+                }
+                
+            }
+            System.out.println("Contraseña Erronea:");
+        } catch (NegocioException ex) {
+            Logger.getLogger(LogIn.class.getName()).log(Level.SEVERE, null, ex);
+            
+            
+        }
     }//GEN-LAST:event_btnIniciarSesionActionPerformed
 
     private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformed

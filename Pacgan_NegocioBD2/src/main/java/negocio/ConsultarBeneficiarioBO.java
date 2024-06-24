@@ -81,4 +81,28 @@ public class ConsultarBeneficiarioBO implements IConsultarBeneficiarioBO {
             throw new NegocioException("Error al obtener la lista de beneficiarios desde la base de datos.", e);
         }
     }
+    
+    
+    @Override
+    public BeneficiarioDTO ConsultarBeneficiarioNombreUsuario(String nombreUsuario) throws NegocioException {
+        try {
+
+            List<BeneficiarioEntidad> listaBeneficiariosEntidad = beneficiarioDAO.listaBeneficiarios();
+
+            for (BeneficiarioEntidad beneficiarioEntidad : listaBeneficiariosEntidad) {
+                try {
+                    BeneficiarioDTO beneficiarioDTO = convertirEntidadADTO(beneficiarioEntidad);
+                    if (beneficiarioDTO.getNombreUsuario().equals(nombreUsuario)) {
+                        return beneficiarioDTO;
+                    }
+                } catch (PersistenciaException e) {
+                    throw new NegocioException("Error al obtener la lista de abonos desde la base de datos.", e);
+                }
+            }
+            return null;
+        } catch (PersistenciaException e) {
+            // Capturar excepción de persistencia y lanzar como NegocioException
+            throw new NegocioException("Error al obtener la lista de abonos desde la base de datos.", e);
+        }
+    }
 }
