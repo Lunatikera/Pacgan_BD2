@@ -20,9 +20,15 @@ public class BeneficiarioDAO implements IBeneficiarioDAO {
 
     private IConexionBD conexionBD;
 
-      public BeneficiarioDAO(IConexionBD conexionBD) {
+    public BeneficiarioDAO(IConexionBD conexionBD) {
         this.conexionBD = conexionBD;
     }
+
+    public BeneficiarioDAO() {
+        this.conexionBD = new ConexionBD();
+
+    }
+
     // Crear un nuevo beneficiario
     @Override
     public void agregarBeneficiario(BeneficiarioEntidad beneficiario) throws PersistenciaException {

@@ -19,12 +19,17 @@ import java.math.BigDecimal;
  */
 public class AgregarBeneficiarioBO implements IAgregarBeneficiarioBO {
 
-    IBeneficiarioDAO beneficiarioDAO;
+
+      private IBeneficiarioDAO beneficiarioDAO;
 
     public AgregarBeneficiarioBO(IBeneficiarioDAO beneficiarioDAO) {
         this.beneficiarioDAO = beneficiarioDAO;
     }
+    
+    public AgregarBeneficiarioBO() {
+    }
 
+    
     @Override
     public void agregarBeneficiario(BeneficiarioDTO beneficiario) throws NegocioException {
 
@@ -55,7 +60,7 @@ public class AgregarBeneficiarioBO implements IAgregarBeneficiarioBO {
         if (beneficiario.getSaldo().compareTo(BigDecimal.ZERO) <= 0) {
             throw new NegocioException("El saldo del beneficiario debe ser mayor que cero");
         }
-
+/**
         // Verificar que las listas de IDs no estén vacías (ejemplo: beneficiarioPagoIds y beneficiarioCuentaIds)
         if (beneficiario.getBeneficiarioPagoIds() == null || beneficiario.getBeneficiarioPagoIds().isEmpty()) {
             throw new NegocioException("La lista de IDs de pagos del beneficiario no puede estar vacía");
@@ -65,5 +70,6 @@ public class AgregarBeneficiarioBO implements IAgregarBeneficiarioBO {
             throw new NegocioException("La lista de IDs de cuentas del beneficiario no puede estar vacía");
         }
 
+* */
     }
 }

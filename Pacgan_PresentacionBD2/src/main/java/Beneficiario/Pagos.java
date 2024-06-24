@@ -46,13 +46,14 @@ public class Pagos extends javax.swing.JFrame {
     public void cargarPagosEnTabla(){
           try {
             List<PagoDTO> pagoLista = this.gestionarPagos.listaPagosPaginado(this.LIMITE, this.pagina);
-            this.llenarTablaAlumnos(pagoLista);
+           // this.llenarTablaAlumnos(pagoLista);
         } catch (NegocioException ex) {
             JOptionPane.showMessageDialog(this, ex.getMessage(), "Información", JOptionPane.ERROR_MESSAGE);
             pagina--;
         }
     }
 
+    /**
     private void llenarTablaPagos(List<PagoDTO> pagoLista) {
         DefaultTableModel modeloTabla = (DefaultTableModel) this.tblPagos.getModel();
 
@@ -76,7 +77,7 @@ public class Pagos extends javax.swing.JFrame {
             });
         }
     }
-
+*/
 
     public void agregarOpcionesMenu() {
 

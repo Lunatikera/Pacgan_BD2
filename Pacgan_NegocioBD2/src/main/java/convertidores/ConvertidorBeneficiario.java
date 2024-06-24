@@ -62,6 +62,10 @@ public class ConvertidorBeneficiario {
     }
 
     private static List<CuentaBancariaEntidad> convertirListaCuentaIds(List<Long> beneficiarioCuentaIds) throws PersistenciaException {
+        if (beneficiarioCuentaIds == null || beneficiarioCuentaIds.isEmpty()) {
+            return Collections.emptyList(); // Devuelve una lista vacía si la lista de IDs es nula o vacía
+        }
+
         List<CuentaBancariaEntidad> cuentas = new ArrayList<>();
         for (Long cuentaId : beneficiarioCuentaIds) {
             CuentaBancariaEntidad cuentaEntidad = new CuentaBancariaEntidad();
