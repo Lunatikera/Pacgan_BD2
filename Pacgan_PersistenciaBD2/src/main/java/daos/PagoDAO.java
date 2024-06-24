@@ -20,7 +20,7 @@ public class PagoDAO implements IPagoDAO {
 
     private IConexionBD conexionBD;
 
-   public PagoDAO(IConexionBD conexionBD) {
+    public PagoDAO(IConexionBD conexionBD) {
         this.conexionBD = conexionBD;
     }
 
@@ -71,6 +71,8 @@ public class PagoDAO implements IPagoDAO {
                     .setFirstResult((numeroPagina - 1) * tamanoPagina)
                     .setMaxResults(tamanoPagina)
                     .getResultList();
+            System.out.println(pagos);
+
         } catch (Exception e) {
             throw new PersistenciaException("Error al leer todos los beneficiarios", e);
         } finally {

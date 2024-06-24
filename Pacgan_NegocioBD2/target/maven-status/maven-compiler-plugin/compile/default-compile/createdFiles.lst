@@ -24,11 +24,10 @@ interfaces\IConsultarAbonoBO.class
 negocio\ConsultarAbonoBO.class
 interfaces\IEditarCuentaBancariaBO.class
 negocio\ConsultarBeneficiarioBO.class
-prueba.class
 servicios\IConsultarEstadoPagos.class
 convertidores\ConvertidorAbono.class
-insertadores\insertarBeneficiario.class
 interfaces\IinsertarBeneficiario.class
+insertadores\InsertarBeneficiario.class
 fachadas\GestionarAbonosFacade.class
 dtos\Pago_EstadoDTO.class
 negocio\CrearPagoBO.class

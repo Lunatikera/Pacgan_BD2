@@ -7,7 +7,7 @@ package Inicio;
 import Beneficiario.Pagos;
 import excepciones.NegocioException;
 import insertadores.InsertarEstatusPago;
-import insertadores.insertarBeneficiario;
+import insertadores.InsertarBeneficiario;
 import interfaces.IIniciarSesionBO;
 import interfaces.IinsertarBeneficiario;
 import interfaces.IinsertarEstatusPago;
@@ -37,8 +37,11 @@ public class LogIn extends javax.swing.JFrame {
     IGestionarCuentasBancarias gestionarCuentasBancarias;
     IGestionarPagos gestionarPagos;
     IConsultarEstadoPagos consultarEstadoPagos;
+    IIniciarSesionBO iniciarSesionBO;
+    IinsertarBeneficiario insertarBeneficiarios;
+    IinsertarEstatusPago insertPagoEstatus;
 
-    public LogIn(IGestionarAbonos gestionarAbonos, IGestionarBeneficiarios gestionarBeneficiarios,
+    public LogIn(IIniciarSesionBO iniciarSesionBO, IinsertarBeneficiario insertarBeneficiarios,IinsertarEstatusPago insertPagoEstatus, IGestionarAbonos gestionarAbonos, IGestionarBeneficiarios gestionarBeneficiarios,
             IGestionarCuentasBancarias gestionarCuentasBancarias, IGestionarPagos gestionarPagos, IConsultarEstadoPagos consultarEstadoPagos) {
 
         initComponents();
@@ -47,6 +50,9 @@ public class LogIn extends javax.swing.JFrame {
         this.gestionarCuentasBancarias = gestionarCuentasBancarias;
         this.gestionarPagos = gestionarPagos;
         this.consultarEstadoPagos = consultarEstadoPagos;
+        this.iniciarSesionBO = iniciarSesionBO;
+        this.insertarBeneficiarios=insertarBeneficiarios;
+        this.insertPagoEstatus=insertPagoEstatus;
         personalizador();
     }
 
@@ -181,18 +187,16 @@ public class LogIn extends javax.swing.JFrame {
         }
 
         // Crear una instancia de IniciarSesionBO
-        IIniciarSesionBO iniciarSesionBO = new IniciarSesionBO();
-
         try {
             // Intentar iniciar sesión
             if (iniciarSesionBO.iniciarSesion(nombreUsuario, contraseña)) {
                 // Inicio de sesión exitoso
                 JOptionPane.showMessageDialog(this, "Inicio de sesion exitoso.", "Inicio de sesion", JOptionPane.INFORMATION_MESSAGE);
 
-                Pagos pagos = new Pagos();
+                Pagos pagos = new Pagos(gestionarCuentasBancarias, gestionarPagos, consultarEstadoPagos);
                 pagos.setVisible(true);
                 dispose();
-                
+
             } else {
                 // Credenciales incorrectas
                 JOptionPane.showMessageDialog(this, "Nombre de usuario o contraseña incorrectos.", "Error de inicio de sesión", JOptionPane.ERROR_MESSAGE);
@@ -221,11 +225,8 @@ public class LogIn extends javax.swing.JFrame {
     private void btnInsertsMasivosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInsertsMasivosActionPerformed
         // TODO add your handling code here:
         try {
-            IinsertarBeneficiario insertar = new insertarBeneficiario();
 
-            IinsertarEstatusPago insertPagoEstatus = new InsertarEstatusPago();
-
-            insertar.insertarBeneficiarios();
+            insertarBeneficiarios.insertarBeneficiarios();
             insertPagoEstatus.insertarTiposDeEstatusPredeterminados();
             insertPagoEstatus.insertarTiposDePagoPredeterminados();
 

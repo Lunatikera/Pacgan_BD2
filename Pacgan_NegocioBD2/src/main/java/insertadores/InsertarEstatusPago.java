@@ -23,18 +23,16 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.persistence.PersistenceContext;
 
 /**
  *
  * @author jesus
  */
 public class InsertarEstatusPago implements IinsertarEstatusPago {
+
     private IEstatusDAO estatusDAO;
-// Inicializar el objeto tipoPagoDAO antes de usarlo
-    ITipoPagoDAO tipoPagoDAO;
-    public InsertarEstatusPago() {
-    }
+    private ITipoPagoDAO tipoPagoDAO;
+
     public InsertarEstatusPago(ITipoPagoDAO tipoPagoDAO, IEstatusDAO estatusDAO) {
         this.tipoPagoDAO = tipoPagoDAO;
         this.estatusDAO = estatusDAO;

@@ -53,10 +53,9 @@ C:\Users\triny\Documents\GitHub\Pacgan_BD2\Pacgan_NegocioBD2\src\main\java\inter
 C:\Users\triny\Documents\GitHub\Pacgan_BD2\Pacgan_NegocioBD2\src\main\java\convertidores\ConvertidorAbono.java
 C:\Users\triny\Documents\GitHub\Pacgan_BD2\Pacgan_NegocioBD2\src\main\java\negocio\ConsultarAbonoBO.java
 C:\Users\triny\Documents\GitHub\Pacgan_BD2\Pacgan_NegocioBD2\src\main\java\servicios\IGestionarAbonos.java
-C:\Users\triny\Documents\GitHub\Pacgan_BD2\Pacgan_NegocioBD2\src\main\java\insertadores\insertarBeneficiario.java
+C:\Users\triny\Documents\GitHub\Pacgan_BD2\Pacgan_NegocioBD2\src\main\java\insertadores\InsertarBeneficiario.java
 C:\Users\triny\Documents\GitHub\Pacgan_BD2\Pacgan_NegocioBD2\src\main\java\negocio\EliminarCuentaBancariaBO.java
 C:\Users\triny\Documents\GitHub\Pacgan_BD2\Pacgan_NegocioBD2\src\main\java\negocio\CrearPagoBO.java
-C:\Users\triny\Documents\GitHub\Pacgan_BD2\Pacgan_NegocioBD2\src\main\java\prueba.java
 C:\Users\triny\Documents\GitHub\Pacgan_BD2\Pacgan_NegocioBD2\src\main\java\excepciones\NegocioException.java
 C:\Users\triny\Documents\GitHub\Pacgan_BD2\Pacgan_NegocioBD2\src\main\java\fachadas\GestionarBeneficiariosFacade.java
 C:\Users\triny\Documents\GitHub\Pacgan_BD2\Pacgan_NegocioBD2\src\main\java\negocio\EliminarBeneficiarioBO.java

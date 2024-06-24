@@ -4,10 +4,8 @@
  */
 package insertadores;
 
-import daos.BeneficiarioDAO;
 import dtos.BeneficiarioDTO;
 import excepciones.NegocioException;
-import interfaces.IAgregarBeneficiarioBO;
 import interfaces.IBeneficiarioDAO;
 import interfaces.IinsertarBeneficiario;
 import java.math.BigDecimal;
@@ -17,7 +15,13 @@ import negocio.AgregarBeneficiarioBO;
  *
  * @author jesus
  */
-public class insertarBeneficiario implements IinsertarBeneficiario{
+public class InsertarBeneficiario implements IinsertarBeneficiario {
+
+    IBeneficiarioDAO beneficiarioDAO;
+
+    public InsertarBeneficiario(IBeneficiarioDAO beneficiarioDAO) {
+        this.beneficiarioDAO = beneficiarioDAO;
+    }
 
     @Override
     public void insertarBeneficiarios() {
@@ -262,8 +266,7 @@ public class insertarBeneficiario implements IinsertarBeneficiario{
         beneficiario20.setBeneficiarioCuentaIds(null);
 
         try {
-
-            IBeneficiarioDAO beneficiarioDAO = new BeneficiarioDAO(); // instancia válida de IBeneficiarioDAO
+            
             AgregarBeneficiarioBO agregarBeneficiarioBO = new AgregarBeneficiarioBO(beneficiarioDAO);
             agregarBeneficiarioBO.agregarBeneficiario(beneficiario1);
             agregarBeneficiarioBO.agregarBeneficiario(beneficiario2);

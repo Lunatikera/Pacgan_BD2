@@ -29,7 +29,7 @@ public class ConsultarPagoBO implements IConsultarPagoBO {
 
     @Override
     public PagoDTO consultarPagoPorID(Long id) throws NegocioException {
-     try {
+        try {
             PagoEntidad pagoEntidad = pagoDAO.consultarPagoPorID(id);
             if (pagoEntidad == null) {
                 throw new NegocioException("Pago no encontrado");
@@ -57,17 +57,21 @@ public class ConsultarPagoBO implements IConsultarPagoBO {
     @Override
     public List<PagoDTO> listaPagosPaginado(int numeroPagina, int tamanoPagina) throws NegocioException {
         try {
-            List<PagoEntidad> listaPagosEntidad= pagoDAO.listaPagosPaginado(numeroPagina, tamanoPagina);
+            List<PagoEntidad> listaPagosEntidad = pagoDAO.listaPagosPaginado(numeroPagina, tamanoPagina);
             List<PagoDTO> listaPagosDTO = new ArrayList<>();
 
             for (PagoEntidad beneficiarioEntidad : listaPagosEntidad) {
                 PagoDTO pagoDTO = convertirEntidadADTO(beneficiarioEntidad);
                 listaPagosDTO.add(pagoDTO);
             }
+            if (listaPagosDTO.isEmpty() && numeroPagina == 1) {
+                throw new NegocioException("No existen pagos registrados");
+
+            }
             return listaPagosDTO;
         } catch (PersistenciaException e) {
             throw new NegocioException("Error al obtener la lista de beneficiarios desde la base de datos.", e);
         }
     }
+    
 }
-

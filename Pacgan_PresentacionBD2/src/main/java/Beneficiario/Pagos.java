@@ -12,6 +12,7 @@ import excepciones.NegocioException;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -19,9 +20,12 @@ import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumnModel;
 import servicios.IConsultarEstadoPagos;
 import servicios.IGestionarCuentasBancarias;
 import servicios.IGestionarPagos;
+import utileria.JButtonCellEditor;
+import utileria.JButtonRenderer;
 
 /**
  *
@@ -32,16 +36,20 @@ public class Pagos extends javax.swing.JFrame {
     IGestionarCuentasBancarias gestionarCuentasBancarias;
     IGestionarPagos gestionarPagos;
     IConsultarEstadoPagos consultarEstadoPagos;
+    List<Long> pagoIds;
     private int pagina = 1;
     private final int LIMITE = 10;
 
-    public Pagos() {
+    public Pagos(IGestionarCuentasBancarias gestionarCuentasBancarias, IGestionarPagos gestionarPagos,
+            IConsultarEstadoPagos consultarEstadoPagos) {
         initComponents();
         this.gestionarPagos = gestionarPagos;
         this.gestionarCuentasBancarias = gestionarCuentasBancarias;
         this.consultarEstadoPagos = consultarEstadoPagos;
+        pagoIds = new ArrayList<>();
         personalizador();
         agregarOpcionesMenu();
+        cargarMetodosIniciales();
     }
 
     public void personalizador() {
@@ -53,14 +61,67 @@ public class Pagos extends javax.swing.JFrame {
 
     }
 
+    public void cargarMetodosIniciales() {
+        //this.cargarConfiguracionInicialPantalla();
+        this.cargarPagosEnTabla();
+        this.estadoPagina();
+        configurarBotones();
+    }
+
     public void cargarPagosEnTabla() {
         try {
+            pagoIds.clear();
             List<PagoDTO> pagoLista = this.gestionarPagos.listaPagosPaginado(this.LIMITE, this.pagina);
-            //this.llenarTablaAlumnos(pagoLista);
+
+            for (PagoDTO pagoDTO : pagoLista) {
+                pagoIds.add(pagoDTO.getPagoId());
+            }
+
+            this.llenarTablaPagos(pagoLista);
         } catch (NegocioException ex) {
             JOptionPane.showMessageDialog(this, ex.getMessage(), "Información", JOptionPane.ERROR_MESSAGE);
-            pagina--;
         }
+    }
+
+    private void configurarBotones() {
+        // ActionListener para botón Editar
+        ActionListener editarListener = new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int selectedRow = tblPagos.getSelectedRow();
+                if (selectedRow != -1) {
+                    Long selectedId = pagoIds.get(selectedRow);
+                    editar(selectedId);
+                }
+            }
+        };
+
+        // ActionListener para botón Eliminar
+        ActionListener eliminarListener = new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int selectedRow = tblPagos.getSelectedRow();
+                if (selectedRow != -1) {
+                    Long selectedId = pagoIds.get(selectedRow);
+                    eliminar(selectedId);
+                }
+            }
+        };
+
+        // Configurar columna de Editar
+        int indiceColumnaEditar = 4; // Suponiendo que esta es la tercera columna (índice 2)
+        TableColumnModel modeloColumnas = tblPagos.getColumnModel();
+        modeloColumnas.getColumn(indiceColumnaEditar)
+                .setCellRenderer(new JButtonRenderer("Editar"));
+        modeloColumnas.getColumn(indiceColumnaEditar)
+                .setCellEditor(new JButtonCellEditor("Editar", editarListener));
+
+        // Configurar columna de Eliminar
+        int indiceColumnaEliminar = 5; // Suponiendo que esta es la cuarta columna (índice 3)
+        modeloColumnas.getColumn(indiceColumnaEliminar)
+                .setCellRenderer(new JButtonRenderer("Eliminar"));
+        modeloColumnas.getColumn(indiceColumnaEliminar)
+                .setCellEditor(new JButtonCellEditor("Eliminar", eliminarListener));
     }
 
     private void llenarTablaPagos(List<PagoDTO> pagoLista) {
@@ -78,8 +139,8 @@ public class Pagos extends javax.swing.JFrame {
                 try {
                     CuentaBancariaDTO cuentaBancaria = gestionarCuentasBancarias.consultarCuentaBancariaPorID(row.getCuentaBancariaId());
                     Pago_EstadoDTO pago_EstadoDTO = consultarEstadoPagos.obtenerEstadoDelPago(row.getPagoId());
-                    EstatusDTO estatusDTO= consultarEstadoPagos.consultarEstatusPorID(pago_EstadoDTO.getIdEstatus());
-                    
+                    EstatusDTO estatusDTO = consultarEstadoPagos.consultarEstatusPorID(pago_EstadoDTO.getIdEstatus());
+
                     Object[] fila = new Object[4];
                     fila[0] = cuentaBancaria.getNumeroCuenta();
                     fila[1] = row.getMonto();
@@ -101,7 +162,7 @@ public class Pagos extends javax.swing.JFrame {
         misPagos.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Pagos Pagos = new Pagos();
+                Pagos Pagos = new Pagos(gestionarCuentasBancarias, gestionarPagos, consultarEstadoPagos);
                 Pagos.setVisible(true);
                 dispose();
 
@@ -297,6 +358,58 @@ public class Pagos extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void editar(Long id) {
+        //Metodo para regresar el alumno seleccionado
+        System.out.println(id);
+        try {
+            if (id == 0) {
+                throw new NegocioException("Por favor seleccione un alumno");
+            }
+            PagoDTO pagoDTO= gestionarPagos.consultarPagoPorID(id);
+
+            ModificarPago editarAlumno = new ModificarPago();
+            editarAlumno.setVisible(true);
+            cargarPagosEnTabla();
+
+        } catch (NegocioException ex) {
+            JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    private void eliminar(Long id) {
+        try {
+
+            if (id == 0) {
+                throw new NegocioException("Por favor seleccione un alumno");
+            }
+            PagoDTO pagoDTO = gestionarPagos.consultarPagoPorID(id);
+
+            int confirmacion = JOptionPane.showOptionDialog(this,
+                    "¿Está seguro de que desea eliminar este Pago?",
+                    "Confirmación de eliminación",
+                    JOptionPane.YES_NO_OPTION,
+                    JOptionPane.QUESTION_MESSAGE,
+                    null,
+                    new Object[]{"Confirmar", "Cancelar"},
+                    "Confirmar");
+
+            // Si el usuario selecciona "Cancelar", no se hace nada
+            if (confirmacion != JOptionPane.YES_OPTION) {
+                return;
+            }
+            gestionarPagos.eliminarPago(id);
+
+            if (this.gestionarPagos.listaPagosPaginado(this.LIMITE, this.pagina) == null || this.gestionarPagos.listaPagosPaginado(this.LIMITE, this.pagina).isEmpty()) {
+                this.btnAtrasActionPerformed(null);
+            } else {
+                cargarPagosEnTabla();
+            }
+        } catch (NegocioException ex) {
+            JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+
     private void btnCrearPagoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCrearPagoActionPerformed
         // TODO add your handling code here:
         CrearPago crearPago = new CrearPago();
@@ -306,47 +419,44 @@ public class Pagos extends javax.swing.JFrame {
     }//GEN-LAST:event_btnCrearPagoActionPerformed
 
     private void btnAtrasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAtrasActionPerformed
-        // TODO add your handling code here:
+        this.pagina = this.pagina - 1;
+        this.cargarPagosEnTabla();
+        this.estadoPagina();
     }//GEN-LAST:event_btnAtrasActionPerformed
+    private void estadoPagina() {
+        String numPagina = String.valueOf(pagina);
+        lblPagina.setText("Pagina " + numPagina);
+        estatusBotonAtras();
+        estatusBotonSiguiente();
+    }
 
+    private void estatusBotonAtras() {
+        if (this.pagina > 1) {
+            btnAtras.setEnabled(true);
+            return;
+        }
+        btnAtras.setEnabled(false);
+    }
+
+    private void estatusBotonSiguiente() {
+
+        try {
+            btnSiguiente.setEnabled(true);
+            if (this.gestionarPagos.listaPagosPaginado(this.LIMITE, this.pagina + 1) == null
+                    || this.gestionarPagos.listaPagosPaginado(this.LIMITE, this.pagina + 1).isEmpty()) {
+                btnSiguiente.setEnabled(false);
+            }
+        } catch (NegocioException ex) {
+            System.out.println(ex);
+        }
+
+    }
     private void btnSiguienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSiguienteActionPerformed
-        // TODO add your handling code here:
+        this.pagina = this.pagina + 1;
+        this.cargarPagosEnTabla();
+        this.estadoPagina();
     }//GEN-LAST:event_btnSiguienteActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Pagos.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Pagos.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Pagos.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Pagos.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new Pagos().setVisible(true);
-            }
-        });
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel Agrupador;
