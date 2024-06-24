@@ -5,6 +5,7 @@
 package negocio;
 
 import static convertidores.ConvertidorCuentaBancaria.convertirDTOAEntidad;
+import daos.CuentaBancariaDAO;
 import dtos.CuentaBancariaDTO;
 import entidades.CuentaBancariaEntidad;
 import excepciones.NegocioException;
@@ -23,6 +24,12 @@ public class AgregarCuentaBancariaBO implements IAgregarCuentaBancariaBO {
     public AgregarCuentaBancariaBO(ICuentaBancariaDAO cuentaBancariaDAO) {
         this.cuentaBancariaDAO = cuentaBancariaDAO;
     }
+
+    public AgregarCuentaBancariaBO() {
+        this.cuentaBancariaDAO = new CuentaBancariaDAO();
+    }
+    
+    
 
     @Override
     public void agregarCuentaBancaria(CuentaBancariaDTO cuentaBancaria) throws NegocioException {

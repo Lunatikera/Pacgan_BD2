@@ -6,6 +6,7 @@ package negocio;
 
 import convertidores.ConvertidorBeneficiario;
 import static convertidores.ConvertidorBeneficiario.convertirEntidadADTO;
+import daos.BeneficiarioDAO;
 import dtos.BeneficiarioDTO;
 import entidades.BeneficiarioEntidad;
 import excepciones.NegocioException;
@@ -27,6 +28,12 @@ public class ConsultarBeneficiarioBO implements IConsultarBeneficiarioBO {
     public ConsultarBeneficiarioBO(IBeneficiarioDAO beneficiarioDAO) {
         this.beneficiarioDAO = beneficiarioDAO;
     }
+//
+//    public ConsultarBeneficiarioBO() {
+//        this.beneficiarioDAO = new BeneficiarioDAO();
+//    }
+    
+    
 
     @Override
     public BeneficiarioDTO consultarBeneficiarioPorID(Long id) throws NegocioException {

@@ -23,6 +23,11 @@ public class CuentaBancariaDAO implements ICuentaBancariaDAO {
         this.conexionBD = conexionBD;
     }
 
+    public CuentaBancariaDAO() {
+        this.conexionBD = new ConexionBD();
+    }
+
+    
     // Crear una nueva cuenta bancaria
     @Override
     public void agregarCuentaBancaria(CuentaBancariaEntidad cuentaBancaria) throws PersistenciaException {
