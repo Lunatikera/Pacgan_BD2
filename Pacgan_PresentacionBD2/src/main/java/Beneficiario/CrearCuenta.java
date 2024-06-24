@@ -12,6 +12,8 @@ import interfaces.IAgregarCuentaBancariaBO;
 import interfaces.IBeneficiarioDAO;
 import interfaces.IConsultarBeneficiarioBO;
 import java.awt.Color;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -160,13 +162,13 @@ public class CrearCuenta extends javax.swing.JFrame {
             cuenta.setNombreBanco(nombreBanco);
             cuenta.setEstaEliminada(false);
             cuenta.setBeneficiarioId(Long.valueOf("1"));
-            
+            List<Long> lista = new ArrayList<>();
+            cuenta.setPagoIds(lista);
             agregarCuenta.agregarCuentaBancaria(cuenta);
+            JOptionPane.showMessageDialog(this, "Cuenta registrada exitosamente", "Éxito", JOptionPane.INFORMATION_MESSAGE);
         } catch (NegocioException ex) {
             Logger.getLogger(CrearCuenta.class.getName()).log(Level.SEVERE, null, ex);
-
-            JOptionPane.showMessageDialog(this, "Cuenta registrada exitosamente", "Éxito", JOptionPane.INFORMATION_MESSAGE);
-
+            
             txtNumeroCuenta.setText("");
             txtClabe.setText("");
             txtBanco.setText("");
