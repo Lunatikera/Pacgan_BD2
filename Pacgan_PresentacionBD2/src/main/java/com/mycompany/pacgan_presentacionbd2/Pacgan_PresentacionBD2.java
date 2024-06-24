@@ -27,6 +27,7 @@ import interfaces.IConexionBD;
 import interfaces.IConsultarAbonoBO;
 import interfaces.IConsultarBeneficiarioBO;
 import interfaces.IConsultarCuentaBancariaBO;
+import interfaces.IConsultarEstatusBO;
 import interfaces.IConsultarPagoBO;
 import interfaces.ICrearPagoBO;
 import interfaces.ICuentaBancariaDAO;
@@ -65,6 +66,7 @@ import servicios.IGestionarBeneficiarios;
 import servicios.IGestionarCuentasBancarias;
 import servicios.IGestionarPagos;
 import interfaces.IVerEstadoPagoBO;
+import negocio.ConsultarEstatusBO;
 import negocio.HistorialEstadoPagoBO;
 import servicios.IConsultarEstadoPagos;
 
@@ -94,6 +96,7 @@ public class Pacgan_PresentacionBD2 {
         IAgregarCuentaBancariaBO agregarCuentaBancariaBO = new AgregarCuentaBancariaBO(cuentaBancariaDAO);
         IConsultarAbonoBO consultarAbonoBO = new ConsultarAbonoBO(abonoDAO);
         IConsultarBeneficiarioBO consultarBeneficiarioBO = new ConsultarBeneficiarioBO(beneficiarioDAO);
+        IConsultarEstatusBO consultarEstatusBO = new ConsultarEstatusBO(estatusDAO);
         IConsultarCuentaBancariaBO consultarCuentaBancariaBO = new ConsultarCuentaBancariaBO(cuentaBancariaDAO);
         IConsultarPagoBO consultarPagoBO = new ConsultarPagoBO(pagoDAO);
         ICrearPagoBO crearPagoBO = new CrearPagoBO(pagoDAO);
@@ -113,7 +116,7 @@ public class Pacgan_PresentacionBD2 {
         IGestionarBeneficiarios gestionarBeneficiarios = new GestionarBeneficiariosFacade(agregarBeneficiarioBO, consultarBeneficiarioBO, editarBeneficiarioBO, eliminarBeneficiarioBO);
         IGestionarCuentasBancarias gestionarCuentasBancarias = new GestionarCuentasBancariasFacade(agregarCuentaBancariaBO, consultarCuentaBancariaBO, editarCuentaBancariaBO, eliminarCuentaBancariaBO);
         IGestionarPagos gestionarPagos = new GestionarPagosFacade(crearPagoBO, consultarPagoBO, editarPagoBO, eliminarPagoBO);
-        IConsultarEstadoPagos consultarEstadoPagos = new ConsultarEstadoPagosFacade(verEstadoPagoBO, historialEstadoPagoBO);
+        IConsultarEstadoPagos consultarEstadoPagos = new ConsultarEstadoPagosFacade(verEstadoPagoBO, historialEstadoPagoBO, consultarEstatusBO);
 
         LogIn inicioSesion = new LogIn(gestionarAbonos, gestionarBeneficiarios, gestionarCuentasBancarias, gestionarPagos, consultarEstadoPagos);
         inicioSesion.setVisible(true);

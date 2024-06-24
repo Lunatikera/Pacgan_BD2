@@ -13,12 +13,12 @@ import entidades.Pago_EstatusEntidad;
  */
 public class ConvertidorPago_Estatus {
 
-    public static Pago_EstadoDTO convertirEntidadADTO(Pago_EstatusEntidad entidad) {
+    public static Pago_EstadoDTO convertirEntidadADTO(Pago_EstatusEntidad pagos_estatus) {
         Pago_EstadoDTO dto = new Pago_EstadoDTO();
-        dto.setIdPago(entidad.getPagoEstatus().getId()); // Asigna el ID del pago
-        dto.setMensaje(entidad.getMensaje());
-        dto.setFechaHora(entidad.getFechaHora());
-        dto.setIdEstatus(entidad.getEstatus().getId()); // Asigna el ID del estatus
+        dto.setIdPago(pagos_estatus.getPagoEstatus().getId()); // Asigna el ID del pago
+        dto.setMensaje(pagos_estatus.getMensaje());
+        dto.setFechaHora(pagos_estatus.getFechaHora());
+        dto.setIdEstatus(pagos_estatus.getEstatus().getId()); // Asigna el ID del estatus
         return dto;
     }
 }

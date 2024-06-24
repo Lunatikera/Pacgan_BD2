@@ -7,8 +7,10 @@ package convertidores;
 import dtos.EstatusDTO;
 import entidades.EstatusEntidad;
 
-/**
- *
+
+
+
+
  * @author jesus
  */
 public class ConvertidorEstatus {
@@ -21,4 +23,11 @@ public class ConvertidorEstatus {
         return estatusEntidad;
     }
 
+ public static EstatusDTO convertirEstatusADTO(EstatusEntidad estatus) {
+        EstatusDTO dto = new EstatusDTO();
+        dto.setEstatusId(estatus.getId());
+        dto.setNombre(estatus.getNombre());
+        // Puedes necesitar lógica adicional para convertir otros campos si es necesario
+        return dto;
+    }
 }
