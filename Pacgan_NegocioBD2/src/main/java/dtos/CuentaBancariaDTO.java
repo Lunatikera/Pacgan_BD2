@@ -20,6 +20,9 @@ public class CuentaBancariaDTO {
     private Long beneficiarioId;
     private List<Long> pagoIds;
 
+    public CuentaBancariaDTO() {
+    }
+
     public CuentaBancariaDTO(Long cuentaBancariaId, String numeroCuenta, String clabe, String nombreBanco, boolean estaEliminada, Long beneficiarioId, List<Long> pagoIds) {
         this.cuentaBancariaId = cuentaBancariaId;
         this.numeroCuenta = numeroCuenta;
