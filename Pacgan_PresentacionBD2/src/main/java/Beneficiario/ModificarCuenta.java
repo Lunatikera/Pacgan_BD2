@@ -12,6 +12,7 @@ import excepciones.NegocioException;
 import interfaces.IAgregarCuentaBancariaBO;
 import interfaces.IBeneficiarioDAO;
 import interfaces.IConsultarBeneficiarioBO;
+import interfaces.IConsultarCuentaBancariaBO;
 import interfaces.ICuentaBancariaDAO;
 import interfaces.IEditarCuentaBancariaBO;
 import java.awt.Color;
@@ -22,6 +23,7 @@ import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import negocio.AgregarCuentaBancariaBO;
 import negocio.ConsultarBeneficiarioBO;
+import negocio.ConsultarCuentaBancariaBO;
 import negocio.EditarCuentaBancariaBO;
 
 /**
@@ -35,6 +37,7 @@ public class ModificarCuenta extends javax.swing.JFrame {
     ICuentaBancariaDAO cuenta = new CuentaBancariaDAO();
     IEditarCuentaBancariaBO editarCuenta = new EditarCuentaBancariaBO(cuenta);
     IConsultarBeneficiarioBO beneficiario = new ConsultarBeneficiarioBO(bene);
+    IConsultarCuentaBancariaBO conCuenta = new ConsultarCuentaBancariaBO(cuenta);
     ConvertidorCuentaBancaria conv = new ConvertidorCuentaBancaria(bene);
     
     String numeroCuenta;
@@ -50,6 +53,7 @@ public class ModificarCuenta extends javax.swing.JFrame {
     public void personalizador() {
         Agrupador.setBackground(Color.decode("#142132"));
     }
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -160,6 +164,7 @@ public class ModificarCuenta extends javax.swing.JFrame {
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
 
+        
         String numeroCuenta = txtNumeroCuenta.getText();
         String clabe = txtClabe.getText();
         String nombreBanco = txtBanco.getText();
