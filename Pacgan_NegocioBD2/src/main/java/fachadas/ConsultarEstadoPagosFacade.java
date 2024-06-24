@@ -4,12 +4,13 @@
  */
 package fachadas;
 
+import dtos.EstatusDTO;
 import dtos.Pago_EstadoDTO;
 import excepciones.NegocioException;
+import interfaces.IConsultarEstatusBO;
 import interfaces.IHistorialEstadoPagoBO;
 import interfaces.IVerEstadoPagoBO;
 import java.util.List;
-import negocio.HistorialEstadoPagoBO;
 import servicios.IConsultarEstadoPagos;
 
 /**
@@ -20,20 +21,32 @@ public class ConsultarEstadoPagosFacade implements IConsultarEstadoPagos {
 
     private IVerEstadoPagoBO verEstadoPagoBO;
     private IHistorialEstadoPagoBO historialEstadoPagoBO;
+    private IConsultarEstatusBO consultarEstatusBO;
 
-    public ConsultarEstadoPagosFacade(IVerEstadoPagoBO verEstadoPagoBO, IHistorialEstadoPagoBO historialEstadoPagoBO) {
+    public ConsultarEstadoPagosFacade(IVerEstadoPagoBO verEstadoPagoBO, IHistorialEstadoPagoBO historialEstadoPagoBO, IConsultarEstatusBO consultarEstatusBO) {
         this.verEstadoPagoBO = verEstadoPagoBO;
         this.historialEstadoPagoBO = historialEstadoPagoBO;
+        this.consultarEstatusBO = consultarEstatusBO;
     }
 
     @Override
     public List<Pago_EstadoDTO> obtenerHistorialDeEstados(long pagoId) throws NegocioException {
-       return historialEstadoPagoBO.obtenerHistorialDeEstados(pagoId);
+        return historialEstadoPagoBO.obtenerHistorialDeEstados(pagoId);
     }
 
     @Override
     public Pago_EstadoDTO obtenerEstadoDelPago(long pagoId) throws NegocioException {
         return verEstadoPagoBO.obtenerEstadoDelPago(pagoId);
+    }
+
+    @Override
+    public EstatusDTO consultarEstatusPorID(Long id) throws NegocioException {
+        return consultarEstatusBO.consultarEstatusPorID(id);
+    }
+
+    @Override
+    public List<EstatusDTO> listaEstatus() throws NegocioException {
+        return consultarEstatusBO.listaEstatus();
     }
 
 }

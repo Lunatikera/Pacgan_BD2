@@ -4,16 +4,21 @@
  */
 package Beneficiario;
 
+import dtos.CuentaBancariaDTO;
 import dtos.PagoDTO;
+import dtos.Pago_EstadoDTO;
 import excepciones.NegocioException;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import servicios.IConsultarEstadoPagos;
 import servicios.IGestionarCuentasBancarias;
 import servicios.IGestionarPagos;
 
@@ -22,15 +27,18 @@ import servicios.IGestionarPagos;
  * @author jesus
  */
 public class Pagos extends javax.swing.JFrame {
+
     IGestionarCuentasBancarias gestionarCuentasBancarias;
     IGestionarPagos gestionarPagos;
+    IConsultarEstadoPagos consultarEstadoPagos;
     private int pagina = 1;
     private final int LIMITE = 10;
 
     public Pagos() {
         initComponents();
         this.gestionarPagos = gestionarPagos;
-        this.gestionarCuentasBancarias=gestionarCuentasBancarias;
+        this.gestionarCuentasBancarias = gestionarCuentasBancarias;
+        this.consultarEstadoPagos = consultarEstadoPagos;
         personalizador();
         agregarOpcionesMenu();
     }
@@ -43,8 +51,9 @@ public class Pagos extends javax.swing.JFrame {
         btnSiguiente.setBackground(Color.decode("#142132"));
 
     }
-    public void cargarPagosEnTabla(){
-          try {
+
+    public void cargarPagosEnTabla() {
+        try {
             List<PagoDTO> pagoLista = this.gestionarPagos.listaPagosPaginado(this.LIMITE, this.pagina);
             this.llenarTablaAlumnos(pagoLista);
         } catch (NegocioException ex) {
@@ -65,18 +74,23 @@ public class Pagos extends javax.swing.JFrame {
         if (pagoLista != null) {
             pagoLista.forEach(row
                     -> {
-                Object[] fila = new Object[5];
-                fila[0] = gestionarCuentasBancarias.consultarCuentaBancariaPorID(row.getCuentaBancariaId());
-                fila[1] = row.getMonto();
-                fila[2] = row.getApellidoPaterno();
-                fila[3] = row.getApellidoMaterno();
-                fila[4] = row.getEstatus();
+                try {
+                    CuentaBancariaDTO cuentaBancaria = gestionarCuentasBancarias.consultarCuentaBancariaPorID(row.getCuentaBancariaId());
+                    Pago_EstadoDTO pago_EstadoDTO = consultarEstadoPagos.obtenerEstadoDelPago(row.getPagoId());
 
-                modeloTabla.addRow(fila);
+                    Object[] fila = new Object[4];
+                    fila[0] = cuentaBancaria.getNumeroCuenta();
+                    fila[1] = row.getMonto();
+                    fila[2] = row.getApellidoPaterno();
+                    fila[3] = pago_EstadoDTO.getMensaje();
+
+                    modeloTabla.addRow(fila);
+                } catch (NegocioException ex) {
+                    Logger.getLogger(Pagos.class.getName()).log(Level.SEVERE, null, ex);
+                }
             });
         }
     }
-
 
     public void agregarOpcionesMenu() {
 
