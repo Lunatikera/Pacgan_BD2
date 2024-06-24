@@ -4,17 +4,45 @@
  */
 package Beneficiario;
 
+import convertidores.ConvertidorCuentaBancaria;
+import daos.BeneficiarioDAO;
+import daos.CuentaBancariaDAO;
+import dtos.BeneficiarioDTO;
+import dtos.CuentaBancariaDTO;
+import excepciones.NegocioException;
+import interfaces.IAgregarCuentaBancariaBO;
+import interfaces.IBeneficiarioDAO;
+import interfaces.IConsultarBeneficiarioBO;
+import interfaces.IConsultarCuentaBancariaBO;
+import interfaces.ICuentaBancariaDAO;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumnModel;
+import negocio.AgregarCuentaBancariaBO;
+import negocio.ConsultarBeneficiarioBO;
+import negocio.ConsultarCuentaBancariaBO;
+import utilerias.JButtonCellEditor;
+import utilerias.JButtonRender;
 
 /**
  *
  * @author jesus
  */
 public class Cuentas extends javax.swing.JFrame {
+
+    IAgregarCuentaBancariaBO agregarCuenta = new AgregarCuentaBancariaBO();
+    IBeneficiarioDAO bene = new BeneficiarioDAO();
+    ICuentaBancariaDAO cuenta = new CuentaBancariaDAO();
+    IConsultarBeneficiarioBO beneficiario = new ConsultarBeneficiarioBO(bene);
+    IConsultarCuentaBancariaBO conCuenta = new ConsultarCuentaBancariaBO(cuenta);
+    ConvertidorCuentaBancaria conv = new ConvertidorCuentaBancaria(bene);
 
     /**
      * Creates new form Cuentas
@@ -23,6 +51,8 @@ public class Cuentas extends javax.swing.JFrame {
         initComponents();
         personalizador();
         agregarOpcionesMenu();
+        this.cargarCuentasEnTabla();
+        this.cargarConfiguracionInicialTablaAlumnos();
     }
 
     public void personalizador() {
@@ -96,6 +126,94 @@ public class Cuentas extends javax.swing.JFrame {
 
     }
 
+    private void llenarTablaCuentas(List<CuentaBancariaDTO> cuentas) {
+        DefaultTableModel modeloTabla = (DefaultTableModel) this.tblCuentas.getModel();
+
+        if (modeloTabla.getRowCount() > 0) {
+            for (int i = modeloTabla.getRowCount() - 1; i > -1; i--) {
+                modeloTabla.removeRow(i);
+            }
+        }
+
+        if (cuentas != null) {
+            cuentas.forEach(row -> {
+                Object[] fila = new Object[4];
+                fila[0] = row.getNumeroCuenta();
+                fila[1] = row.getClabe();
+                fila[2] = row.getNombreBanco();
+
+                modeloTabla.addRow(fila);
+            });
+        }
+    }
+
+    private void cargarCuentasEnTabla() {
+        try {
+            List<CuentaBancariaDTO> cuentasDTO = this.conCuenta.listaCuentasBancarias();
+             this.llenarTablaCuentas(cuentasDTO);
+        } catch (NegocioException ex) {
+            Logger.getLogger(Cuentas.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    private void cargarConfiguracionInicialTablaAlumnos() {
+        ActionListener onEditarClickListener = new ActionListener() {
+            final int columnaNumeroCuenta = 0;
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                //Metodo para editar un alumno
+                editar();
+            }
+        };
+        int indiceColumnaEditar = 3;
+        TableColumnModel modeloColumnas = this.tblCuentas.getColumnModel();
+        modeloColumnas.getColumn(indiceColumnaEditar)
+                .setCellRenderer(new JButtonRender("Editar"));
+        modeloColumnas.getColumn(indiceColumnaEditar)
+                .setCellEditor(new JButtonCellEditor("Editar",
+                        onEditarClickListener));
+
+        ActionListener onEliminarClickListener = new ActionListener() {
+            final int columnaId = 0;
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                //Metodo para eliminar un alumno
+                eliminar();
+            }
+        };
+        int indiceColumnaEliminar = 4;
+        modeloColumnas = this.tblCuentas.getColumnModel();
+        modeloColumnas.getColumn(indiceColumnaEliminar)
+                .setCellRenderer(new JButtonRender("Eliminar"));
+        modeloColumnas.getColumn(indiceColumnaEliminar)
+                .setCellEditor(new JButtonCellEditor("Eliminar",
+                        onEliminarClickListener));
+    }
+    
+    private String getNumeroCuentaSeleccionado() {
+        int indiceFilaSeleccionada = this.tblCuentas.getSelectedRow();
+        if (indiceFilaSeleccionada != -1) {
+            DefaultTableModel modelo = (DefaultTableModel) this.tblCuentas.getModel();
+            int indiceColumna = 0;
+            String numeroSeleccionado = (String) modelo.getValueAt(indiceFilaSeleccionada,
+                    indiceColumna);
+            return numeroSeleccionado;
+        } else {
+            return null;
+        }
+    }
+    
+    public void editar(){
+        ModificarCuenta modificar = new ModificarCuenta(this.getNumeroCuentaSeleccionado());
+        modificar.setVisible(true);
+        dispose();
+    }
+    
+    public void eliminar(){
+        System.out.println("xd");
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -111,7 +229,7 @@ public class Cuentas extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tblCuentas = new javax.swing.JTable();
         jLabel5 = new javax.swing.JLabel();
         btnCrearCuenta = new javax.swing.JButton();
         btnAtras = new javax.swing.JButton();
@@ -162,24 +280,23 @@ public class Cuentas extends javax.swing.JFrame {
 
         Agrupador.add(panelMenu, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 960, 60));
 
-        jTable1.setBackground(new java.awt.Color(234, 234, 234));
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tblCuentas.setBackground(new java.awt.Color(234, 234, 234));
+        tblCuentas.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null}
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null}
             },
             new String [] {
-                "Numero de Cuenta", "Clabe", "Banco", "Estatus", "", ""
+                "Numero de Cuenta", "Clabe", "Banco", "", ""
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(tblCuentas);
 
         Agrupador.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 170, 880, 350));
 
         jLabel5.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
-        jLabel5.setForeground(new java.awt.Color(0, 0, 0));
         jLabel5.setText("Adminsitrar Cuentas Bancarias");
         Agrupador.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 80, 380, 30));
 
@@ -203,7 +320,6 @@ public class Cuentas extends javax.swing.JFrame {
         Agrupador.add(btnAtras, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 560, 130, 30));
 
         lblPagina.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        lblPagina.setForeground(new java.awt.Color(0, 0, 0));
         lblPagina.setText("Pagina 1");
         Agrupador.add(lblPagina, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 570, -1, -1));
 
@@ -235,9 +351,9 @@ public class Cuentas extends javax.swing.JFrame {
 
     private void btnCrearCuentaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCrearCuentaActionPerformed
         // TODO add your handling code here:
-        CrearPago crearPago = new CrearPago();
+        CrearCuenta crearCuenta = new CrearCuenta();
 
-        crearPago.setVisible(true);
+        crearCuenta.setVisible(true);
         dispose();
     }//GEN-LAST:event_btnCrearCuentaActionPerformed
 
@@ -295,8 +411,8 @@ public class Cuentas extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
     private javax.swing.JLabel lblPagina;
     private javax.swing.JPanel panelMenu;
+    private javax.swing.JTable tblCuentas;
     // End of variables declaration//GEN-END:variables
 }

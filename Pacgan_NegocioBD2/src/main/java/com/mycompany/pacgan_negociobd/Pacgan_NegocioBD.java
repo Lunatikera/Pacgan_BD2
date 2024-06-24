@@ -5,6 +5,8 @@
 
 package com.mycompany.pacgan_negociobd;
 
+import insertadores.insertarBeneficiario;
+
 /**
  *
  * @author Usuario
@@ -13,5 +15,7 @@ public class Pacgan_NegocioBD {
 
     public static void main(String[] args) {
         System.out.println("Hello World!");
+        insertarBeneficiario ins = new insertarBeneficiario();
+        ins.insertarBeneficiarios();
     }
 }
