@@ -26,7 +26,6 @@ import javax.swing.JMenuItem;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumnModel;
 import negocio.AgregarCuentaBancariaBO;
-import negocio.ConsultarBeneficiarioBO;
 import negocio.ConsultarCuentaBancariaBO;
 import utilerias.JButtonCellEditor;
 import utilerias.JButtonRender;
@@ -37,12 +36,12 @@ import utilerias.JButtonRender;
  */
 public class Cuentas extends javax.swing.JFrame {
 
-    IAgregarCuentaBancariaBO agregarCuenta = new AgregarCuentaBancariaBO();
-    IBeneficiarioDAO bene = new BeneficiarioDAO();
-    ICuentaBancariaDAO cuenta = new CuentaBancariaDAO();
-    IConsultarBeneficiarioBO beneficiario = new ConsultarBeneficiarioBO(bene);
-    IConsultarCuentaBancariaBO conCuenta = new ConsultarCuentaBancariaBO(cuenta);
-    ConvertidorCuentaBancaria conv = new ConvertidorCuentaBancaria(bene);
+//    IAgregarCuentaBancariaBO agregarCuenta = new AgregarCuentaBancariaBO();
+//    IBeneficiarioDAO bene = new BeneficiarioDAO();
+//    ICuentaBancariaDAO cuenta = new CuentaBancariaDAO();
+//    IConsultarBeneficiarioBO beneficiario = new ConsultarBeneficiarioBO(bene);
+//    IConsultarCuentaBancariaBO conCuenta = new ConsultarCuentaBancariaBO(cuenta);
+//    ConvertidorCuentaBancaria conv = new ConvertidorCuentaBancaria(bene);
 
     /**
      * Creates new form Cuentas
@@ -126,7 +125,7 @@ public class Cuentas extends javax.swing.JFrame {
 
     }
 
-    private void llenarTablaCuentas(List<CuentaBancariaDTO> cuentas) {
+    private void llenarTablaCuentas() {
         DefaultTableModel modeloTabla = (DefaultTableModel) this.tblCuentas.getModel();
 
         if (modeloTabla.getRowCount() > 0) {
@@ -135,25 +134,20 @@ public class Cuentas extends javax.swing.JFrame {
             }
         }
 
-        if (cuentas != null) {
-            cuentas.forEach(row -> {
-                Object[] fila = new Object[4];
-                fila[0] = row.getNumeroCuenta();
-                fila[1] = row.getClabe();
-                fila[2] = row.getNombreBanco();
-
-                modeloTabla.addRow(fila);
-            });
-        }
+//        if (cuentas != null) {
+//            cuentas.forEach(row -> {
+//                Object[] fila = new Object[4];
+//                fila[0] = row.getNumeroCuenta();
+//                fila[1] = row.getClabe();
+//                fila[2] = row.getNombreBanco();
+//
+//                modeloTabla.addRow(fila);
+//            });
+//        }
     }
 
     private void cargarCuentasEnTabla() {
-        try {
-            List<CuentaBancariaDTO> cuentasDTO = this.conCuenta.listaCuentasBancarias();
-             this.llenarTablaCuentas(cuentasDTO);
-        } catch (NegocioException ex) {
-            Logger.getLogger(Cuentas.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        
     }
 
     private void cargarConfiguracionInicialTablaAlumnos() {

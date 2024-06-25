@@ -1,4 +1,3 @@
-<<<<<<< Updated upstream
 servicios/IGestionarPagos.class
 interfaces/IConsultarPagoBO.class
 interfaces/IinsertarBeneficiario.class
@@ -50,7 +49,6 @@ excepciones/NegocioException.class
 dtos/PagoDTO.class
 negocio/ConsultarAbonoBO.class
 fachadas/ConsultarEstadoPagosFacade.class
-com/mycompany/pacgan_negociobd/Pacgan_NegocioBD.class
 dtos/EstatusDTO.class
 interfaces/IEliminarBeneficiarioBO.class
 dtos/TipoPagoDTO.class
@@ -68,5 +66,3 @@ interfaces/ICrearPagoBO.class
 negocio/AgregarAbonoBO.class
 interfaces/IEditarCuentaBancariaBO.class
 interfaces/IEditarBeneficiarioBO.class
-=======
->>>>>>> Stashed changes

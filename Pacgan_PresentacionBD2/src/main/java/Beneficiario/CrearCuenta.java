@@ -10,7 +10,6 @@ import dtos.CuentaBancariaDTO;
 import excepciones.NegocioException;
 import interfaces.IAgregarCuentaBancariaBO;
 import interfaces.IBeneficiarioDAO;
-import interfaces.IConsultarBeneficiarioBO;
 import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
@@ -18,7 +17,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import negocio.AgregarCuentaBancariaBO;
-import negocio.ConsultarBeneficiarioBO;
 
 /**
  *
@@ -28,7 +26,6 @@ public class CrearCuenta extends javax.swing.JFrame {
 
     IAgregarCuentaBancariaBO agregarCuenta = new AgregarCuentaBancariaBO();
     IBeneficiarioDAO bene = new BeneficiarioDAO();
-    IConsultarBeneficiarioBO beneficiario = new ConsultarBeneficiarioBO(bene);
     ConvertidorCuentaBancaria conv = new ConvertidorCuentaBancaria(bene);
 
     /**

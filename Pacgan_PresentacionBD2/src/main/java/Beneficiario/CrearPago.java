@@ -239,11 +239,11 @@ public class CrearPago extends javax.swing.JFrame {
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
         // TODO add your handling code here:
-        Pagos pagos = new Pagos();
-
-        pagos.setVisible(true);
-
-        dispose();
+//        Pagos pagos = new Pagos();
+//
+//        pagos.setVisible(true);
+//
+//        dispose();
     }//GEN-LAST:event_btnCancelarActionPerformed
 
     private void btnCrearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCrearActionPerformed
