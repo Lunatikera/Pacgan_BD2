@@ -25,6 +25,7 @@ import negocio.AgregarCuentaBancariaBO;
 import negocio.ConsultarBeneficiarioBO;
 import negocio.ConsultarCuentaBancariaBO;
 import negocio.EditarCuentaBancariaBO;
+import servicios.IGestionarCuentasBancarias;
 
 /**
  *
@@ -32,22 +33,21 @@ import negocio.EditarCuentaBancariaBO;
  */
 public class ModificarCuenta extends javax.swing.JFrame {
 
-    IAgregarCuentaBancariaBO agregarCuenta = new AgregarCuentaBancariaBO();
-    IBeneficiarioDAO bene = new BeneficiarioDAO();
-    ICuentaBancariaDAO cuenta = new CuentaBancariaDAO();
-    IEditarCuentaBancariaBO editarCuenta = new EditarCuentaBancariaBO(cuenta);
-    IConsultarBeneficiarioBO beneficiario = new ConsultarBeneficiarioBO(bene);
-    IConsultarCuentaBancariaBO conCuenta = new ConsultarCuentaBancariaBO(cuenta);
-    ConvertidorCuentaBancaria conv = new ConvertidorCuentaBancaria(bene);
+    
     
     String numeroCuenta;
+    IGestionarCuentasBancarias gestionarCuentasBancarias;
+    ConvertidorCuentaBancaria convertidor;
     /**
      * Creates new form ModificarCuenta
      */
-    public ModificarCuenta(String numeroCuenta) {
+    public ModificarCuenta(String numeroCuenta,IGestionarCuentasBancarias gestionarCuentasBancarias) {
+        this.gestionarCuentasBancarias = gestionarCuentasBancarias;
+        this.convertidor = new ConvertidorCuentaBancaria();
+        this.numeroCuenta = numeroCuenta;
         initComponents();
         personalizador();
-        this.numeroCuenta = numeroCuenta;
+        
     }
 
     public void personalizador() {
@@ -156,7 +156,7 @@ public class ModificarCuenta extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnCancelar3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelar3ActionPerformed
-        Cuentas Cuentas = new Cuentas();
+        Cuentas Cuentas = new Cuentas(gestionarCuentasBancarias);
 
         Cuentas.setVisible(true);
         dispose();
@@ -164,6 +164,12 @@ public class ModificarCuenta extends javax.swing.JFrame {
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
 
+        if (txtNumeroCuenta.getText().equals("")
+                || txtClabe.getText().equals("")
+                || txtBanco.getText().equals("")) {
+            JOptionPane.showMessageDialog(this, "Favor de llenar los campos vacios", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
         
         String numeroCuenta = txtNumeroCuenta.getText();
         String clabe = txtClabe.getText();
@@ -180,8 +186,7 @@ public class ModificarCuenta extends javax.swing.JFrame {
             cuenta.setBeneficiarioId(Long.valueOf("1"));
             List<Long> lista = new ArrayList<>();
             cuenta.setPagoIds(lista);
-            
-            editarCuenta.editarCuentaBancaria(cuenta);
+            gestionarCuentasBancarias.editarCuentaBancaria(cuenta);
             JOptionPane.showMessageDialog(this, "Cuenta registrada exitosamente", "Éxito", JOptionPane.INFORMATION_MESSAGE);
         } catch (NegocioException ex) {
             Logger.getLogger(CrearCuenta.class.getName()).log(Level.SEVERE, null, ex);
@@ -195,37 +200,7 @@ public class ModificarCuenta extends javax.swing.JFrame {
     /**
      * @param args the command line arguments
      */
-//    public static void main(String args[]) {
-//        /* Set the Nimbus look and feel */
-//        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-//        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-//         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-//         */
-//        try {
-//            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-//                if ("Nimbus".equals(info.getName())) {
-//                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-//                    break;
-//                }
-//            }
-//        } catch (ClassNotFoundException ex) {
-//            java.util.logging.Logger.getLogger(ModificarCuenta.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-//        } catch (InstantiationException ex) {
-//            java.util.logging.Logger.getLogger(ModificarCuenta.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-//        } catch (IllegalAccessException ex) {
-//            java.util.logging.Logger.getLogger(ModificarCuenta.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-//        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-//            java.util.logging.Logger.getLogger(ModificarCuenta.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-//        }
-//        //</editor-fold>
-//
-//        /* Create and display the form */
-//        java.awt.EventQueue.invokeLater(new Runnable() {
-//            public void run() {
-//                new ModificarCuenta().setVisible(true);
-//            }
-//        });
-//    }
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel Agrupador;

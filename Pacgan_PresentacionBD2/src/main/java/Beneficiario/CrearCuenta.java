@@ -5,11 +5,9 @@
 package Beneficiario;
 
 import convertidores.ConvertidorCuentaBancaria;
-import daos.BeneficiarioDAO;
 import dtos.CuentaBancariaDTO;
 import excepciones.NegocioException;
 import interfaces.IAgregarCuentaBancariaBO;
-import interfaces.IBeneficiarioDAO;
 import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
@@ -17,6 +15,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import negocio.AgregarCuentaBancariaBO;
+import servicios.IGestionarCuentasBancarias;
 
 /**
  *
@@ -24,14 +23,15 @@ import negocio.AgregarCuentaBancariaBO;
  */
 public class CrearCuenta extends javax.swing.JFrame {
 
-    IAgregarCuentaBancariaBO agregarCuenta = new AgregarCuentaBancariaBO();
-    IBeneficiarioDAO bene = new BeneficiarioDAO();
-    ConvertidorCuentaBancaria conv = new ConvertidorCuentaBancaria(bene);
+    IGestionarCuentasBancarias gestionarCuentasBancarias;
+    ConvertidorCuentaBancaria convertidor;
 
     /**
      * Creates new form CrearCuenta
      */
-    public CrearCuenta() {
+    public CrearCuenta(IGestionarCuentasBancarias gestionarCuentasBancarias) {
+        this.gestionarCuentasBancarias = gestionarCuentasBancarias;
+        this.convertidor = new ConvertidorCuentaBancaria();
         initComponents();
         personalizador();
     }
@@ -41,6 +41,13 @@ public class CrearCuenta extends javax.swing.JFrame {
     }
 
     public void creacionCuenta() {
+
+        if (txtNumeroCuenta.getText().equals("")
+                || txtClabe.getText().equals("")
+                || txtBanco.getText().equals("")) {
+            JOptionPane.showMessageDialog(this, "Favor de llenar los campos vacios", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
 
         String numeroCuenta = txtNumeroCuenta.getText();
         String clabe = txtClabe.getText();
@@ -55,10 +62,11 @@ public class CrearCuenta extends javax.swing.JFrame {
             cuenta.setBeneficiarioId(Long.valueOf("1"));
             List<Long> lista = new ArrayList<>();
             cuenta.setPagoIds(lista);
-            agregarCuenta.agregarCuentaBancaria(cuenta);
+
+            gestionarCuentasBancarias.agregarCuentaBancaria(cuenta);
             JOptionPane.showMessageDialog(this, "Cuenta registrada exitosamente", "Éxito", JOptionPane.INFORMATION_MESSAGE);
 
-            Cuentas cuentas = new Cuentas();
+            Cuentas cuentas = new Cuentas(gestionarCuentasBancarias);
 
             cuentas.setVisible(true);
             dispose();
@@ -172,7 +180,7 @@ public class CrearCuenta extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnCancelar3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelar3ActionPerformed
-        Cuentas Cuentas = new Cuentas();
+        Cuentas Cuentas = new Cuentas(gestionarCuentasBancarias);
 
         Cuentas.setVisible(true);
         dispose();
@@ -182,41 +190,6 @@ public class CrearCuenta extends javax.swing.JFrame {
 
         creacionCuenta();
     }//GEN-LAST:event_btnCrearActionPerformed
-
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(CrearCuenta.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(CrearCuenta.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(CrearCuenta.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(CrearCuenta.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new CrearCuenta().setVisible(true);
-            }
-        });
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel Agrupador;

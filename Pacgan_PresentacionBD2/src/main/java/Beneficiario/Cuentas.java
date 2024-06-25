@@ -4,17 +4,8 @@
  */
 package Beneficiario;
 
-import convertidores.ConvertidorCuentaBancaria;
-import daos.BeneficiarioDAO;
-import daos.CuentaBancariaDAO;
-import dtos.BeneficiarioDTO;
 import dtos.CuentaBancariaDTO;
 import excepciones.NegocioException;
-import interfaces.IAgregarCuentaBancariaBO;
-import interfaces.IBeneficiarioDAO;
-import interfaces.IConsultarBeneficiarioBO;
-import interfaces.IConsultarCuentaBancariaBO;
-import interfaces.ICuentaBancariaDAO;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -25,8 +16,7 @@ import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumnModel;
-import negocio.AgregarCuentaBancariaBO;
-import negocio.ConsultarCuentaBancariaBO;
+import servicios.IGestionarCuentasBancarias;
 import utilerias.JButtonCellEditor;
 import utilerias.JButtonRender;
 
@@ -36,22 +26,22 @@ import utilerias.JButtonRender;
  */
 public class Cuentas extends javax.swing.JFrame {
 
-//    IAgregarCuentaBancariaBO agregarCuenta = new AgregarCuentaBancariaBO();
-//    IBeneficiarioDAO bene = new BeneficiarioDAO();
-//    ICuentaBancariaDAO cuenta = new CuentaBancariaDAO();
-//    IConsultarBeneficiarioBO beneficiario = new ConsultarBeneficiarioBO(bene);
-//    IConsultarCuentaBancariaBO conCuenta = new ConsultarCuentaBancariaBO(cuenta);
-//    ConvertidorCuentaBancaria conv = new ConvertidorCuentaBancaria(bene);
+    IGestionarCuentasBancarias gestionarCuentasBancarias;
 
     /**
      * Creates new form Cuentas
+     *
+     * @param gestionarCuentasBancarias
      */
-    public Cuentas() {
+    public Cuentas(IGestionarCuentasBancarias gestionarCuentasBancarias) {
+        this.gestionarCuentasBancarias = gestionarCuentasBancarias;
+
         initComponents();
         personalizador();
         agregarOpcionesMenu();
+
         this.cargarCuentasEnTabla();
-        this.cargarConfiguracionInicialTablaAlumnos();
+        this.cargarConfiguracionInicialTabla();
     }
 
     public void personalizador() {
@@ -69,8 +59,8 @@ public class Cuentas extends javax.swing.JFrame {
         misPagos.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-             //   Pagos Pagos = new Pagos();
-               // Pagos.setVisible(true);
+                //   Pagos Pagos = new Pagos();
+                // Pagos.setVisible(true);
                 dispose();
 
             }
@@ -97,7 +87,7 @@ public class Cuentas extends javax.swing.JFrame {
         misCuentas.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Cuentas Cuentas = new Cuentas();
+                Cuentas Cuentas = new Cuentas(gestionarCuentasBancarias);
                 Cuentas.setVisible(true);
                 dispose();
 
@@ -125,7 +115,7 @@ public class Cuentas extends javax.swing.JFrame {
 
     }
 
-    private void llenarTablaCuentas() {
+    private void llenarTablaCuentas(List<CuentaBancariaDTO> cuentasLista) {
         DefaultTableModel modeloTabla = (DefaultTableModel) this.tblCuentas.getModel();
 
         if (modeloTabla.getRowCount() > 0) {
@@ -134,23 +124,40 @@ public class Cuentas extends javax.swing.JFrame {
             }
         }
 
-//        if (cuentas != null) {
-//            cuentas.forEach(row -> {
-//                Object[] fila = new Object[4];
-//                fila[0] = row.getNumeroCuenta();
-//                fila[1] = row.getClabe();
-//                fila[2] = row.getNombreBanco();
-//
-//                modeloTabla.addRow(fila);
-//            });
-//        }
+        if (cuentasLista != null) {
+
+            cuentasLista.forEach(row
+                    -> {
+                //Aquiva el ID del beneficiario
+                if (row.getBeneficiarioId().equals(Long.valueOf("2"))) {
+
+                    try {
+                        CuentaBancariaDTO cuentaBancaria = gestionarCuentasBancarias.consultarCuentaBancariaPorID(row.getCuentaBancariaId());
+
+                        Object[] fila = new Object[3];
+                        fila[0] = cuentaBancaria.getNumeroCuenta();
+                        fila[1] = row.getClabe();
+                        fila[2] = row.getNombreBanco();
+
+                        modeloTabla.addRow(fila);
+                    } catch (NegocioException ex) {
+                        Logger.getLogger(Pagos.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
+            });
+        }
     }
 
     private void cargarCuentasEnTabla() {
-        
+        try {
+            List<CuentaBancariaDTO> cuentaLista = this.gestionarCuentasBancarias.listaCuentasBancarias();
+            this.llenarTablaCuentas(cuentaLista);
+        } catch (NegocioException ex) {
+            Logger.getLogger(Cuentas.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
-    private void cargarConfiguracionInicialTablaAlumnos() {
+    private void cargarConfiguracionInicialTabla() {
         ActionListener onEditarClickListener = new ActionListener() {
             final int columnaNumeroCuenta = 0;
 
@@ -185,7 +192,7 @@ public class Cuentas extends javax.swing.JFrame {
                 .setCellEditor(new JButtonCellEditor("Eliminar",
                         onEliminarClickListener));
     }
-    
+
     private String getNumeroCuentaSeleccionado() {
         int indiceFilaSeleccionada = this.tblCuentas.getSelectedRow();
         if (indiceFilaSeleccionada != -1) {
@@ -198,16 +205,17 @@ public class Cuentas extends javax.swing.JFrame {
             return null;
         }
     }
-    
-    public void editar(){
-        ModificarCuenta modificar = new ModificarCuenta(this.getNumeroCuentaSeleccionado());
+
+    public void editar() {
+        ModificarCuenta modificar = new ModificarCuenta(this.getNumeroCuentaSeleccionado(), gestionarCuentasBancarias);
         modificar.setVisible(true);
         dispose();
     }
-    
-    public void eliminar(){
+
+    public void eliminar() {
         System.out.println("xd");
     }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -345,7 +353,7 @@ public class Cuentas extends javax.swing.JFrame {
 
     private void btnCrearCuentaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCrearCuentaActionPerformed
         // TODO add your handling code here:
-        CrearCuenta crearCuenta = new CrearCuenta();
+        CrearCuenta crearCuenta = new CrearCuenta(gestionarCuentasBancarias);
 
         crearCuenta.setVisible(true);
         dispose();
@@ -357,42 +365,12 @@ public class Cuentas extends javax.swing.JFrame {
 
     private void btnSiguienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSiguienteActionPerformed
         // TODO add your handling code here:
+
     }//GEN-LAST:event_btnSiguienteActionPerformed
 
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Cuentas.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Cuentas.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Cuentas.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Cuentas.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new Cuentas().setVisible(true);
-            }
-        });
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel Agrupador;

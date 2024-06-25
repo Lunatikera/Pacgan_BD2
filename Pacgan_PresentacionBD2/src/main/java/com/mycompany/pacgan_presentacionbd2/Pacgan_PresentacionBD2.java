@@ -4,6 +4,7 @@
  */
 package com.mycompany.pacgan_presentacionbd2;
 
+import Beneficiario.Cuentas;
 import Beneficiario.Pagos;
 import Inicio.LogIn;
 import daos.AbonoDAO;
@@ -125,10 +126,13 @@ public class Pacgan_PresentacionBD2 {
         IGestionarPagos gestionarPagos = new GestionarPagosFacade(crearPagoBO, consultarPagoBO, editarPagoBO, eliminarPagoBO);
         IConsultarEstadoPagos consultarEstadoPagos = new ConsultarEstadoPagosFacade(verEstadoPagoBO, historialEstadoPagoBO, consultarEstatusBO);
 
+        Cuentas cuenta = new Cuentas(gestionarCuentasBancarias);
+        cuenta.setVisible(true);
         
-        Pagos pago= new Pagos(gestionarCuentasBancarias, gestionarPagos, consultarEstadoPagos);
-        pago.setVisible(true);
+//        Pagos pago= new Pagos(gestionarCuentasBancarias, gestionarPagos, consultarEstadoPagos);
+//        pago.setVisible(true);
 //        LogIn inicioSesion = new LogIn(iniciarSesionBO, insertarBeneficiario, insertarEstatusPago, gestionarAbonos, gestionarBeneficiarios, gestionarCuentasBancarias, gestionarPagos, consultarEstadoPagos);
 //        inicioSesion.setVisible(true);
+
     }
 }
