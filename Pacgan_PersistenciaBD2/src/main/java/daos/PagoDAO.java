@@ -62,14 +62,14 @@ public class PagoDAO implements IPagoDAO {
     }
 
     @Override
-    public List<PagoEntidad> listaPagosPaginado(int numeroPagina, int tamanoPagina) throws PersistenciaException {
+    public List<PagoEntidad> listaPagosPaginado(int limite, int numeroPagina) throws PersistenciaException {
         EntityManager entityManager = conexionBD.obtenerEntityManager();
         List<PagoEntidad> pagos = null;
 
         try {
             pagos = entityManager.createQuery("SELECT p FROM PagoEntidad p", PagoEntidad.class)
-                    .setFirstResult((numeroPagina - 1) * tamanoPagina)
-                    .setMaxResults(tamanoPagina)
+                    .setFirstResult((numeroPagina - 1) * limite)
+                    .setMaxResults(limite)
                     .getResultList();
             System.out.println(pagos);
 

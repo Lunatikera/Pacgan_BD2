@@ -20,7 +20,7 @@ public interface IGestionarPagos {
 
     public List<PagoDTO> listaPagos() throws NegocioException;
 
-    public List<PagoDTO> listaPagosPaginado(int numeroPagina, int tamanoPagina) throws NegocioException;
+    public List<PagoDTO> listaPagosPaginado(int limite, int numeroPagina) throws NegocioException;
 
     public void editarPago(PagoDTO pago) throws NegocioException;
 

@@ -55,13 +55,14 @@ public class ConsultarPagoBO implements IConsultarPagoBO {
     }
 
     @Override
-    public List<PagoDTO> listaPagosPaginado(int numeroPagina, int tamanoPagina) throws NegocioException {
+    public List<PagoDTO> listaPagosPaginado(int limite, int numeroPagina) throws NegocioException {
+        System.out.println(numeroPagina);
         try {
-            List<PagoEntidad> listaPagosEntidad = pagoDAO.listaPagosPaginado(numeroPagina, tamanoPagina);
+            List<PagoEntidad> listaPagosEntidad = pagoDAO.listaPagosPaginado(limite, numeroPagina);
             List<PagoDTO> listaPagosDTO = new ArrayList<>();
 
-            for (PagoEntidad beneficiarioEntidad : listaPagosEntidad) {
-                PagoDTO pagoDTO = convertirEntidadADTO(beneficiarioEntidad);
+            for (PagoEntidad pago : listaPagosEntidad) {
+                PagoDTO pagoDTO = convertirEntidadADTO(pago);
                 listaPagosDTO.add(pagoDTO);
             }
             if (listaPagosDTO.isEmpty() && numeroPagina == 1) {

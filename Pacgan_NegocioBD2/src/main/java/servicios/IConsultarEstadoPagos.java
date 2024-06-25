@@ -15,9 +15,9 @@ import java.util.List;
  */
 public interface IConsultarEstadoPagos {
 
-    public List<Pago_EstadoDTO> obtenerHistorialDeEstados(long pagoId) throws NegocioException;
+    public List<Pago_EstadoDTO> obtenerHistorialDeEstados(Long pagoId) throws NegocioException;
 
-    public Pago_EstadoDTO obtenerEstadoDelPago(long pagoId) throws NegocioException;
+    public Pago_EstadoDTO obtenerEstadoDelPago(Long pagoId) throws NegocioException;
 
     public EstatusDTO consultarEstatusPorID(Long id) throws NegocioException;
 

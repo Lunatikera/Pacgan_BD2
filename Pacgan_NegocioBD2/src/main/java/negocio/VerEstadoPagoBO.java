@@ -25,7 +25,7 @@ public class VerEstadoPagoBO implements IVerEstadoPagoBO {
         this.pago_EstatusDAO = pago_EstatusDAO;
     }
 
-    public Pago_EstadoDTO obtenerEstadoDelPago(long pagoId) throws NegocioException {
+    public Pago_EstadoDTO obtenerEstadoDelPago(Long pagoId) throws NegocioException {
         try {
             Pago_EstatusEntidad estadoEntidad = pago_EstatusDAO.obtenerEstadoDelPago(pagoId);
             return convertirEntidadADTO(estadoEntidad);

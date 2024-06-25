@@ -26,14 +26,15 @@ public class Pago_EstatusDAO implements IPago_EstatusDAO {
     }
 
     @Override
-    public Pago_EstatusEntidad obtenerEstadoDelPago(long pagoId) throws PersistenciaException {
+    public Pago_EstatusEntidad obtenerEstadoDelPago(Long pagoId) throws PersistenciaException {
         EntityManager entityManager = null;
+        
         try {
             entityManager = conexionBD.obtenerEntityManager();
 
             // Consulta para obtener el último estado del pago por fechaHora descendente
             String jpql = "SELECT pe FROM Pago_EstatusEntidad pe "
-                    + "WHERE pe.pagoId = :pagoId "
+                    + "WHERE pe.pagoEstatus.id_pago= :pagoId "
                     + "ORDER BY pe.fechaHora DESC";
 
             TypedQuery<Pago_EstatusEntidad> query = entityManager.createQuery(jpql, Pago_EstatusEntidad.class);
@@ -54,7 +55,7 @@ public class Pago_EstatusDAO implements IPago_EstatusDAO {
     }
 
     @Override
-    public List<Pago_EstatusEntidad> obtenerHistorialDeEstados(long pagoId) throws PersistenciaException {
+    public List<Pago_EstatusEntidad> obtenerHistorialDeEstados(Long pagoId) throws PersistenciaException {
         // Aquí implementarías la lógica para obtener el historial de estados del pago
         EntityManager entityManager = null;
         try {

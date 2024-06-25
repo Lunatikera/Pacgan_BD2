@@ -13,6 +13,6 @@ import excepciones.NegocioException;
  */
 public interface IVerEstadoPagoBO {
 
-    public Pago_EstadoDTO obtenerEstadoDelPago(long pagoId) throws NegocioException;
+    public Pago_EstadoDTO obtenerEstadoDelPago(Long pagoId) throws NegocioException;
 
 }

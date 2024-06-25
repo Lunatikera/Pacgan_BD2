@@ -14,6 +14,6 @@ import java.util.List;
  */
 public interface IHistorialEstadoPagoBO {
 
-    public List<Pago_EstadoDTO> obtenerHistorialDeEstados(long pagoId) throws NegocioException;
+    public List<Pago_EstadoDTO> obtenerHistorialDeEstados(Long pagoId) throws NegocioException;
 
 }
