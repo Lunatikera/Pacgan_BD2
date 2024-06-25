@@ -72,8 +72,8 @@ public class Abonos extends javax.swing.JFrame {
         misCuentas.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Cuentas Cuentas = new Cuentas();
-                Cuentas.setVisible(true);
+//                Cuentas Cuentas = new Cuentas();
+//                Cuentas.setVisible(true);
                 dispose();
 
             }

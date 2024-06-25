@@ -4,6 +4,7 @@
  */
 package convertidores;
 
+import daos.BeneficiarioDAO;
 import dtos.CuentaBancariaDTO;
 import entidades.BeneficiarioEntidad;
 import entidades.CuentaBancariaEntidad;
@@ -24,7 +25,11 @@ public class ConvertidorCuentaBancaria {
     public ConvertidorCuentaBancaria(IBeneficiarioDAO beneficiarioDAO) {
         this.beneficiarioDAO = beneficiarioDAO;
     }
-
+    
+    public ConvertidorCuentaBancaria() {
+        this.beneficiarioDAO = new BeneficiarioDAO();
+    }
+    
     public static CuentaBancariaEntidad convertirDTOAEntidad(CuentaBancariaDTO cuentaDTO) throws PersistenciaException {
         if (cuentaDTO == null) {
             throw new IllegalArgumentException("El DTO de cuenta bancaria no puede ser nulo");
