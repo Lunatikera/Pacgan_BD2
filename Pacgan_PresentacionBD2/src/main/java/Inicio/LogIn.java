@@ -83,6 +83,9 @@ public class LogIn extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         radModoAdmin = new javax.swing.JRadioButton();
         btnInsertsMasivos = new javax.swing.JToggleButton();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -108,8 +111,6 @@ public class LogIn extends javax.swing.JFrame {
         });
         Agrupador.add(txtUsuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 270, 180, 30));
 
-        btnIniciarSesion.setBackground(new java.awt.Color(255, 255, 255));
-        btnIniciarSesion.setForeground(new java.awt.Color(0, 0, 0));
         btnIniciarSesion.setText("Iniciar sesion");
         btnIniciarSesion.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -118,8 +119,6 @@ public class LogIn extends javax.swing.JFrame {
         });
         Agrupador.add(btnIniciarSesion, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 440, 120, 40));
 
-        btnSalir.setBackground(new java.awt.Color(255, 255, 255));
-        btnSalir.setForeground(new java.awt.Color(0, 0, 0));
         btnSalir.setText("Salir");
         btnSalir.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -127,8 +126,6 @@ public class LogIn extends javax.swing.JFrame {
             }
         });
         Agrupador.add(btnSalir, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 440, 120, 40));
-
-        txtContrasena.setBackground(new java.awt.Color(255, 255, 255));
         Agrupador.add(txtContrasena, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 330, 170, 30));
 
         checkboxVer.setForeground(new java.awt.Color(255, 255, 255));
@@ -147,8 +144,6 @@ public class LogIn extends javax.swing.JFrame {
         radModoAdmin.setText("Modo Administrador");
         Agrupador.add(radModoAdmin, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 380, -1, -1));
 
-        btnInsertsMasivos.setBackground(new java.awt.Color(255, 255, 255));
-        btnInsertsMasivos.setForeground(new java.awt.Color(0, 0, 0));
         btnInsertsMasivos.setText("Inserts masivos");
         btnInsertsMasivos.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -156,6 +151,18 @@ public class LogIn extends javax.swing.JFrame {
             }
         });
         Agrupador.add(btnInsertsMasivos, new org.netbeans.lib.awtextra.AbsoluteConstraints(790, 40, -1, -1));
+
+        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel1.setText("Contraseña: contrasena123");
+        Agrupador.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 480, -1, -1));
+
+        jLabel3.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel3.setText("Nota: puede ingresar con:");
+        Agrupador.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 440, -1, -1));
+
+        jLabel4.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel4.setText("beneficiario usuario juanito123");
+        Agrupador.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 460, -1, -1));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -246,7 +253,10 @@ public class LogIn extends javax.swing.JFrame {
     private javax.swing.JCheckBox checkboxVer;
     private javax.swing.JLabel etiquetaContrasena;
     private javax.swing.JLabel etiquetaUsuario;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JRadioButton radModoAdmin;
     private javax.swing.JPasswordField txtContrasena;
     private javax.swing.JTextField txtUsuario;

@@ -29,6 +29,8 @@ public class ModificarBeneficiario extends javax.swing.JFrame {
 
     public void personalizador() {
         Agrupador.setBackground(Color.decode("#142132"));
+        checkBoxVer.setOpaque(false);
+
     }
 
     public void modificarBeneficiario() {
@@ -102,7 +104,7 @@ public class ModificarBeneficiario extends javax.swing.JFrame {
         txtNombre = new javax.swing.JTextField();
         jLabel8 = new javax.swing.JLabel();
         txtContrasena = new javax.swing.JPasswordField();
-        checkBoxVER = new javax.swing.JCheckBox();
+        checkBoxVer = new javax.swing.JCheckBox();
         txtAMaterno = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
@@ -188,14 +190,14 @@ public class ModificarBeneficiario extends javax.swing.JFrame {
         txtContrasena.setForeground(new java.awt.Color(0, 0, 0));
         Agrupador.add(txtContrasena, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 380, 390, 30));
 
-        checkBoxVER.setForeground(new java.awt.Color(255, 255, 255));
-        checkBoxVER.setText("Ver");
-        checkBoxVER.addActionListener(new java.awt.event.ActionListener() {
+        checkBoxVer.setForeground(new java.awt.Color(255, 255, 255));
+        checkBoxVer.setText("Ver");
+        checkBoxVer.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                checkBoxVERActionPerformed(evt);
+                checkBoxVerActionPerformed(evt);
             }
         });
-        Agrupador.add(checkBoxVER, new org.netbeans.lib.awtextra.AbsoluteConstraints(680, 390, -1, -1));
+        Agrupador.add(checkBoxVer, new org.netbeans.lib.awtextra.AbsoluteConstraints(680, 390, -1, -1));
 
         txtAMaterno.setBackground(new java.awt.Color(242, 242, 242));
         txtAMaterno.setForeground(new java.awt.Color(0, 0, 0));
@@ -229,9 +231,8 @@ public class ModificarBeneficiario extends javax.swing.JFrame {
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
 
-        BeneficiariosAdmin benef = new BeneficiariosAdmin();
-
-        benef.setVisible(true);
+//        BeneficiariosAdmin benef = new BeneficiariosAdmin();
+        //      benef.setVisible(true);
         dispose();
     }//GEN-LAST:event_btnCancelarActionPerformed
 
@@ -239,10 +240,10 @@ public class ModificarBeneficiario extends javax.swing.JFrame {
         modificarBeneficiario();
     }//GEN-LAST:event_btnGuardarActionPerformed
 
-    private void checkBoxVERActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_checkBoxVERActionPerformed
+    private void checkBoxVerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_checkBoxVerActionPerformed
         // TODO add your handling code here:
 
-        if (checkBoxVER.isSelected()) {
+        if (checkBoxVer.isSelected()) {
             txtContrasena.setEchoChar((char) 0);
             txtContrasena1.setEchoChar((char) 0);
 
@@ -251,7 +252,7 @@ public class ModificarBeneficiario extends javax.swing.JFrame {
             txtContrasena1.setEchoChar('*');
 
         }
-    }//GEN-LAST:event_checkBoxVERActionPerformed
+    }//GEN-LAST:event_checkBoxVerActionPerformed
 
     /**
      * @param args the command line arguments
@@ -292,7 +293,7 @@ public class ModificarBeneficiario extends javax.swing.JFrame {
     private javax.swing.JPanel Agrupador;
     private javax.swing.JButton btnCancelar;
     private javax.swing.JButton btnGuardar;
-    private javax.swing.JCheckBox checkBoxVER;
+    private javax.swing.JCheckBox checkBoxVer;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

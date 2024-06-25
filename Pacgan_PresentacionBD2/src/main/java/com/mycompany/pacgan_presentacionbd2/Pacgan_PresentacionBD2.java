@@ -4,7 +4,9 @@
  */
 package com.mycompany.pacgan_presentacionbd2;
 
+
 import Administrador.ReportesAdmin;
+import Administrador.BeneficiariosAdmin;
 import Beneficiario.Pagos;
 import Inicio.LogIn;
 import com.formdev.flatlaf.FlatLaf;
@@ -89,7 +91,7 @@ import servicios.IConsultarEstadoPagos;
  * @author Usuario
  */
 public class Pacgan_PresentacionBD2 {
-
+    
     public static void main(String[] args) {
 
         //Conexion
@@ -127,8 +129,8 @@ public class Pacgan_PresentacionBD2 {
         IEliminarCuentaBancariaBO eliminarCuentaBancariaBO = new EliminarCuentaBancariaBO(cuentaBancariaDAO);
         IEliminarPagoBO eliminarPagoBO = new EliminarPagoBO(pagoDAO);
         IIniciarSesionBO iniciarSesionBO = new IniciarSesionBO();
-        IinsertarBeneficiario insertarBeneficiario= new InsertarBeneficiario(beneficiarioDAO);
-        IinsertarEstatusPago insertarEstatusPago= new InsertarEstatusPago(tipoPagoDAO, estatusDAO); 
+        IinsertarBeneficiario insertarBeneficiario = new InsertarBeneficiario(beneficiarioDAO);
+        IinsertarEstatusPago insertarEstatusPago = new InsertarEstatusPago(tipoPagoDAO, estatusDAO);        
         IVerEstadoPagoBO verEstadoPagoBO = new VerEstadoPagoBO(pago_EstatusDAO);
         IHistorialEstadoPagoBO historialEstadoPagoBO = new HistorialEstadoPagoBO(pago_EstatusDAO);
 
@@ -155,5 +157,6 @@ public class Pacgan_PresentacionBD2 {
             }
         });
 
-    }
+
+}
 }

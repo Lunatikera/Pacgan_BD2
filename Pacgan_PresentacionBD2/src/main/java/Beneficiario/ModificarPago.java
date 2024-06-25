@@ -136,8 +136,8 @@ public class ModificarPago extends javax.swing.JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 // Open your frame here
-                Cuentas Cuentas = new Cuentas();
-                Cuentas.setVisible(true);
+//                Cuentas Cuentas = new Cuentas();
+//                Cuentas.setVisible(true);
                 dispose();
 
             }

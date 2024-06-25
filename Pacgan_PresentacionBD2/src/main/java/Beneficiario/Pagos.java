@@ -192,7 +192,7 @@ public class Pagos extends javax.swing.JFrame {
         misCuentas.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Cuentas Cuentas = new Cuentas();
+                Cuentas Cuentas = new Cuentas(gestionarCuentasBancarias);
                 Cuentas.setVisible(true);
                 dispose();
 
