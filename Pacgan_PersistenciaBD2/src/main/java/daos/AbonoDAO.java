@@ -13,6 +13,9 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 
 /**
+ * Clase que implementa las operaciones de acceso a datos para la entidad Abono.
+ * Esta clase utiliza una conexión a la base de datos proporcionada por un
+ * objeto IConexionBD.
  *
  * @author Usuario
  */
@@ -20,11 +23,24 @@ public class AbonoDAO implements IAbonoDAO {
 
     private IConexionBD conexionBD;
 
+    /**
+     * Constructor que recibe una instancia de IConexionBD para la conexión a la
+     * base de datos.
+     *
+     * @param conexionBD Objeto que implementa la interfaz IConexionBD para la
+     * conexión a la base de datos.
+     */
     public AbonoDAO(IConexionBD conexionBD) {
         this.conexionBD = conexionBD;
     }
 
-    // Crear un nuevo abono
+    /**
+     * Crea un nuevo registro de abono en la base de datos.
+     *
+     * @param abono Objeto AbonoEntidad que representa el abono a crear.
+     * @throws PersistenciaException Si ocurre un error durante la operación de
+     * persistencia.
+     */
     @Override
     public void agregarAbono(AbonoEntidad abono) throws PersistenciaException {
         EntityManager entityManager = conexionBD.obtenerEntityManager();
@@ -44,7 +60,13 @@ public class AbonoDAO implements IAbonoDAO {
         }
     }
 
-    // Leer un abono por ID
+    /**
+     * Consulta un abono por su ID en la base de datos.
+     *
+     * @param id El ID del abono a consultar.
+     * @return El objeto AbonoEntidad correspondiente al ID proporcionado.
+     * @throws PersistenciaException Si ocurre un error durante la consulta.
+     */
     @Override
     public AbonoEntidad consultarAbonoPorID(Long id) throws PersistenciaException {
         EntityManager entityManager = conexionBD.obtenerEntityManager();
@@ -61,7 +83,14 @@ public class AbonoDAO implements IAbonoDAO {
         return abono;
     }
 
-    // Leer todos los abonos
+    /**
+     * Obtiene una lista de todos los abonos almacenados en la base de datos.
+     *
+     * @return Una lista de objetos AbonoEntidad que representan todos los
+     * abonos.
+     * @throws PersistenciaException Si ocurre un error durante la obtención de
+     * la lista de abonos.
+     */
     @Override
     public List<AbonoEntidad> listaAbonos() throws PersistenciaException {
         EntityManager entityManager = conexionBD.obtenerEntityManager();
@@ -78,7 +107,13 @@ public class AbonoDAO implements IAbonoDAO {
         return abonos;
     }
 
-    // Eliminar un abono
+    /**
+     * Elimina un abono de la base de datos por su ID.
+     *
+     * @param id El ID del abono a eliminar.
+     * @throws PersistenciaException Si ocurre un error durante la eliminación
+     * del abono.
+     */
     @Override
     public void eliminarAbono(Long id) throws PersistenciaException {
         EntityManager entityManager = conexionBD.obtenerEntityManager();

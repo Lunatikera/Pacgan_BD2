@@ -13,8 +13,12 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 
 /**
+ * Clase que implementa las operaciones de acceso a datos para la entidad
+ * PagoEntidad. Esta clase utiliza una conexión a la base de datos proporcionada
+ * por un objeto IConexionBD. Proporciona métodos para agregar, consultar,
+ * listar, editar y eliminar pagos.
  *
- * @author Usuario
+ * @autor Usuario
  */
 public class PagoDAO implements IPagoDAO {
 
@@ -24,7 +28,13 @@ public class PagoDAO implements IPagoDAO {
         this.conexionBD = conexionBD;
     }
 
-    // Crear un nuevo pago
+    /**
+     * Agrega un nuevo pago a la base de datos.
+     *
+     * @param pago El objeto PagoEntidad que se desea agregar.
+     * @throws PersistenciaException Si ocurre un error durante la creación del
+     * pago.
+     */
     @Override
     public void agregarPago(PagoEntidad pago) throws PersistenciaException {
         EntityManager entityManager = conexionBD.obtenerEntityManager();
@@ -44,7 +54,14 @@ public class PagoDAO implements IPagoDAO {
         }
     }
 
-    // Leer un pago por ID
+    /**
+     * Consulta un pago por su ID.
+     *
+     * @param id El ID del pago que se desea consultar.
+     * @return El objeto PagoEntidad correspondiente al ID especificado.
+     * @throws PersistenciaException Si ocurre un error durante la consulta del
+     * pago.
+     */
     @Override
     public PagoEntidad consultarPagoPorID(Long id) throws PersistenciaException {
         EntityManager entityManager = conexionBD.obtenerEntityManager();
@@ -61,6 +78,17 @@ public class PagoDAO implements IPagoDAO {
         return pago;
     }
 
+    /**
+     * Lista los pagos de manera paginada.
+     *
+     * @param numeroPagina El número de la página que se desea obtener.
+     * @param tamanoPagina El tamaño de la página (número de resultados por
+     * página).
+     * @return Una lista de objetos PagoEntidad correspondiente a la página
+     * solicitada.
+     * @throws PersistenciaException Si ocurre un error durante la consulta de
+     * los pagos.
+     */
     @Override
     public List<PagoEntidad> listaPagosPaginado(int limite, int numeroPagina) throws PersistenciaException {
         EntityManager entityManager = conexionBD.obtenerEntityManager();
@@ -82,7 +110,13 @@ public class PagoDAO implements IPagoDAO {
         return pagos;
     }
 
-    // Leer todos los pagos
+    /**
+     * Lista todos los pagos.
+     *
+     * @return Una lista de objetos PagoEntidad que representan todos los pagos.
+     * @throws PersistenciaException Si ocurre un error durante la consulta de
+     * los pagos.
+     */
     @Override
     public List<PagoEntidad> listaPagos() throws PersistenciaException {
         EntityManager entityManager = conexionBD.obtenerEntityManager();
@@ -99,7 +133,13 @@ public class PagoDAO implements IPagoDAO {
         return pagos;
     }
 
-    // Actualizar un pago
+    /**
+     * Actualiza un pago existente en la base de datos.
+     *
+     * @param pago El objeto PagoEntidad con la información actualizada.
+     * @throws PersistenciaException Si ocurre un error durante la actualización
+     * del pago.
+     */
     @Override
     public void editarPago(PagoEntidad pago) throws PersistenciaException {
         EntityManager entityManager = conexionBD.obtenerEntityManager();
@@ -119,7 +159,13 @@ public class PagoDAO implements IPagoDAO {
         }
     }
 
-    // Eliminar un pago
+    /**
+     * Elimina un pago de la base de datos por su ID.
+     *
+     * @param id El ID del pago que se desea eliminar.
+     * @throws PersistenciaException Si ocurre un error durante la eliminación
+     * del pago.
+     */
     @Override
     public void eliminarPago(Long id) throws PersistenciaException {
         EntityManager entityManager = conexionBD.obtenerEntityManager();

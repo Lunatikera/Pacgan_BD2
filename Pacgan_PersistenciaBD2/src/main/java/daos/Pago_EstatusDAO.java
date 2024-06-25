@@ -14,6 +14,9 @@ import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
 
 /**
+ * Clase que implementa las operaciones de acceso a datos para la entidad
+ * Pago_Estatus. Esta clase utiliza una conexión a la base de datos
+ * proporcionada por un objeto IConexionBD.
  *
  * @author triny
  */
@@ -25,6 +28,17 @@ public class Pago_EstatusDAO implements IPago_EstatusDAO {
         this.conexionBD = conexionBD;
     }
 
+    /**
+     * Obtiene el estado más reciente del pago especificado por su ID.
+     *
+     * @param pagoId El ID del pago del cual se desea obtener el estado más
+     * reciente.
+     * @return El objeto Pago_EstatusEntidad que representa el estado más
+     * reciente del pago. Si no se encuentra ningún estado para el pago
+     * especificado, retorna null.
+     * @throws PersistenciaException Si ocurre un error durante la obtención del
+     * estado del pago.
+     */
     @Override
     public Pago_EstatusEntidad obtenerEstadoDelPago(Long pagoId) throws PersistenciaException {
         EntityManager entityManager = null;
@@ -54,6 +68,16 @@ public class Pago_EstatusDAO implements IPago_EstatusDAO {
         }
     }
 
+    /**
+     * Obtiene el historial de estados del pago especificado por su ID.
+     *
+     * @param pagoId El ID del pago del cual se desea obtener el historial de
+     * estados.
+     * @return Una lista de objetos Pago_EstatusEntidad que representan el
+     * historial de estados del pago.
+     * @throws PersistenciaException Si ocurre un error durante la obtención del
+     * historial de estados del pago.
+     */
     @Override
     public List<Pago_EstatusEntidad> obtenerHistorialDeEstados(Long pagoId) throws PersistenciaException {
         // Aquí implementarías la lógica para obtener el historial de estados del pago

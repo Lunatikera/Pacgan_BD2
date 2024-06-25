@@ -4,7 +4,27 @@
  */
 package Beneficiario;
 
+import convertidores.ConvertidorCuentaBancaria;
+import daos.BeneficiarioDAO;
+import daos.CuentaBancariaDAO;
+import dtos.CuentaBancariaDTO;
+import excepciones.NegocioException;
+import interfaces.IAgregarCuentaBancariaBO;
+import interfaces.IBeneficiarioDAO;
+import interfaces.IConsultarBeneficiarioBO;
+import interfaces.IConsultarCuentaBancariaBO;
+import interfaces.ICuentaBancariaDAO;
+import interfaces.IEditarCuentaBancariaBO;
 import java.awt.Color;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+import negocio.AgregarCuentaBancariaBO;
+import negocio.ConsultarBeneficiarioBO;
+import negocio.ConsultarCuentaBancariaBO;
+import negocio.EditarCuentaBancariaBO;
 
 /**
  *
@@ -12,17 +32,28 @@ import java.awt.Color;
  */
 public class ModificarCuenta extends javax.swing.JFrame {
 
+    IAgregarCuentaBancariaBO agregarCuenta = new AgregarCuentaBancariaBO();
+    IBeneficiarioDAO bene = new BeneficiarioDAO();
+    ICuentaBancariaDAO cuenta = new CuentaBancariaDAO();
+    IEditarCuentaBancariaBO editarCuenta = new EditarCuentaBancariaBO(cuenta);
+    IConsultarBeneficiarioBO beneficiario = new ConsultarBeneficiarioBO(bene);
+    IConsultarCuentaBancariaBO conCuenta = new ConsultarCuentaBancariaBO(cuenta);
+    ConvertidorCuentaBancaria conv = new ConvertidorCuentaBancaria(bene);
+    
+    String numeroCuenta;
     /**
      * Creates new form ModificarCuenta
      */
-    public ModificarCuenta() {
+    public ModificarCuenta(String numeroCuenta) {
         initComponents();
         personalizador();
+        this.numeroCuenta = numeroCuenta;
     }
 
     public void personalizador() {
         Agrupador.setBackground(Color.decode("#142132"));
     }
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -39,12 +70,12 @@ public class ModificarCuenta extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
-        txtUsuario = new javax.swing.JTextField();
+        txtNumeroCuenta = new javax.swing.JTextField();
         jLabel8 = new javax.swing.JLabel();
-        txtContrasena = new javax.swing.JPasswordField();
+        txtClabe = new javax.swing.JPasswordField();
         jLabel2 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
-        txtContrasena1 = new javax.swing.JPasswordField();
+        txtBanco = new javax.swing.JPasswordField();
         jLabel6 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -52,8 +83,6 @@ public class ModificarCuenta extends javax.swing.JFrame {
         Agrupador.setBackground(new java.awt.Color(0, 51, 102));
         Agrupador.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        btnCancelar3.setBackground(new java.awt.Color(255, 255, 255));
-        btnCancelar3.setForeground(new java.awt.Color(0, 0, 0));
         btnCancelar3.setText("Cancelar");
         btnCancelar3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -62,8 +91,6 @@ public class ModificarCuenta extends javax.swing.JFrame {
         });
         Agrupador.add(btnCancelar3, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 490, 140, 40));
 
-        btnGuardar.setBackground(new java.awt.Color(255, 255, 255));
-        btnGuardar.setForeground(new java.awt.Color(0, 0, 0));
         btnGuardar.setText("Guardar");
         btnGuardar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -87,18 +114,14 @@ public class ModificarCuenta extends javax.swing.JFrame {
         jLabel5.setText("Clabe*");
         Agrupador.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 280, 160, 30));
 
-        txtUsuario.setBackground(new java.awt.Color(242, 242, 242));
-        txtUsuario.setForeground(new java.awt.Color(0, 0, 0));
-        Agrupador.add(txtUsuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 230, 390, 30));
+        txtNumeroCuenta.setBackground(new java.awt.Color(242, 242, 242));
+        Agrupador.add(txtNumeroCuenta, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 230, 390, 30));
 
         jLabel8.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel8.setForeground(new java.awt.Color(255, 255, 255));
         jLabel8.setText("Numero de cuenta");
         Agrupador.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 190, 160, 30));
-
-        txtContrasena.setBackground(new java.awt.Color(255, 255, 255));
-        txtContrasena.setForeground(new java.awt.Color(0, 0, 0));
-        Agrupador.add(txtContrasena, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 310, 390, 30));
+        Agrupador.add(txtClabe, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 310, 390, 30));
 
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/logos/PacGanCrear.jpg"))); // NOI18N
         Agrupador.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 50, 170, 170));
@@ -107,10 +130,7 @@ public class ModificarCuenta extends javax.swing.JFrame {
         jLabel9.setForeground(new java.awt.Color(255, 255, 255));
         jLabel9.setText("Banco*");
         Agrupador.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 370, 210, 30));
-
-        txtContrasena1.setBackground(new java.awt.Color(255, 255, 255));
-        txtContrasena1.setForeground(new java.awt.Color(0, 0, 0));
-        Agrupador.add(txtContrasena1, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 400, 390, 30));
+        Agrupador.add(txtBanco, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 400, 390, 30));
 
         jLabel6.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel6.setForeground(new java.awt.Color(255, 255, 255));
@@ -144,42 +164,68 @@ public class ModificarCuenta extends javax.swing.JFrame {
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
 
+        
+        String numeroCuenta = txtNumeroCuenta.getText();
+        String clabe = txtClabe.getText();
+        String nombreBanco = txtBanco.getText();
+
+        try {
+            
+            CuentaBancariaDTO cuenta = new CuentaBancariaDTO();
+            cuenta.setCuentaBancariaId(Long.valueOf("1"));
+            cuenta.setNumeroCuenta(numeroCuenta);
+            cuenta.setClabe(clabe);
+            cuenta.setNombreBanco(nombreBanco);
+            cuenta.setEstaEliminada(false);
+            cuenta.setBeneficiarioId(Long.valueOf("1"));
+            List<Long> lista = new ArrayList<>();
+            cuenta.setPagoIds(lista);
+            
+            editarCuenta.editarCuentaBancaria(cuenta);
+            JOptionPane.showMessageDialog(this, "Cuenta registrada exitosamente", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+        } catch (NegocioException ex) {
+            Logger.getLogger(CrearCuenta.class.getName()).log(Level.SEVERE, null, ex);
+            
+            txtNumeroCuenta.setText("");
+            txtClabe.setText("");
+            txtBanco.setText("");
+        }
     }//GEN-LAST:event_btnGuardarActionPerformed
 
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(ModificarCuenta.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(ModificarCuenta.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(ModificarCuenta.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(ModificarCuenta.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new ModificarCuenta().setVisible(true);
-            }
-        });
-    }
+//    public static void main(String args[]) {
+//        /* Set the Nimbus look and feel */
+//        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+//        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+//         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+//         */
+//        try {
+//            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+//                if ("Nimbus".equals(info.getName())) {
+//                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+//                    break;
+//                }
+//            }
+//        } catch (ClassNotFoundException ex) {
+//            java.util.logging.Logger.getLogger(ModificarCuenta.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//        } catch (InstantiationException ex) {
+//            java.util.logging.Logger.getLogger(ModificarCuenta.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//        } catch (IllegalAccessException ex) {
+//            java.util.logging.Logger.getLogger(ModificarCuenta.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+//            java.util.logging.Logger.getLogger(ModificarCuenta.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//        }
+//        //</editor-fold>
+//
+//        /* Create and display the form */
+//        java.awt.EventQueue.invokeLater(new Runnable() {
+//            public void run() {
+//                new ModificarCuenta().setVisible(true);
+//            }
+//        });
+//    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel Agrupador;
@@ -192,8 +238,8 @@ public class ModificarCuenta extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
-    private javax.swing.JPasswordField txtContrasena;
-    private javax.swing.JPasswordField txtContrasena1;
-    private javax.swing.JTextField txtUsuario;
+    private javax.swing.JPasswordField txtBanco;
+    private javax.swing.JPasswordField txtClabe;
+    private javax.swing.JTextField txtNumeroCuenta;
     // End of variables declaration//GEN-END:variables
 }

@@ -33,6 +33,7 @@ public class InsertarEstatusPago implements IinsertarEstatusPago {
     private IEstatusDAO estatusDAO;
     private ITipoPagoDAO tipoPagoDAO;
 
+
     public InsertarEstatusPago(ITipoPagoDAO tipoPagoDAO, IEstatusDAO estatusDAO) {
         this.tipoPagoDAO = tipoPagoDAO;
         this.estatusDAO = estatusDAO;

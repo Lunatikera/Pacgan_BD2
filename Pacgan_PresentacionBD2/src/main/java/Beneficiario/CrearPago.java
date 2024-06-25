@@ -78,6 +78,19 @@ public class CrearPago extends javax.swing.JFrame {
 
         menuCuentas.add(misCuentas);
 
+        JMenu menuSalir = new JMenu("Salir");
+        JMenuItem salir = new JMenuItem("Salir");
+        salir.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                dispose();
+
+            }
+        });
+
+        menuSalir.add(salir);
+        MenuBarAdmin.add(menuSalir);
+
         MenuBarAdmin.add(menuAbonos);
         MenuBarAdmin.add(menuPagos);
         MenuBarAdmin.add(menuCuentas);
@@ -226,6 +239,11 @@ public class CrearPago extends javax.swing.JFrame {
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
         // TODO add your handling code here:
+        Pagos pagos = new Pagos();
+
+        pagos.setVisible(true);
+
+        dispose();
     }//GEN-LAST:event_btnCancelarActionPerformed
 
     private void btnCrearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCrearActionPerformed
