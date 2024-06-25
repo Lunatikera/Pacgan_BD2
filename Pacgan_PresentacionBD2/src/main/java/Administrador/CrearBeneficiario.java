@@ -231,9 +231,9 @@ public class CrearBeneficiario extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnCancelar3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelar3ActionPerformed
-        BeneficiariosAdmin adminben = new BeneficiariosAdmin();
+      //  BeneficiariosAdmin adminben = new BeneficiariosAdmin();
 
-        adminben.setVisible(true);
+      //  adminben.setVisible(true);
         dispose();
     }//GEN-LAST:event_btnCancelar3ActionPerformed
 

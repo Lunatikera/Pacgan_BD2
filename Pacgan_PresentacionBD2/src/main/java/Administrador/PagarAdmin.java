@@ -85,8 +85,8 @@ public class PagarAdmin extends javax.swing.JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 // Open your frame here
-                BeneficiariosAdmin benef = new BeneficiariosAdmin();
-                benef.setVisible(true);
+              //  BeneficiariosAdmin benef = new BeneficiariosAdmin();
+             //   benef.setVisible(true);
                 dispose();
 
             }

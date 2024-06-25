@@ -32,8 +32,6 @@ public class ConsultarBeneficiarioBO implements IConsultarBeneficiarioBO {
 //    public ConsultarBeneficiarioBO() {
 //        this.beneficiarioDAO = new BeneficiarioDAO();
 //    }
-    
-    
 
     @Override
     public BeneficiarioDTO consultarBeneficiarioPorID(Long id) throws NegocioException {
@@ -71,25 +69,29 @@ public class ConsultarBeneficiarioBO implements IConsultarBeneficiarioBO {
             throw new NegocioException("Error al obtener la lista de abonos desde la base de datos.", e);
         }
     }
-    
-    // método para obtener la lista de beneficiarios paginados
-   @Override
-    public List<BeneficiarioDTO> listaBeneficiariosPaginado(int numeroPagina, int tamanoPagina) throws NegocioException {
-        try {
-            List<BeneficiarioEntidad> listaBeneficiariosEntidad = beneficiarioDAO.listaBeneficiariosPaginado(numeroPagina, tamanoPagina);
-            List<BeneficiarioDTO> listaBeneficiariosDTO = new ArrayList<>();
 
-            for (BeneficiarioEntidad beneficiarioEntidad : listaBeneficiariosEntidad) {
-                BeneficiarioDTO beneficiarioDTO = ConvertidorBeneficiario.convertirEntidadADTO(beneficiarioEntidad);
-                listaBeneficiariosDTO.add(beneficiarioDTO);
+    // método para obtener la lista de beneficiarios paginados
+    @Override
+    public List<BeneficiarioDTO> listaBeneficiariosPaginado(int limite, int numeroPagina) throws NegocioException {
+        System.out.println(numeroPagina);
+        try {
+            List<BeneficiarioEntidad> listaPagosEntidad = beneficiarioDAO.listaBeneficiariosPaginado(limite, numeroPagina);
+            List<BeneficiarioDTO> listaBeneficariosDTO = new ArrayList<>();
+
+            for (BeneficiarioEntidad beneficiario : listaPagosEntidad) {
+                BeneficiarioDTO beneficiarioDTO = convertirEntidadADTO(beneficiario);
+                listaBeneficariosDTO.add(beneficiarioDTO);
             }
-            return listaBeneficiariosDTO;
+            if (listaBeneficariosDTO.isEmpty() && numeroPagina == 1) {
+                throw new NegocioException("No existen pagos registrados");
+
+            }
+            return listaBeneficariosDTO;
         } catch (PersistenciaException e) {
             throw new NegocioException("Error al obtener la lista de beneficiarios desde la base de datos.", e);
         }
     }
-    
-    
+
     @Override
     public BeneficiarioDTO ConsultarBeneficiarioNombreUsuario(String nombreUsuario) throws NegocioException {
         try {

@@ -113,8 +113,8 @@ public class BeneficiarioDAO implements IBeneficiarioDAO {
      * Obtiene una lista paginada de beneficiarios almacenados en la base de
      * datos.
      *
-     * @param numeroPagina El número de página a obtener.
-     * @param tamanoPagina El tamaño de la página (número de elementos por
+     * @param pagina El número de página a obtener.
+     * @param limite El tamaño de la página (número de elementos por
      * página).
      * @return Una lista de objetos BeneficiarioEntidad que representan los
      * beneficiarios de la página especificada.
@@ -122,14 +122,14 @@ public class BeneficiarioDAO implements IBeneficiarioDAO {
      * la lista de beneficiarios paginada.
      */
     @Override
-    public List<BeneficiarioEntidad> listaBeneficiariosPaginado(int numeroPagina, int tamanoPagina) throws PersistenciaException {
+    public List<BeneficiarioEntidad> listaBeneficiariosPaginado(int pagina, int limite) throws PersistenciaException {
         EntityManager entityManager = conexionBD.obtenerEntityManager();
         List<BeneficiarioEntidad> beneficiarios = null;
 
         try {
             beneficiarios = entityManager.createQuery("SELECT b FROM BeneficiarioEntidad b", BeneficiarioEntidad.class)
-                    .setFirstResult((numeroPagina - 1) * tamanoPagina)
-                    .setMaxResults(tamanoPagina)
+                    .setFirstResult((pagina - 1) * limite)
+                    .setMaxResults(limite)
                     .getResultList();
         } catch (Exception e) {
             throw new PersistenciaException("Error al leer todos los beneficiarios", e);
