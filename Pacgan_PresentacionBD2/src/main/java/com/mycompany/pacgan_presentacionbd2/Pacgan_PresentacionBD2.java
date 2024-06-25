@@ -128,9 +128,9 @@ public class Pacgan_PresentacionBD2 {
 
        // Pagos pago= new Pagos(gestionarCuentasBancarias, gestionarPagos, consultarEstadoPagos);
         // pago.setVisible(true);
-//        LogIn inicioSesion = new LogIn(iniciarSesionBO, insertarBeneficiario, insertarEstatusPago, gestionarAbonos, gestionarBeneficiarios, gestionarCuentasBancarias, gestionarPagos, consultarEstadoPagos);
-//        inicioSesion.setVisible(true);
-       BeneficiariosAdmin benef = new BeneficiariosAdmin(gestionarBeneficiarios);
-         benef.setVisible(true);
+  LogIn inicioSesion = new LogIn(iniciarSesionBO, insertarBeneficiario, insertarEstatusPago, gestionarAbonos, gestionarBeneficiarios, gestionarCuentasBancarias, gestionarPagos, consultarEstadoPagos);
+       inicioSesion.setVisible(true);
+      // BeneficiariosAdmin benef = new BeneficiariosAdmin(gestionarBeneficiarios);
+        // benef.setVisible(true);
     }
 }
