@@ -10,6 +10,7 @@ negocio/ConsultarEstatusBO.class
 negocio/EliminarPagoBO.class
 negocio/CrearPagoBO.class
 negocio/ConsultarCuentaBancariaBO.class
+negocio/ConsultarTipoPagoBO.class
 insertadores/InsertarBeneficiario.class
 dtos/CuentaBancariaDTO.class
 negocio/ConsultarPagoBO.class
@@ -57,6 +58,7 @@ interfaces/IConsultarEstatusBO.class
 interfaces/IConsultarCuentaBancariaBO.class
 fachadas/GestionarCuentasBancariasFacade.class
 negocio/EliminarAbonoBO.class
+interfaces/IConsultarTipoPagoBO.class
 negocio/ConsultarBeneficiarioBO.class
 convertidores/ConvertidorEstatus.class
 convertidores/ConvertidorPago.class

@@ -4,8 +4,13 @@
  */
 package com.mycompany.pacgan_presentacionbd2;
 
+import Administrador.ReportesAdmin;
 import Beneficiario.Pagos;
 import Inicio.LogIn;
+import com.formdev.flatlaf.FlatLaf;
+import com.formdev.flatlaf.fonts.roboto.FlatRobotoFont;
+import com.formdev.flatlaf.themes.FlatMacDarkLaf;
+import convertidores.ConvertidorPago;
 import daos.AbonoDAO;
 import daos.BeneficiarioDAO;
 import daos.ConexionBD;
@@ -32,6 +37,7 @@ import interfaces.IConsultarBeneficiarioBO;
 import interfaces.IConsultarCuentaBancariaBO;
 import interfaces.IConsultarEstatusBO;
 import interfaces.IConsultarPagoBO;
+import interfaces.IConsultarTipoPagoBO;
 import interfaces.ICrearPagoBO;
 import interfaces.ICuentaBancariaDAO;
 import interfaces.IEditarBeneficiarioBO;
@@ -71,7 +77,10 @@ import servicios.IGestionarPagos;
 import interfaces.IVerEstadoPagoBO;
 import interfaces.IinsertarBeneficiario;
 import interfaces.IinsertarEstatusPago;
+import java.awt.Font;
+import javax.swing.UIManager;
 import negocio.ConsultarEstatusBO;
+import negocio.ConsultarTipoPagoBO;
 import negocio.HistorialEstadoPagoBO;
 import servicios.IConsultarEstadoPagos;
 
@@ -94,6 +103,10 @@ public class Pacgan_PresentacionBD2 {
         IEstatusDAO estatusDAO = new EstatusDAO(conexion);
         ITipoPagoDAO tipoPagoDAO = new TipoPagoDAO(conexion);
         IPago_EstatusDAO pago_EstatusDAO = new Pago_EstatusDAO(conexion);
+        
+        
+        //
+        ConvertidorPago convertidor=new ConvertidorPago(tipoPagoDAO, beneficiarioDAO, cuentaBancariaDAO);
 
         //BOs
         IAgregarAbonoBO agregarAbonoBO = new AgregarAbonoBO(abonoDAO);
@@ -105,6 +118,7 @@ public class Pacgan_PresentacionBD2 {
         IConsultarCuentaBancariaBO consultarCuentaBancariaBO = new ConsultarCuentaBancariaBO(cuentaBancariaDAO);
         IConsultarPagoBO consultarPagoBO = new ConsultarPagoBO(pagoDAO);
         ICrearPagoBO crearPagoBO = new CrearPagoBO(pagoDAO);
+        IConsultarTipoPagoBO consultarTipoPagoBO=new ConsultarTipoPagoBO(tipoPagoDAO);
         IEditarBeneficiarioBO editarBeneficiarioBO = new EditarBeneficiarioBO(beneficiarioDAO);
         IEditarCuentaBancariaBO editarCuentaBancariaBO = new EditarCuentaBancariaBO(cuentaBancariaDAO);
         IEditarPagoBO editarPagoBO = new EditarPagoBO(pagoDAO);
@@ -122,13 +136,24 @@ public class Pacgan_PresentacionBD2 {
         IGestionarAbonos gestionarAbonos = new GestionarAbonosFacade(agregarAbonoBO, consultarAbonoBO, eliminarAbonoBO);
         IGestionarBeneficiarios gestionarBeneficiarios = new GestionarBeneficiariosFacade(agregarBeneficiarioBO, consultarBeneficiarioBO, editarBeneficiarioBO, eliminarBeneficiarioBO);
         IGestionarCuentasBancarias gestionarCuentasBancarias = new GestionarCuentasBancariasFacade(agregarCuentaBancariaBO, consultarCuentaBancariaBO, editarCuentaBancariaBO, eliminarCuentaBancariaBO);
-        IGestionarPagos gestionarPagos = new GestionarPagosFacade(crearPagoBO, consultarPagoBO, editarPagoBO, eliminarPagoBO);
+        IGestionarPagos gestionarPagos = new GestionarPagosFacade(crearPagoBO, consultarPagoBO, editarPagoBO, eliminarPagoBO, consultarTipoPagoBO);
         IConsultarEstadoPagos consultarEstadoPagos = new ConsultarEstadoPagosFacade(verEstadoPagoBO, historialEstadoPagoBO, consultarEstatusBO);
-
-        
-        Pagos pago= new Pagos(gestionarCuentasBancarias, gestionarPagos, consultarEstadoPagos);
-        pago.setVisible(true);
+//
+//        
+   //     Pagos pago= new Pagos(gestionarCuentasBancarias, gestionarPagos, consultarEstadoPagos);
+    //    pago.setVisible(true);
 //        LogIn inicioSesion = new LogIn(iniciarSesionBO, insertarBeneficiario, insertarEstatusPago, gestionarAbonos, gestionarBeneficiarios, gestionarCuentasBancarias, gestionarPagos, consultarEstadoPagos);
 //        inicioSesion.setVisible(true);
+
+    FlatRobotoFont.install();
+        FlatLaf.registerCustomDefaultsSource("raven.combobox");
+        UIManager.put("defaultFont", new Font(FlatRobotoFont.FAMILY, Font.PLAIN, 13));
+        FlatMacDarkLaf.setup();
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                new Pagos(gestionarCuentasBancarias, gestionarPagos, consultarEstadoPagos).setVisible(true);
+            }
+        });
+
     }
 }

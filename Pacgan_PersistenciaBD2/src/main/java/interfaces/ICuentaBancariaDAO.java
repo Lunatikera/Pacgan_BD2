@@ -19,6 +19,8 @@ public interface ICuentaBancariaDAO {
     public CuentaBancariaEntidad consultarCuentaBancariaPorID(Long id) throws PersistenciaException;
 
     public List<CuentaBancariaEntidad> listaCuentasBancarias() throws PersistenciaException;
+    
+    public List<CuentaBancariaEntidad> listaCuentasPorBeneficiario(Long id) throws PersistenciaException;
 
     public void editarCuentaBancaria(CuentaBancariaEntidad cuentaBancaria) throws PersistenciaException;
 

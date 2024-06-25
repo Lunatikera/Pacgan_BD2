@@ -1,3 +1,4 @@
+/Users/victoria/Documents/GitHub/Pacgan_BD2/Pacgan_NegocioBD2/src/main/java/negocio/ConsultarTipoPagoBO.java
 /Users/victoria/Documents/GitHub/Pacgan_BD2/Pacgan_NegocioBD2/src/main/java/negocio/EditarBeneficiarioBO.java
 /Users/victoria/Documents/GitHub/Pacgan_BD2/Pacgan_NegocioBD2/src/main/java/dtos/TipoPagoDTO.java
 /Users/victoria/Documents/GitHub/Pacgan_BD2/Pacgan_NegocioBD2/src/main/java/servicios/IGestionarPagos.java
@@ -48,6 +49,7 @@
 /Users/victoria/Documents/GitHub/Pacgan_BD2/Pacgan_NegocioBD2/src/main/java/fachadas/GestionarAbonosFacade.java
 /Users/victoria/Documents/GitHub/Pacgan_BD2/Pacgan_NegocioBD2/src/main/java/interfaces/IEliminarAbonoBO.java
 /Users/victoria/Documents/GitHub/Pacgan_BD2/Pacgan_NegocioBD2/src/main/java/interfaces/IinsertarBeneficiario.java
+/Users/victoria/Documents/GitHub/Pacgan_BD2/Pacgan_NegocioBD2/src/main/java/interfaces/IConsultarTipoPagoBO.java
 /Users/victoria/Documents/GitHub/Pacgan_BD2/Pacgan_NegocioBD2/src/main/java/convertidores/ConvertidorEstatus.java
 /Users/victoria/Documents/GitHub/Pacgan_BD2/Pacgan_NegocioBD2/src/main/java/dtos/PagoDTO.java
 /Users/victoria/Documents/GitHub/Pacgan_BD2/Pacgan_NegocioBD2/src/main/java/interfaces/IIniciarSesionBO.java

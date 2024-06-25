@@ -11,11 +11,10 @@ import interfaces.ICuentaBancariaDAO;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
+import javax.persistence.TypedQuery;
 
 /**
- * Clase que implementa las operaciones de acceso a datos para la entidad
- * CuentaBancaria. Esta clase utiliza una conexión a la base de datos
- * proporcionada por un objeto IConexionBD.
+ * Clase que implementa las operaciones de acceso a datos para la entidad CuentaBancaria. Esta clase utiliza una conexión a la base de datos proporcionada por un objeto IConexionBD.
  *
  * @author Usuario
  */
@@ -26,7 +25,7 @@ public class CuentaBancariaDAO implements ICuentaBancariaDAO {
     public CuentaBancariaDAO(IConexionBD conexionBD) {
         this.conexionBD = conexionBD;
     }
-    
+
     public CuentaBancariaDAO() {
         this.conexionBD = new ConexionBD();
     }
@@ -34,10 +33,8 @@ public class CuentaBancariaDAO implements ICuentaBancariaDAO {
     /**
      * Crea un nuevo registro de cuenta bancaria en la base de datos.
      *
-     * @param cuentaBancaria Objeto CuentaBancariaEntidad que representa la
-     * cuenta bancaria a crear.
-     * @throws PersistenciaException Si ocurre un error durante la operación de
-     * persistencia.
+     * @param cuentaBancaria Objeto CuentaBancariaEntidad que representa la cuenta bancaria a crear.
+     * @throws PersistenciaException Si ocurre un error durante la operación de persistencia.
      */
     @Override
     public void agregarCuentaBancaria(CuentaBancariaEntidad cuentaBancaria) throws PersistenciaException {
@@ -62,8 +59,7 @@ public class CuentaBancariaDAO implements ICuentaBancariaDAO {
      * Consulta una cuenta bancaria por su ID en la base de datos.
      *
      * @param id El ID de la cuenta bancaria a consultar.
-     * @return El objeto CuentaBancariaEntidad correspondiente al ID
-     * proporcionado.
+     * @return El objeto CuentaBancariaEntidad correspondiente al ID proporcionado.
      * @throws PersistenciaException Si ocurre un error durante la consulta.
      */
     @Override
@@ -83,13 +79,10 @@ public class CuentaBancariaDAO implements ICuentaBancariaDAO {
     }
 
     /**
-     * Obtiene una lista de todas las cuentas bancarias almacenadas en la base
-     * de datos.
+     * Obtiene una lista de todas las cuentas bancarias almacenadas en la base de datos.
      *
-     * @return Una lista de objetos CuentaBancariaEntidad que representan todas
-     * las cuentas bancarias.
-     * @throws PersistenciaException Si ocurre un error durante la obtención de
-     * la lista de cuentas bancarias.
+     * @return Una lista de objetos CuentaBancariaEntidad que representan todas las cuentas bancarias.
+     * @throws PersistenciaException Si ocurre un error durante la obtención de la lista de cuentas bancarias.
      */
     @Override
     public List<CuentaBancariaEntidad> listaCuentasBancarias() throws PersistenciaException {
@@ -110,10 +103,8 @@ public class CuentaBancariaDAO implements ICuentaBancariaDAO {
     /**
      * Actualiza una cuenta bancaria en la base de datos.
      *
-     * @param cuentaBancaria Objeto CuentaBancariaEntidad que representa la
-     * cuenta bancaria a actualizar.
-     * @throws PersistenciaException Si ocurre un error durante la operación de
-     * actualización.
+     * @param cuentaBancaria Objeto CuentaBancariaEntidad que representa la cuenta bancaria a actualizar.
+     * @throws PersistenciaException Si ocurre un error durante la operación de actualización.
      */
     @Override
     public void editarCuentaBancaria(CuentaBancariaEntidad cuentaBancaria) throws PersistenciaException {
@@ -138,8 +129,7 @@ public class CuentaBancariaDAO implements ICuentaBancariaDAO {
      * Elimina una cuenta bancaria de la base de datos por su ID.
      *
      * @param id El ID de la cuenta bancaria a eliminar.
-     * @throws PersistenciaException Si ocurre un error durante la eliminación
-     * de la cuenta bancaria.
+     * @throws PersistenciaException Si ocurre un error durante la eliminación de la cuenta bancaria.
      */
     @Override
     public void eliminarCuentaBancaria(Long id) throws PersistenciaException {
@@ -161,5 +151,27 @@ public class CuentaBancariaDAO implements ICuentaBancariaDAO {
         } finally {
             entityManager.close();
         }
+    }
+
+    @Override
+    public List<CuentaBancariaEntidad> listaCuentasPorBeneficiario(Long id) throws PersistenciaException {
+        EntityManager entityManager = conexionBD.obtenerEntityManager();
+        List<CuentaBancariaEntidad> cuentasBancarias = null;
+
+        try {
+            String jpql = "SELECT c FROM CuentaBancariaEntidad c "
+                    + "WHERE c.beneficiarioCuenta.id_beneficiario = :id";
+
+            TypedQuery<CuentaBancariaEntidad> query = entityManager.createQuery(jpql, CuentaBancariaEntidad.class);
+            query.setParameter("id", id);
+
+            cuentasBancarias = query.getResultList(); // Asignar el resultado de la consulta a la lista
+
+        } catch (Exception e) {
+            throw new PersistenciaException("Error al leer todas las cuentas bancarias", e);
+        } finally {
+            entityManager.close();
+        }
+        return cuentasBancarias;
     }
 }

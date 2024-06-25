@@ -11,6 +11,7 @@ import excepciones.NegocioException;
 import excepciones.PersistenciaException;
 import interfaces.IEditarPagoBO;
 import interfaces.IPagoDAO;
+import java.math.BigDecimal;
 
 /**
  *
@@ -44,7 +45,7 @@ public class EditarPagoBO implements IEditarPagoBO {
             throw new NegocioException("Id de pago no puede ser nulo");
         }
 
-        if (pago.getMonto() <= 0) {
+        if (pago.getMonto().compareTo(BigDecimal.ZERO)<=0) {
             throw new NegocioException("Monto de pago debe ser mayor a cero");
         }
 
@@ -52,6 +53,5 @@ public class EditarPagoBO implements IEditarPagoBO {
             throw new NegocioException("Id de beneficiario no puede ser nulo");
         }
 
-        // Add more validation rules as needed
     }
 }

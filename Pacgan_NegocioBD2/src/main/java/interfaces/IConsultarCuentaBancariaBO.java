@@ -17,4 +17,7 @@ public interface IConsultarCuentaBancariaBO {
     public CuentaBancariaDTO consultarCuentaBancariaPorID(Long id) throws NegocioException;
 
     public List<CuentaBancariaDTO> listaCuentasBancarias() throws NegocioException;
+
+    public List<CuentaBancariaDTO> listaCuentasPorBeneficiario(Long id) throws NegocioException;
+
 }

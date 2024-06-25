@@ -20,5 +20,14 @@ public class ConvertidorTipoPago {
 
         return tipoPagoEntidad;
     }
+    
+    public static TipoPagoDTO convertirEntidadADTO(TipoPagoEntidad tipoPagoEntidad) {
+    TipoPagoDTO tipoPagoDTO = new TipoPagoDTO();
+    tipoPagoDTO.setId(tipoPagoEntidad.getId());
+    tipoPagoDTO.setNombreTipo(tipoPagoEntidad.getNombreTipo());
+    tipoPagoDTO.setNumeroParcialidades(tipoPagoEntidad.getNumeroParcialidades());
+
+    return tipoPagoDTO;
+}
 
 }

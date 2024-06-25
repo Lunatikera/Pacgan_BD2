@@ -4,6 +4,7 @@
  */
 package dtos;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 /**
@@ -13,7 +14,7 @@ import java.util.List;
 public class PagoDTO {
 
     private Long pagoId;
-    private double monto;
+    private BigDecimal monto;
     private byte[] comprobante;
     private Long tipoPagoId;
     private Long beneficiarioId;
@@ -24,7 +25,7 @@ public class PagoDTO {
     public PagoDTO() {
     }
 
-    public PagoDTO(Long pagoId, double monto, byte[] comprobante, Long tipoPagoId, Long beneficiarioId, Long cuentaBancariaId, List<Long> abonoIds, List<Long> estatusIds) {
+    public PagoDTO(Long pagoId, BigDecimal monto, byte[] comprobante, Long tipoPagoId, Long beneficiarioId, Long cuentaBancariaId, List<Long> abonoIds, List<Long> estatusIds) {
         this.pagoId = pagoId;
         this.monto = monto;
         this.comprobante = comprobante;
@@ -35,6 +36,15 @@ public class PagoDTO {
         this.estatusIds = estatusIds;
     }
 
+    public PagoDTO(BigDecimal monto, Long tipoPagoId, Long beneficiarioId, Long cuentaBancariaId) {
+        this.monto = monto;
+        this.tipoPagoId = tipoPagoId;
+        this.beneficiarioId = beneficiarioId;
+        this.cuentaBancariaId = cuentaBancariaId;
+    }
+    
+    
+
     public Long getPagoId() {
         return pagoId;
     }
@@ -43,11 +53,11 @@ public class PagoDTO {
         this.pagoId = pagoId;
     }
 
-    public double getMonto() {
+    public BigDecimal getMonto() {
         return monto;
     }
 
-    public void setMonto(double monto) {
+    public void setMonto(BigDecimal monto) {
         this.monto = monto;
     }
 
