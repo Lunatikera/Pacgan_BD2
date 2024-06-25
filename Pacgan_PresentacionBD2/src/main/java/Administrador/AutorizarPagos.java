@@ -84,9 +84,8 @@ public class AutorizarPagos extends javax.swing.JFrame {
         adminBenef.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // Open your frame here
-                BeneficiariosAdmin benef = new BeneficiariosAdmin();
-                benef.setVisible(true);
+              //  BeneficiariosAdmin benef = new BeneficiariosAdmin();
+             //   benef.setVisible(true);
                 dispose();
 
             }

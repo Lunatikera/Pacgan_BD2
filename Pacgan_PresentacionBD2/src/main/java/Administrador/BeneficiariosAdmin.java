@@ -4,19 +4,32 @@
  */
 package Administrador;
 
+import Beneficiario.Abonos;
+import Beneficiario.Cuentas;
+import Beneficiario.Pagos;
 import dtos.BeneficiarioDTO;
+import dtos.CuentaBancariaDTO;
+import dtos.EstatusDTO;
+import dtos.PagoDTO;
+import dtos.Pago_EstadoDTO;
 import excepciones.NegocioException;
 import interfaces.IConsultarBeneficiarioBO;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumnModel;
 import servicios.IGestionarBeneficiarios;
+import utileria.JButtonCellEditor;
+import utileria.JButtonRenderer;
 
 /**
  *
@@ -24,18 +37,25 @@ import servicios.IGestionarBeneficiarios;
  */
 public class BeneficiariosAdmin extends javax.swing.JFrame {
 
-    private int numeroPaginaActual = 1; // Variable para almacenar el número de página actual
-    private int tamanoPagina = 10;
+    List<Long> beneficiarioIds;
 
+    private int pagina = 1;
+    private final int LIMITE = 10;
     IGestionarBeneficiarios gestionarBeneficiarios;
 
     /**
      * Creates new form BeneficiariosAdmin
      */
-    public BeneficiariosAdmin() {
+    public BeneficiariosAdmin(IGestionarBeneficiarios gestionarBeneficiarios) {
         initComponents();
+
+        this.gestionarBeneficiarios = gestionarBeneficiarios;
+
+        beneficiarioIds = new ArrayList<>();
+
         personalizador();
         agregarOpcionesMenu();
+        cargarMetodosIniciales();
     }
 
     public void personalizador() {
@@ -44,6 +64,107 @@ public class BeneficiariosAdmin extends javax.swing.JFrame {
         btnAtras.setBackground(Color.decode("#142132"));
         btnSiguiente.setBackground(Color.decode("#142132"));
 
+    }
+
+    public void cargarMetodosIniciales() {
+        //this.cargarConfiguracionInicialPantalla();
+        this.cargarBeneficiariosEnTabla();
+        this.estadoPagina();
+        configurarBotones();
+    }
+
+    private void estadoPagina() {
+        String numPagina = String.valueOf(pagina);
+        lblPagina.setText("Pagina " + numPagina);
+        estatusBotonAtras();
+        estatusBotonSiguiente();
+    }
+
+    private void estatusBotonAtras() {
+        btnAtras.setEnabled(this.pagina > 1);
+    }
+
+    private void estatusBotonSiguiente() {
+        try {
+            List<BeneficiarioDTO> siguientePagina = this.gestionarBeneficiarios.listaBeneficiariosPaginado(this.LIMITE, this.pagina + 1);
+            btnSiguiente.setEnabled(siguientePagina != null && !siguientePagina.isEmpty());
+        } catch (NegocioException ex) {
+            System.out.println(ex);
+            btnSiguiente.setEnabled(false);
+        }
+    }
+
+    public void cargarBeneficiariosEnTabla() {
+        try {
+            beneficiarioIds.clear();
+            List<BeneficiarioDTO> beneficiarioLista = this.gestionarBeneficiarios.listaBeneficiariosPaginado(this.pagina, this.LIMITE);
+
+            for (BeneficiarioDTO BeneficiarioDTO : beneficiarioLista) {
+                beneficiarioIds.add(BeneficiarioDTO.getBeneficiarioId());
+            }
+
+            this.llenarTablaBeneficiarios(beneficiarioLista);
+        } catch (NegocioException ex) {
+            JOptionPane.showMessageDialog(this, ex.getMessage(), "Informacion", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    private void configurarBotones() {
+
+        // ActionListener para botón Editar
+        ActionListener editarListener = new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int selectedRow = tblBeneficiarios.getSelectedRow();
+                if (selectedRow != -1) {
+                    Long selectedId = beneficiarioIds.get(selectedRow);
+                    editar(selectedId);
+                }
+            }
+        };
+
+        // ActionListener para botón Eliminar
+        ActionListener eliminarListener = new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int selectedRow = tblBeneficiarios.getSelectedRow();
+                if (selectedRow != -1) {
+                    Long selectedId = beneficiarioIds.get(selectedRow);
+                    eliminar(selectedId);
+                }
+            }
+        };
+
+        // Configurar columna de Editar
+        int indiceColumnaEditar = 4; // Suponiendo que esta es la tercera columna (índice 2)
+        TableColumnModel modeloColumnas = tblBeneficiarios.getColumnModel();
+        modeloColumnas.getColumn(indiceColumnaEditar)
+                .setCellRenderer(new JButtonRenderer("Editar"));
+        modeloColumnas.getColumn(indiceColumnaEditar)
+                .setCellEditor(new JButtonCellEditor("Editar", editarListener));
+
+        // Configurar columna de Eliminar
+        int indiceColumnaEliminar = 5; // Suponiendo que esta es la cuarta columna (índice 3)
+        modeloColumnas.getColumn(indiceColumnaEliminar)
+                .setCellRenderer(new JButtonRenderer("Eliminar"));
+        modeloColumnas.getColumn(indiceColumnaEliminar)
+                .setCellEditor(new JButtonCellEditor("Eliminar", eliminarListener));
+    }
+
+    private void llenarTablaBeneficiarios(List<BeneficiarioDTO> beneficiarioLista) {
+        DefaultTableModel modeloTabla = (DefaultTableModel) this.tblBeneficiarios.getModel();
+        modeloTabla.setRowCount(0); // Limpia la tabla
+
+        if (beneficiarioLista != null) {
+            for (BeneficiarioDTO beneficiario : beneficiarioLista) {
+                Object[] fila = new Object[4];
+                fila[0] = beneficiario.getNombre();
+                fila[1] = beneficiario.getApellidoPA();
+                fila[2] = beneficiario.getApellidoMA();
+                fila[3] = beneficiario.getClaveContrato();
+                modeloTabla.addRow(fila);
+            }
+        }
     }
 
     public void agregarOpcionesMenu() {
@@ -98,8 +219,8 @@ public class BeneficiariosAdmin extends javax.swing.JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 // Open your frame here
-                BeneficiariosAdmin benef = new BeneficiariosAdmin();
-                benef.setVisible(true);
+                //   BeneficiariosAdmin benef = new BeneficiariosAdmin();
+                // benef.setVisible(true);
                 dispose();
 
             }
@@ -125,22 +246,54 @@ public class BeneficiariosAdmin extends javax.swing.JFrame {
         MenuBarAdmin.add(menuSalir);
     }
 
-    public void cargarBeneficiariosPaginado(int numeroPagina, int tamanoPagina) {
+    private void editar(Long id) {
+        //Metodo para regresar el alumno seleccionado
+        System.out.println(id);
         try {
-            // Llamar al método correspondiente en la capa de negocio para obtener la lista paginada de DTO
-            List<BeneficiarioDTO> listaBeneficiarios = gestionarBeneficiarios.listaBeneficiariosPaginado(numeroPaginaActual, tamanoPagina);
+            if (id == 0) {
+                throw new NegocioException("Por favor seleccione un beneficiario");
+            }
+            BeneficiarioDTO beneficiarioDTO = gestionarBeneficiarios.consultarBeneficiarioPorID(id);
 
-            // Limpiar la tabla antes de cargar nuevos datos
-            DefaultTableModel model = (DefaultTableModel) tblBeneficiarios.getModel();
-            model.setRowCount(0);
+            ModificarBeneficiario editarBeneficiario = new ModificarBeneficiario();
+            editarBeneficiario.setVisible(true);
+            cargarBeneficiariosEnTabla();
 
-            // Agregar los datos a la tabla
-            for (BeneficiarioDTO beneficiarioDTO : listaBeneficiarios) {
-                Object[] row = {beneficiarioDTO.getNombre(), beneficiarioDTO.getApellidoPA(), beneficiarioDTO.getApellidoMA()};
-                model.addRow(row);
+        } catch (NegocioException ex) {
+            JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    private void eliminar(Long id) {
+        try {
+
+            if (id == 0) {
+                throw new NegocioException("Por favor seleccione un beneficiario");
+            }
+            BeneficiarioDTO beneficiarioDTO = gestionarBeneficiarios.consultarBeneficiarioPorID(id);
+
+            int confirmacion = JOptionPane.showOptionDialog(this,
+                    "¿Está seguro de que desea eliminar este beneficiario?",
+                    "Confirmación de eliminación",
+                    JOptionPane.YES_NO_OPTION,
+                    JOptionPane.QUESTION_MESSAGE,
+                    null,
+                    new Object[]{"Confirmar", "Cancelar"},
+                    "Confirmar");
+
+            // Si el usuario selecciona "Cancelar", no se hace nada
+            if (confirmacion != JOptionPane.YES_OPTION) {
+                return;
+            }
+            gestionarBeneficiarios.eliminarBeneficiario(id);
+
+            if (this.gestionarBeneficiarios.listaBeneficiariosPaginado(this.LIMITE, this.pagina) == null || this.gestionarBeneficiarios.listaBeneficiariosPaginado(this.LIMITE, this.pagina).isEmpty()) {
+                this.btnAtrasActionPerformed(null);
+            } else {
+                cargarBeneficiariosEnTabla();
             }
         } catch (NegocioException ex) {
-            Logger.getLogger(BeneficiariosAdmin.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
 
@@ -186,9 +339,9 @@ public class BeneficiariosAdmin extends javax.swing.JFrame {
 
         jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/logos/LogoEsquina.jpg"))); // NOI18N
 
-        jLabel2.setText("Administracion Beneficarios");
         jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel2.setText("Administracion Beneficarios");
 
         javax.swing.GroupLayout panelMenuLayout = new javax.swing.GroupLayout(panelMenu);
         panelMenu.setLayout(panelMenuLayout);
@@ -223,17 +376,17 @@ public class BeneficiariosAdmin extends javax.swing.JFrame {
         tblBeneficiarios.setBackground(new java.awt.Color(234, 234, 234));
         tblBeneficiarios.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null}
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null}
             },
             new String [] {
-                "Clave Contrato", "Nombre Usuario", "Nombre", "Apellido Paterno", "Apellido Materno", "Saldo", "", ""
+                "Nombre", "Apellido Paterno", "Apellido Materno", "Clave contrato", "", ""
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                true, true, true, false, true, true, true, true
+                false, false, false, false, true, true
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -245,7 +398,6 @@ public class BeneficiariosAdmin extends javax.swing.JFrame {
         Agrupador.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 170, 880, 360));
 
         jLabel5.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
-        jLabel5.setForeground(new java.awt.Color(0, 0, 0));
         jLabel5.setText("Beneficiarios");
         Agrupador.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 110, 150, -1));
 
@@ -260,7 +412,6 @@ public class BeneficiariosAdmin extends javax.swing.JFrame {
         Agrupador.add(btnAtras, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 560, 130, 30));
 
         lblPagina.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        lblPagina.setForeground(new java.awt.Color(0, 0, 0));
         lblPagina.setText("Pagina 1");
         Agrupador.add(lblPagina, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 570, -1, -1));
 
@@ -284,7 +435,7 @@ public class BeneficiariosAdmin extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(Agrupador, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(Agrupador, javax.swing.GroupLayout.DEFAULT_SIZE, 605, Short.MAX_VALUE)
         );
 
         pack();
@@ -301,15 +452,19 @@ public class BeneficiariosAdmin extends javax.swing.JFrame {
 
     private void btnAtrasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAtrasActionPerformed
         // TODO add your handling code here:
-
-        cargarBeneficiariosPaginado(numeroPaginaActual - 1, tamanoPagina);
+        if (pagina > 1) {
+            pagina--;
+            cargarBeneficiariosEnTabla();
+            estadoPagina();
+        }
 
     }//GEN-LAST:event_btnAtrasActionPerformed
 
     private void btnSiguienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSiguienteActionPerformed
         // TODO add your handling code here:
-
-        cargarBeneficiariosPaginado(numeroPaginaActual + 1, tamanoPagina);
+        pagina++;
+        cargarBeneficiariosEnTabla();
+        estadoPagina();
     }//GEN-LAST:event_btnSiguienteActionPerformed
 
     /**
@@ -342,7 +497,7 @@ public class BeneficiariosAdmin extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new BeneficiariosAdmin().setVisible(true);
+                // new BeneficiariosAdmin().setVisible(true);
             }
         });
     }

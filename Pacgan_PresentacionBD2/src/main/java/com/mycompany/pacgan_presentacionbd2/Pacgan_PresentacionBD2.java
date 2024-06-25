@@ -4,7 +4,7 @@
  */
 package com.mycompany.pacgan_presentacionbd2;
 
-import Beneficiario.Cuentas;
+import Administrador.BeneficiariosAdmin;
 import Beneficiario.Pagos;
 import Inicio.LogIn;
 import daos.AbonoDAO;
@@ -81,7 +81,7 @@ import servicios.IConsultarEstadoPagos;
  * @author Usuario
  */
 public class Pacgan_PresentacionBD2 {
-
+    
     public static void main(String[] args) {
 
         //Conexion
@@ -114,8 +114,8 @@ public class Pacgan_PresentacionBD2 {
         IEliminarCuentaBancariaBO eliminarCuentaBancariaBO = new EliminarCuentaBancariaBO(cuentaBancariaDAO);
         IEliminarPagoBO eliminarPagoBO = new EliminarPagoBO(pagoDAO);
         IIniciarSesionBO iniciarSesionBO = new IniciarSesionBO();
-        IinsertarBeneficiario insertarBeneficiario= new InsertarBeneficiario(beneficiarioDAO);
-        IinsertarEstatusPago insertarEstatusPago= new InsertarEstatusPago(tipoPagoDAO, estatusDAO); 
+        IinsertarBeneficiario insertarBeneficiario = new InsertarBeneficiario(beneficiarioDAO);
+        IinsertarEstatusPago insertarEstatusPago = new InsertarEstatusPago(tipoPagoDAO, estatusDAO);        
         IVerEstadoPagoBO verEstadoPagoBO = new VerEstadoPagoBO(pago_EstatusDAO);
         IHistorialEstadoPagoBO historialEstadoPagoBO = new HistorialEstadoPagoBO(pago_EstatusDAO);
 
@@ -126,13 +126,11 @@ public class Pacgan_PresentacionBD2 {
         IGestionarPagos gestionarPagos = new GestionarPagosFacade(crearPagoBO, consultarPagoBO, editarPagoBO, eliminarPagoBO);
         IConsultarEstadoPagos consultarEstadoPagos = new ConsultarEstadoPagosFacade(verEstadoPagoBO, historialEstadoPagoBO, consultarEstatusBO);
 
-        Cuentas cuenta = new Cuentas(gestionarCuentasBancarias);
-        cuenta.setVisible(true);
-        
-//        Pagos pago= new Pagos(gestionarCuentasBancarias, gestionarPagos, consultarEstadoPagos);
-//        pago.setVisible(true);
+       // Pagos pago= new Pagos(gestionarCuentasBancarias, gestionarPagos, consultarEstadoPagos);
+        // pago.setVisible(true);
 //        LogIn inicioSesion = new LogIn(iniciarSesionBO, insertarBeneficiario, insertarEstatusPago, gestionarAbonos, gestionarBeneficiarios, gestionarCuentasBancarias, gestionarPagos, consultarEstadoPagos);
 //        inicioSesion.setVisible(true);
-
+       BeneficiariosAdmin benef = new BeneficiariosAdmin(gestionarBeneficiarios);
+         benef.setVisible(true);
     }
 }
