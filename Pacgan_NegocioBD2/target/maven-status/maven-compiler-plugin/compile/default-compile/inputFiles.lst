@@ -9,7 +9,10 @@
 /Users/victoria/Documents/GitHub/Pacgan_BD2/Pacgan_NegocioBD2/src/main/java/negocio/EliminarPagoBO.java
 /Users/victoria/Documents/GitHub/Pacgan_BD2/Pacgan_NegocioBD2/src/main/java/convertidores/ConvertidorCuentaBancaria.java
 /Users/victoria/Documents/GitHub/Pacgan_BD2/Pacgan_NegocioBD2/src/main/java/negocio/ConsultarAbonoBO.java
+<<<<<<< Updated upstream
 /Users/victoria/Documents/GitHub/Pacgan_BD2/Pacgan_NegocioBD2/src/main/java/insertadores/InsertarBeneficiario.java
+=======
+>>>>>>> Stashed changes
 /Users/victoria/Documents/GitHub/Pacgan_BD2/Pacgan_NegocioBD2/src/main/java/interfaces/IEliminarPagoBO.java
 /Users/victoria/Documents/GitHub/Pacgan_BD2/Pacgan_NegocioBD2/src/main/java/convertidores/ConvertidorPago.java
 /Users/victoria/Documents/GitHub/Pacgan_BD2/Pacgan_NegocioBD2/src/main/java/fachadas/GestionarBeneficiariosFacade.java
@@ -50,6 +53,10 @@
 /Users/victoria/Documents/GitHub/Pacgan_BD2/Pacgan_NegocioBD2/src/main/java/interfaces/IEliminarAbonoBO.java
 /Users/victoria/Documents/GitHub/Pacgan_BD2/Pacgan_NegocioBD2/src/main/java/interfaces/IinsertarBeneficiario.java
 /Users/victoria/Documents/GitHub/Pacgan_BD2/Pacgan_NegocioBD2/src/main/java/convertidores/ConvertidorEstatus.java
+<<<<<<< Updated upstream
+=======
+/Users/victoria/Documents/GitHub/Pacgan_BD2/Pacgan_NegocioBD2/src/main/java/prueba.java
+>>>>>>> Stashed changes
 /Users/victoria/Documents/GitHub/Pacgan_BD2/Pacgan_NegocioBD2/src/main/java/dtos/PagoDTO.java
 /Users/victoria/Documents/GitHub/Pacgan_BD2/Pacgan_NegocioBD2/src/main/java/interfaces/IIniciarSesionBO.java
 /Users/victoria/Documents/GitHub/Pacgan_BD2/Pacgan_NegocioBD2/src/main/java/interfaces/IinsertarEstatusPago.java
@@ -57,6 +64,10 @@
 /Users/victoria/Documents/GitHub/Pacgan_BD2/Pacgan_NegocioBD2/src/main/java/convertidores/ConvertidorTipoPago.java
 /Users/victoria/Documents/GitHub/Pacgan_BD2/Pacgan_NegocioBD2/src/main/java/interfaces/IEditarBeneficiarioBO.java
 /Users/victoria/Documents/GitHub/Pacgan_BD2/Pacgan_NegocioBD2/src/main/java/fachadas/GestionarCuentasBancariasFacade.java
+<<<<<<< Updated upstream
+=======
+/Users/victoria/Documents/GitHub/Pacgan_BD2/Pacgan_NegocioBD2/src/main/java/insertadores/insertarBeneficiario.java
+>>>>>>> Stashed changes
 /Users/victoria/Documents/GitHub/Pacgan_BD2/Pacgan_NegocioBD2/src/main/java/interfaces/ICrearPagoBO.java
 /Users/victoria/Documents/GitHub/Pacgan_BD2/Pacgan_NegocioBD2/src/main/java/servicios/IGestionarCuentasBancarias.java
 /Users/victoria/Documents/GitHub/Pacgan_BD2/Pacgan_NegocioBD2/src/main/java/interfaces/IEliminarCuentaBancariaBO.java
