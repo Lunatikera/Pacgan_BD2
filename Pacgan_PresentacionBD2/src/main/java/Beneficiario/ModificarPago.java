@@ -39,8 +39,8 @@ public class ModificarPago extends javax.swing.JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 // Open your frame here
-                Pagos Pagos = new Pagos();
-                Pagos.setVisible(true);
+                //Pagos Pagos = new Pagos();
+              //  Pagos.setVisible(true);
                 dispose();
 
             }

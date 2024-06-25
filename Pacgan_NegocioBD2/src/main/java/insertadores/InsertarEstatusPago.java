@@ -23,7 +23,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.persistence.PersistenceContext;
 
 /**
  *
@@ -31,12 +30,9 @@ import javax.persistence.PersistenceContext;
  */
 public class InsertarEstatusPago implements IinsertarEstatusPago {
 
-    private IEstatusDAO estatusDAO = new EstatusDAO(new ConexionBD());
-// Inicializar el objeto tipoPagoDAO antes de usarlo
-    ITipoPagoDAO tipoPagoDAO = new TipoPagoDAO(new ConexionBD());
+    private IEstatusDAO estatusDAO;
+    private ITipoPagoDAO tipoPagoDAO;
 
-    public InsertarEstatusPago() {
-    }
 
     public InsertarEstatusPago(ITipoPagoDAO tipoPagoDAO, IEstatusDAO estatusDAO) {
         this.tipoPagoDAO = tipoPagoDAO;

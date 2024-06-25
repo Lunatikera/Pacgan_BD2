@@ -44,8 +44,8 @@ public class Abonos extends javax.swing.JFrame {
         misPagos.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Pagos Pagos = new Pagos();
-                Pagos.setVisible(true);
+             //   Pagos Pagos = new Pagos();
+               // Pagos.setVisible(true);
                 dispose();
 
             }

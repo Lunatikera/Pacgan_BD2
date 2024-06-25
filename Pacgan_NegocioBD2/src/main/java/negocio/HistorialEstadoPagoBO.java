@@ -28,7 +28,7 @@ public class HistorialEstadoPagoBO implements IHistorialEstadoPagoBO {
     }
 
        @Override
-    public List<Pago_EstadoDTO> obtenerHistorialDeEstados(long pagoId) throws NegocioException {
+    public List<Pago_EstadoDTO> obtenerHistorialDeEstados(Long pagoId) throws NegocioException {
         try {
             List<Pago_EstatusEntidad> historialEntidades = pago_EstatusDAO.obtenerHistorialDeEstados(pagoId);
             List<Pago_EstadoDTO> historialDTO = new ArrayList<>();

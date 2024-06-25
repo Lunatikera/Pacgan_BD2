@@ -14,8 +14,8 @@ import java.util.List;
  */
 public interface IPago_EstatusDAO {
     
-    public Pago_EstatusEntidad obtenerEstadoDelPago(long pagoId ) throws PersistenciaException;
+    public Pago_EstatusEntidad obtenerEstadoDelPago(Long pagoId ) throws PersistenciaException;
     
-    public List<Pago_EstatusEntidad> obtenerHistorialDeEstados(long pagoId) throws PersistenciaException;
+    public List<Pago_EstatusEntidad> obtenerHistorialDeEstados(Long pagoId) throws PersistenciaException;
     
 }
