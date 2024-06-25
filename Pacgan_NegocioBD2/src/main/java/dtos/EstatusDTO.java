@@ -51,9 +51,7 @@ public class EstatusDTO {
 
     @Override
     public String toString() {
-        return "EstatusDTO{" + "id=" + id
-                + ", nombre=" + nombre
-                + ", estatusId=" + pagoEstatusIds + '}';
+        return nombre;
     }
 
 }

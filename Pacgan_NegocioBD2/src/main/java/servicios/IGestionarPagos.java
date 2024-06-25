@@ -5,6 +5,7 @@
 package servicios;
 
 import dtos.PagoDTO;
+import dtos.TipoPagoDTO;
 import excepciones.NegocioException;
 import java.util.List;
 
@@ -25,4 +26,8 @@ public interface IGestionarPagos {
     public void editarPago(PagoDTO pago) throws NegocioException;
 
     public void eliminarPago(Long id) throws NegocioException;
+    
+     public TipoPagoDTO consultarTipoPagoPorID(Long id) throws NegocioException;
+
+    public List<TipoPagoDTO> listaTiposPago() throws NegocioException;
 }

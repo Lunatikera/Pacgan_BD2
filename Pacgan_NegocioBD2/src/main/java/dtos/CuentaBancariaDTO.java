@@ -5,6 +5,7 @@
 package dtos;
 
 import java.util.List;
+import java.util.Objects;
 
 /**
  *
@@ -91,7 +92,28 @@ public class CuentaBancariaDTO {
 
     @Override
     public String toString() {
-        return "CuentaBancariaDTO{" + "cuentaBancariaId=" + cuentaBancariaId + ", numeroCuenta=" + numeroCuenta + ", clabe=" + clabe + ", nombreBanco=" + nombreBanco + ", estaEliminada=" + estaEliminada + ", beneficiarioId=" + beneficiarioId + ", pagoIds=" + pagoIds + '}';
+        return numeroCuenta;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final CuentaBancariaDTO other = (CuentaBancariaDTO) obj;
+        return Objects.equals(this.cuentaBancariaId, other.cuentaBancariaId);
     }
     
     

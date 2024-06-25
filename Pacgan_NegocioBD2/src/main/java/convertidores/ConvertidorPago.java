@@ -77,23 +77,30 @@ public class ConvertidorPago {
 
     private static List<AbonoEntidad> convertirListaAbonosIds(List<Long> pagoAbonosIds) throws PersistenciaException {
         List<AbonoEntidad> abonos = new ArrayList<>();
-        for (Long abonoId : pagoAbonosIds) {
+        if (pagoAbonosIds!=null) {
+           for (Long abonoId : pagoAbonosIds) {
             AbonoEntidad abonoEntidad = new AbonoEntidad();
             abonoEntidad.setId(abonoId);
             // Aquí podrías cargar más detalles del pago desde la capa de persistencia si es necesario
             abonos.add(abonoEntidad);
+        } 
         }
+        
         return abonos;
     }
 
     private static List<Pago_EstatusEntidad> convertirListaEstatusIds(List<Long> pagoEstatusIds) throws PersistenciaException {
         List<Pago_EstatusEntidad> pagoEstatus = new ArrayList<>();
-        for (Long estatusId : pagoEstatusIds) {
+        
+        if (pagoEstatusIds !=null) {
+            for (Long estatusId : pagoEstatusIds) {
             Pago_EstatusEntidad pagoEntidad = new Pago_EstatusEntidad();
             pagoEntidad.setId(estatusId);
             // Aquí podrías cargar más detalles del pago desde la capa de persistencia si es necesario
             pagoEstatus.add(pagoEntidad);
         }
+        }
+        
         return pagoEstatus;
     }
 

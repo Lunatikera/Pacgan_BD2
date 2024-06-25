@@ -20,7 +20,10 @@ public interface IGestionarCuentasBancarias {
 
     public List<CuentaBancariaDTO> listaCuentasBancarias() throws NegocioException;
 
+    public List<CuentaBancariaDTO> listaCuentasPorBeneficiario(Long id) throws NegocioException;
+
     public void editarCuentaBancaria(CuentaBancariaDTO cuentaBancaria) throws NegocioException;
 
     public void eliminarCuentaBancaria(Long id) throws NegocioException;
+
 }

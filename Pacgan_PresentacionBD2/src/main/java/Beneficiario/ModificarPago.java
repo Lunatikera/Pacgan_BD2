@@ -4,11 +4,31 @@
  */
 package Beneficiario;
 
+import dtos.BeneficiarioDTO;
+import dtos.CuentaBancariaDTO;
+import dtos.PagoDTO;
+import dtos.TipoPagoDTO;
+import excepciones.NegocioException;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.math.BigDecimal;
+import java.text.DecimalFormat;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.ComboBoxModel;
+import javax.swing.JComboBox;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
+import javax.swing.JSpinner;
+import javax.swing.SpinnerNumberModel;
+import javax.swing.text.DefaultFormatterFactory;
+import javax.swing.text.NumberFormatter;
+import servicios.IConsultarEstadoPagos;
+import servicios.IGestionarCuentasBancarias;
+import servicios.IGestionarPagos;
 
 /**
  *
@@ -16,19 +36,67 @@ import javax.swing.JMenuItem;
  */
 public class ModificarPago extends javax.swing.JFrame {
 
-    /**
-     * Creates new form ModificarPago
-     */
-    public ModificarPago() {
+    IGestionarPagos gestionarPagos;
+    IGestionarCuentasBancarias gestionarCuentasBancarias;
+    IConsultarEstadoPagos consultarEstadoPagos;
+    List<CuentaBancariaDTO> listaCuentas;
+    List<TipoPagoDTO> listaTipoPagos;
+    PagoDTO pagoDTO;
+    BeneficiarioDTO beneficiario;
+    Long id = 1L;
+
+    public ModificarPago(IGestionarPagos gestionarPagos, IGestionarCuentasBancarias gestionarCuentasBancarias, IConsultarEstadoPagos consultarEstadoPagos, PagoDTO pagoDTO) {
         initComponents();
+        this.gestionarPagos = gestionarPagos;
+        this.gestionarCuentasBancarias = gestionarCuentasBancarias;
+        this.consultarEstadoPagos = consultarEstadoPagos;
+        this.beneficiario = beneficiario;
+        this.pagoDTO = pagoDTO;
         personalizador();
         agregarOpcionesMenu();
+        metodosIniciales();
+    }
+
+    public void metodosIniciales() {
+        llenarComboBoxCuenta(id);
+        llenarComboBoxTipoPago();
+        configurarMonto();
+        llenarInformacion();
+    }
+
+    public void llenarInformacion() {
+        try {
+            TipoPagoDTO tipoPagoDTO = gestionarPagos.consultarTipoPagoPorID(pagoDTO.getTipoPagoId());
+            CuentaBancariaDTO cuentaBancariaDTO = gestionarCuentasBancarias.consultarCuentaBancariaPorID(pagoDTO.getCuentaBancariaId());
+
+            // Seleccionar tipo de pago en el combobox
+            seleccionarItemEnComboBox(cbxTiposPago1, tipoPagoDTO);
+
+            // Seleccionar cuenta bancaria en el combobox
+            seleccionarItemEnComboBox(cbxCuentas1, cuentaBancariaDTO);
+
+            spinnerMonto.setValue(pagoDTO.getMonto());
+
+        } catch (NegocioException ex) {
+            Logger.getLogger(ModificarPago.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    private void seleccionarItemEnComboBox(JComboBox<?> comboBox, Object itemSeleccionado) {
+        ComboBoxModel<?> model = comboBox.getModel();
+        for (int i = 0; i < model.getSize(); i++) {
+            Object item = model.getElementAt(i);
+            if (item.equals(itemSeleccionado)) {
+                comboBox.setSelectedIndex(i);
+                return;
+            }
+        }
     }
 
     public void personalizador() {
         panelMenu.setBackground(Color.decode("#142132"));
         btnCancelar.setBackground(Color.decode("#142132"));
-        btnCrear.setBackground(Color.decode("#142132"));
+        btnEditar.setBackground(Color.decode("#142132"));
     }
 
     public void agregarOpcionesMenu() {
@@ -38,9 +106,8 @@ public class ModificarPago extends javax.swing.JFrame {
         misPagos.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // Open your frame here
-                //Pagos Pagos = new Pagos();
-              //  Pagos.setVisible(true);
+                Pagos Pagos = new Pagos(gestionarCuentasBancarias, gestionarPagos, consultarEstadoPagos);
+                Pagos.setVisible(true);
                 dispose();
 
             }
@@ -78,6 +145,19 @@ public class ModificarPago extends javax.swing.JFrame {
 
         menuCuentas.add(misCuentas);
 
+        JMenu menuSalir = new JMenu("Salir");
+        JMenuItem salir = new JMenuItem("Salir");
+        salir.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                dispose();
+
+            }
+        });
+
+        menuSalir.add(salir);
+        MenuBarAdmin.add(menuSalir);
+
         MenuBarAdmin.add(menuAbonos);
         MenuBarAdmin.add(menuPagos);
         MenuBarAdmin.add(menuCuentas);
@@ -85,9 +165,7 @@ public class ModificarPago extends javax.swing.JFrame {
     }
 
     /**
-     * This method is called from within the constructor to initialize the form.
-     * WARNING: Do NOT modify this code. The content of this method is always
-     * regenerated by the Form Editor.
+     * This method is called from within the constructor to initialize the form. WARNING: Do NOT modify this code. The content of this method is always regenerated by the Form Editor.
      */
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -103,13 +181,12 @@ public class ModificarPago extends javax.swing.JFrame {
         jLabel59 = new javax.swing.JLabel();
         cbxTiposPago1 = new javax.swing.JComboBox<>();
         jLabel60 = new javax.swing.JLabel();
-        txtMonto1 = new javax.swing.JTextField();
         btnCancelar = new javax.swing.JButton();
-        btnCrear = new javax.swing.JButton();
+        btnEditar = new javax.swing.JButton();
+        spinnerMonto = new javax.swing.JSpinner();
         MenuBarAdmin = new javax.swing.JMenuBar();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setBackground(new java.awt.Color(255, 255, 255));
 
         Agrupador.setBackground(new java.awt.Color(255, 255, 255));
         Agrupador.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -135,7 +212,7 @@ public class ModificarPago extends javax.swing.JFrame {
                         .addComponent(jLabel55, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelMenuLayout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 127, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 87, Short.MAX_VALUE)
                         .addComponent(jLabel57, javax.swing.GroupLayout.PREFERRED_SIZE, 376, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addContainerGap())))
         );
@@ -151,39 +228,25 @@ public class ModificarPago extends javax.swing.JFrame {
                 .addComponent(jLabel55))
         );
 
-        Agrupador.add(panelMenu, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 570, -1));
+        Agrupador.add(panelMenu, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 530, -1));
 
         jLabel58.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        jLabel58.setForeground(new java.awt.Color(0, 0, 0));
         jLabel58.setText("Seleccione la cuenta*");
-        Agrupador.add(jLabel58, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 80, -1, -1));
+        Agrupador.add(jLabel58, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 90, -1, -1));
 
         cbxCuentas1.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        cbxCuentas1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        cbxCuentas1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cbxCuentas1ActionPerformed(evt);
-            }
-        });
-        Agrupador.add(cbxCuentas1, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 120, -1, -1));
+        Agrupador.add(cbxCuentas1, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 130, -1, -1));
 
         jLabel59.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        jLabel59.setForeground(new java.awt.Color(0, 0, 0));
         jLabel59.setText("Tipo de Pago*");
-        Agrupador.add(jLabel59, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 180, -1, -1));
+        Agrupador.add(jLabel59, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 190, -1, -1));
 
         cbxTiposPago1.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        cbxTiposPago1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        Agrupador.add(cbxTiposPago1, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 210, -1, -1));
+        Agrupador.add(cbxTiposPago1, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 220, -1, -1));
 
         jLabel60.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        jLabel60.setForeground(new java.awt.Color(0, 0, 0));
         jLabel60.setText("Ingrese el monto*");
-        Agrupador.add(jLabel60, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 260, -1, -1));
-
-        txtMonto1.setColumns(12);
-        txtMonto1.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        Agrupador.add(txtMonto1, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 300, -1, -1));
+        Agrupador.add(jLabel60, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 270, -1, -1));
 
         btnCancelar.setBackground(new java.awt.Color(0, 102, 153));
         btnCancelar.setForeground(new java.awt.Color(255, 255, 255));
@@ -193,17 +256,18 @@ public class ModificarPago extends javax.swing.JFrame {
                 btnCancelarActionPerformed(evt);
             }
         });
-        Agrupador.add(btnCancelar, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 360, 90, 40));
+        Agrupador.add(btnCancelar, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 380, 90, 40));
 
-        btnCrear.setBackground(new java.awt.Color(0, 102, 153));
-        btnCrear.setForeground(new java.awt.Color(255, 255, 255));
-        btnCrear.setText("Crear");
-        btnCrear.addActionListener(new java.awt.event.ActionListener() {
+        btnEditar.setBackground(new java.awt.Color(0, 102, 153));
+        btnEditar.setForeground(new java.awt.Color(255, 255, 255));
+        btnEditar.setText("Editar");
+        btnEditar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnCrearActionPerformed(evt);
+                btnEditarActionPerformed(evt);
             }
         });
-        Agrupador.add(btnCrear, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 360, 90, 40));
+        Agrupador.add(btnEditar, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 380, 90, 40));
+        Agrupador.add(spinnerMonto, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 320, 160, -1));
 
         setJMenuBar(MenuBarAdmin);
 
@@ -215,67 +279,124 @@ public class ModificarPago extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(Agrupador, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(Agrupador, javax.swing.GroupLayout.DEFAULT_SIZE, 459, Short.MAX_VALUE)
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void cbxCuentas1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxCuentas1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_cbxCuentas1ActionPerformed
+    private void llenarComboBoxCuenta(Long id) {
+        try {
+            listaCuentas = gestionarCuentasBancarias.listaCuentasPorBeneficiario(id);
+
+            for (CuentaBancariaDTO cuenta : listaCuentas) {
+                cbxCuentas1.addItem(cuenta);
+            }
+        } catch (NegocioException ex) {
+            Logger.getLogger(ModificarPago.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }
+
+    private void llenarComboBoxTipoPago() {
+        try {
+            listaTipoPagos = gestionarPagos.listaTiposPago();
+
+            for (TipoPagoDTO tipoPago : listaTipoPagos) {
+                cbxTiposPago1.addItem(tipoPago);
+            }
+        } catch (NegocioException ex) {
+            Logger.getLogger(ModificarPago.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }
+
+    private void configurarMonto() {
+        SpinnerNumberModel numberModel = new SpinnerNumberModel(0.00, 0.00, Double.MAX_VALUE, 0.01);
+        spinnerMonto.setModel(numberModel);
+
+        // Configurar el editor del Spinner para mostrar dos decimales
+        JSpinner.NumberEditor editor = new JSpinner.NumberEditor(spinnerMonto, "#,##0.00");
+        spinnerMonto.setEditor(editor);
+    }
+
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
-        // TODO add your handling code here:
+        Pagos pagos = new Pagos(gestionarCuentasBancarias, gestionarPagos, consultarEstadoPagos);
+
+        pagos.setVisible(true);
+
+        dispose();
     }//GEN-LAST:event_btnCancelarActionPerformed
 
-    private void btnCrearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCrearActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnCrearActionPerformed
+    private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
         try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(ModificarPago.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(ModificarPago.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(ModificarPago.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(ModificarPago.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-        //</editor-fold>
+            TipoPagoDTO tipoPago = cbxTiposPago1.getSelectedItem() != null ? (TipoPagoDTO) cbxTiposPago1.getSelectedItem() : null;
+            CuentaBancariaDTO cuenta = cbxCuentas1.getSelectedItem() != null ? (CuentaBancariaDTO) cbxCuentas1.getSelectedItem() : null;
 
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new ModificarPago().setVisible(true);
+            Number valorNumber = (Number) spinnerMonto.getValue();
+            BigDecimal monto = BigDecimal.valueOf(valorNumber.doubleValue());
+
+            if (tipoPago == null) {
+                JOptionPane.showMessageDialog(this, "Por favor, seleccione un tipo de pago.", "Tipo de pago no seleccionada", JOptionPane.WARNING_MESSAGE);
+                return;
             }
-        });
-    }
+            if (cuenta == null) {
+                JOptionPane.showMessageDialog(this, "Por favor, seleccione una cuenta.", "Cuenta no seleccionada", JOptionPane.WARNING_MESSAGE);
+                return;
+            }
+
+            if (monto == null || monto.compareTo(BigDecimal.ZERO) <= 0) {
+                JOptionPane.showMessageDialog(this, "Por favor, Ingrese un monto valido", "Monto Error", JOptionPane.WARNING_MESSAGE);
+                return;
+            }
+
+            pagoDTO.setMonto(monto);
+            pagoDTO.setTipoPagoId(tipoPago.getId());
+            pagoDTO.setBeneficiarioId(cuenta.getBeneficiarioId());
+            pagoDTO.setCuentaBancariaId(cuenta.getCuentaBancariaId());
+
+            int confirmacion = JOptionPane.showOptionDialog(this,
+                    "¿Está seguro de que deseas editar este Pago?",
+                    "Confirmación de eliminación",
+                    JOptionPane.YES_NO_OPTION,
+                    JOptionPane.QUESTION_MESSAGE,
+                    null,
+                    new Object[]{"Confirmar", "Cancelar"},
+                    "Confirmar");
+
+            // Si el usuario selecciona "Cancelar", no se hace nada
+            if (confirmacion != JOptionPane.YES_OPTION) {
+                return;
+            }
+
+            gestionarPagos.editarPago(pagoDTO);
+
+            JOptionPane.showMessageDialog(this, "Se ha editado el pago correctamente", "Exito en el pago", JOptionPane.INFORMATION_MESSAGE);
+
+            Pagos pagos = new Pagos(gestionarCuentasBancarias, gestionarPagos, consultarEstadoPagos);
+            pagos.setVisible(true);
+            this.dispose();
+
+        } catch (NegocioException ex) {
+
+            Logger.getLogger(ModificarPago.class.getName()).log(Level.SEVERE, null, ex);
+
+            //JOptionPane.showMessageDialog(this, "Error al editar el pago", "Error", JOptionPane.WARNING_MESSAGE);
+        }
+
+
+    }//GEN-LAST:event_btnEditarActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel Agrupador;
     private javax.swing.JMenuBar MenuBarAdmin;
     private javax.swing.JButton btnCancelar;
-    private javax.swing.JButton btnCrear;
-    private javax.swing.JComboBox<String> cbxCuentas1;
-    private javax.swing.JComboBox<String> cbxTiposPago1;
+    private javax.swing.JButton btnEditar;
+    private javax.swing.JComboBox<CuentaBancariaDTO> cbxCuentas1;
+    private javax.swing.JComboBox<TipoPagoDTO> cbxTiposPago1;
     private javax.swing.JLabel jLabel55;
     private javax.swing.JLabel jLabel56;
     private javax.swing.JLabel jLabel57;
@@ -283,6 +404,6 @@ public class ModificarPago extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel59;
     private javax.swing.JLabel jLabel60;
     private javax.swing.JPanel panelMenu;
-    private javax.swing.JTextField txtMonto1;
+    private javax.swing.JSpinner spinnerMonto;
     // End of variables declaration//GEN-END:variables
 }

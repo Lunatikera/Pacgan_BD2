@@ -56,4 +56,9 @@ public class GestionarCuentasBancariasFacade implements IGestionarCuentasBancari
         eliminarCuentaBancariaBO.eliminarCuentaBancaria(id);
     }
 
+    @Override
+    public List<CuentaBancariaDTO> listaCuentasPorBeneficiario(Long id) throws NegocioException {
+        return consultarCuentaBancariaBO.listaCuentasPorBeneficiario(id);
+    }
+
 }

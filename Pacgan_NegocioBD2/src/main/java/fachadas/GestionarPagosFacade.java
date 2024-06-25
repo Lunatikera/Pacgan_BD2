@@ -5,8 +5,10 @@
 package fachadas;
 
 import dtos.PagoDTO;
+import dtos.TipoPagoDTO;
 import excepciones.NegocioException;
 import interfaces.IConsultarPagoBO;
+import interfaces.IConsultarTipoPagoBO;
 import interfaces.ICrearPagoBO;
 import interfaces.IEditarPagoBO;
 import interfaces.IEliminarPagoBO;
@@ -23,12 +25,14 @@ public class GestionarPagosFacade implements IGestionarPagos {
     private IConsultarPagoBO consultarPagoBO;
     private IEditarPagoBO editarPagoBO;
     private IEliminarPagoBO eliminarPagoBO;
+    private IConsultarTipoPagoBO consultarTipoPagoBO;
 
-    public GestionarPagosFacade(ICrearPagoBO crearPagoBO, IConsultarPagoBO consultarPagoBO, IEditarPagoBO editarPagoBO, IEliminarPagoBO eliminarPagoBO) {
+    public GestionarPagosFacade(ICrearPagoBO crearPagoBO, IConsultarPagoBO consultarPagoBO, IEditarPagoBO editarPagoBO, IEliminarPagoBO eliminarPagoBO, IConsultarTipoPagoBO consultarTipoPagoBO) {
         this.crearPagoBO = crearPagoBO;
         this.consultarPagoBO = consultarPagoBO;
         this.editarPagoBO = editarPagoBO;
         this.eliminarPagoBO = eliminarPagoBO;
+        this.consultarTipoPagoBO=consultarTipoPagoBO;
     }
 
     @Override
@@ -59,6 +63,16 @@ public class GestionarPagosFacade implements IGestionarPagos {
     @Override
     public List<PagoDTO> listaPagosPaginado(int numeroPagina, int tamanoPagina) throws NegocioException {
         return consultarPagoBO.listaPagosPaginado(numeroPagina, tamanoPagina);
+    }
+
+    @Override
+    public TipoPagoDTO consultarTipoPagoPorID(Long id) throws NegocioException {
+        return consultarTipoPagoBO.consultarTipoPagoPorID(id);
+    }
+
+    @Override
+    public List<TipoPagoDTO> listaTiposPago() throws NegocioException {
+        return consultarTipoPagoBO.listaTiposPago();
     }
 
 }

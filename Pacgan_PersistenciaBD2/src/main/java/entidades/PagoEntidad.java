@@ -5,6 +5,7 @@
 package entidades;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -31,8 +32,8 @@ public class PagoEntidad implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id_pago;
 
-    @Column(name = "monto", precision = 10, scale = 2,  nullable = false)
-    private double monto;
+    @Column(name = "monto", precision = 10, scale = 2, nullable = false)
+    private BigDecimal monto;
 
     @Lob
     private byte[] comprobante;
@@ -52,13 +53,13 @@ public class PagoEntidad implements Serializable {
     @OneToMany(mappedBy = "pagoAbono", cascade = {CascadeType.PERSIST})
     private List<AbonoEntidad> pagoAbonos;
 
-    @OneToMany(mappedBy = "pagoEstatus", cascade = {CascadeType.PERSIST})
+    @OneToMany(mappedBy = "pagoEstatus", cascade = {CascadeType.PERSIST, CascadeType.REMOVE}, orphanRemoval = true)
     private List<Pago_EstatusEntidad> pagoEstatus;
 
     public PagoEntidad() {
     }
 
-    public PagoEntidad(double monto, byte[] comprobante, TipoPagoEntidad tipoPago, BeneficiarioEntidad beneficiarioPago, CuentaBancariaEntidad cuentaBancaria, List<AbonoEntidad> pagoAbono, List<Pago_EstatusEntidad> pagoEstatus) {
+    public PagoEntidad(BigDecimal monto, byte[] comprobante, TipoPagoEntidad tipoPago, BeneficiarioEntidad beneficiarioPago, CuentaBancariaEntidad cuentaBancaria, List<AbonoEntidad> pagoAbono, List<Pago_EstatusEntidad> pagoEstatus) {
         this.monto = monto;
         this.comprobante = comprobante;
         this.tipoPago = tipoPago;
@@ -76,11 +77,11 @@ public class PagoEntidad implements Serializable {
         this.id_pago = id_pago;
     }
 
-    public double getMonto() {
+    public BigDecimal getMonto() {
         return monto;
     }
 
-    public void setMonto(double monto) {
+    public void setMonto(BigDecimal monto) {
         this.monto = monto;
     }
 
@@ -132,5 +133,4 @@ public class PagoEntidad implements Serializable {
         this.pagoEstatus = pagoEstatus;
     }
 
-    
 }
