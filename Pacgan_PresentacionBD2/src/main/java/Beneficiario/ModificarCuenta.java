@@ -37,14 +37,11 @@ public class ModificarCuenta extends javax.swing.JFrame {
     
     String numeroCuenta;
     IGestionarCuentasBancarias gestionarCuentasBancarias;
-    ConvertidorCuentaBancaria convertidor;
     /**
      * Creates new form ModificarCuenta
      */
     public ModificarCuenta(String numeroCuenta,IGestionarCuentasBancarias gestionarCuentasBancarias) {
         this.gestionarCuentasBancarias = gestionarCuentasBancarias;
-        this.convertidor = new ConvertidorCuentaBancaria();
-        this.numeroCuenta = numeroCuenta;
         initComponents();
         personalizador();
         

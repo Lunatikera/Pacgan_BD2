@@ -24,14 +24,12 @@ import servicios.IGestionarCuentasBancarias;
 public class CrearCuenta extends javax.swing.JFrame {
 
     IGestionarCuentasBancarias gestionarCuentasBancarias;
-    ConvertidorCuentaBancaria convertidor;
 
     /**
      * Creates new form CrearCuenta
      */
     public CrearCuenta(IGestionarCuentasBancarias gestionarCuentasBancarias) {
         this.gestionarCuentasBancarias = gestionarCuentasBancarias;
-        this.convertidor = new ConvertidorCuentaBancaria();
         initComponents();
         personalizador();
     }
