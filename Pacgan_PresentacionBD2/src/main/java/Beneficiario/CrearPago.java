@@ -277,6 +277,7 @@ public class CrearPago extends javax.swing.JFrame {
 
     }
 
+    
     private void configurarMonto() {
         SpinnerNumberModel numberModel = new SpinnerNumberModel(0.00, 0.00, Double.MAX_VALUE, 0.01);
         spinnerMonto.setModel(numberModel);
