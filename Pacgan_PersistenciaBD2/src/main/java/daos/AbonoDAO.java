@@ -165,7 +165,7 @@ public class AbonoDAO implements IAbonoDAO {
         try {
             // Crear una consulta TypedQuery utilizando JPQL para obtener abonos por pagoId
             TypedQuery<AbonoEntidad> query = entityManager.createQuery(
-                    "SELECT a FROM AbonoEntidad a WHERE a.pagoAbono.id = :pagoId ORDER BY a.fechaHora DESC",
+                    "SELECT a FROM AbonoEntidad a WHERE a.pagoAbono.id_pago = :pagoId ORDER BY a.fechaHora DESC",
                     AbonoEntidad.class
             );
             query.setParameter("pagoId", pagoId);

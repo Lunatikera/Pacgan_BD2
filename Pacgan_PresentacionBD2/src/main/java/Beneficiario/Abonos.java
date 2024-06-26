@@ -23,8 +23,11 @@ import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumnModel;
 import servicios.IGestionarAbonos;
 import servicios.IGestionarCuentasBancarias;
+import utileria.JButtonCellEditor;
+import utileria.JButtonRenderer;
 
 /**
  *
@@ -39,15 +42,16 @@ public class Abonos extends javax.swing.JFrame {
     PagoDTO pagoDTO;
     List<Long> pagoIds;
 
-    public Abonos(IGestionarAbonos gestionarAbonos,IGestionarCuentasBancarias gestionarCuentasBancarias, PagoDTO pagoDTO) {
+    public Abonos(IGestionarAbonos gestionarAbonos, IGestionarCuentasBancarias gestionarCuentasBancarias, PagoDTO pagoDTO) {
         initComponents();
         this.gestionarAbonos = gestionarAbonos;
-        this.gestionarCuentasBancarias=gestionarCuentasBancarias;
+        this.gestionarCuentasBancarias = gestionarCuentasBancarias;
         this.pagoDTO = pagoDTO;
         pagoIds = new ArrayList<>();
-
+        System.out.println(pagoDTO);
         personalizador();
         agregarOpcionesMenu();
+        cargarMetodosIniciales();
     }
 
     public void personalizador() {
@@ -58,10 +62,18 @@ public class Abonos extends javax.swing.JFrame {
 
     }
 
+    public void cargarMetodosIniciales() {
+        //this.cargarConfiguracionInicialPantalla();
+        this.cargarAbonosEnTabla();
+        this.estadoPagina();
+        this.configurarBotones();
+    }
+
     public void cargarAbonosEnTabla() {
         try {
             pagoIds.clear();
             List<AbonoDTO> abonoLista = this.gestionarAbonos.listaAbonosPaginadoPorPago(this.LIMITE, this.pagina, pagoDTO.getPagoId());
+            System.out.println(abonoLista);
             if (abonoLista.isEmpty()) {
                 return;
             }
@@ -71,11 +83,13 @@ public class Abonos extends javax.swing.JFrame {
 
             this.llenarTablaAbonos(abonoLista);
         } catch (NegocioException ex) {
-            JOptionPane.showMessageDialog(this, ex.getMessage(), "Información", JOptionPane.ERROR_MESSAGE);
+           // JOptionPane.showMessageDialog(this, ex.getMessage(), "Información", JOptionPane.ERROR_MESSAGE);
+                           Logger.getLogger(Abonos.class.getName()).log(Level.SEVERE, null, ex);
+
         }
     }
-    
-       private void llenarTablaAbonos(List<AbonoDTO> abonoLista) {
+
+    private void llenarTablaAbonos(List<AbonoDTO> abonoLista) {
         DefaultTableModel modeloTabla = (DefaultTableModel) this.tblAbonos.getModel();
 
         if (modeloTabla.getRowCount() > 0) {
@@ -88,9 +102,9 @@ public class Abonos extends javax.swing.JFrame {
             abonoLista.forEach(row
                     -> {
                 try {
-                  
+
                     CuentaBancariaDTO cuentaBancaria = gestionarCuentasBancarias.consultarCuentaBancariaPorID(pagoDTO.getCuentaBancariaId());
-                   
+
                     Object[] fila = new Object[4];
                     fila[0] = cuentaBancaria.getNumeroCuenta();
                     fila[1] = row.getMonto();
@@ -99,12 +113,66 @@ public class Abonos extends javax.swing.JFrame {
 
                     modeloTabla.addRow(fila);
                 } catch (NegocioException ex) {
-                    Logger.getLogger(Pagos.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(Abonos.class.getName()).log(Level.SEVERE, null, ex);
                 }
             });
         }
     }
 
+    private void configurarBotones() {
+
+        // ActionListener para botón Eliminar
+        ActionListener eliminarListener = new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int selectedRow = tblAbonos.getSelectedRow();
+                if (selectedRow != -1) {
+                    Long selectedId = pagoIds.get(selectedRow);
+                    eliminar(selectedId);
+                }
+            }
+        };
+
+        // Configurar columna de Editar
+        TableColumnModel modeloColumnas = tblAbonos.getColumnModel();
+        int indiceColumnaEliminar = 4; // Suponiendo que esta es la cuarta columna (índice 3)
+        modeloColumnas.getColumn(indiceColumnaEliminar)
+                .setCellRenderer(new JButtonRenderer("Eliminar"));
+        modeloColumnas.getColumn(indiceColumnaEliminar)
+                .setCellEditor(new JButtonCellEditor("Eliminar", eliminarListener));
+    }
+
+    private void eliminar(Long id) {
+        try {
+
+            if (id == 0) {
+                throw new NegocioException("Por favor seleccione un Abono");
+            }
+
+            int confirmacion = JOptionPane.showOptionDialog(this,
+                    "¿Está seguro de que desea eliminar este Abono?",
+                    "Confirmación de eliminación",
+                    JOptionPane.YES_NO_OPTION,
+                    JOptionPane.QUESTION_MESSAGE,
+                    null,
+                    new Object[]{"Confirmar", "Cancelar"},
+                    "Confirmar");
+
+            // Si el usuario selecciona "Cancelar", no se hace nada
+            if (confirmacion != JOptionPane.YES_OPTION) {
+                return;
+            }
+            gestionarAbonos.eliminarAbono(id);
+
+            if (this.gestionarAbonos.listaAbonosPaginadoPorPago(this.LIMITE, this.pagina,pagoDTO.getPagoId()) == null || this.gestionarAbonos.listaAbonosPaginadoPorPago(this.LIMITE, this.pagina,pagoDTO.getPagoId()).isEmpty()) {
+                this.btnAtrasActionPerformed(null);
+            } else {
+                cargarAbonosEnTabla();
+            }
+        } catch (NegocioException ex) {
+            JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
 
     public void agregarOpcionesMenu() {
 
@@ -170,9 +238,7 @@ public class Abonos extends javax.swing.JFrame {
     }
 
     /**
-     * This method is called from within the constructor to initialize the form.
-     * WARNING: Do NOT modify this code. The content of this method is always
-     * regenerated by the Form Editor.
+     * This method is called from within the constructor to initialize the form. WARNING: Do NOT modify this code. The content of this method is always regenerated by the Form Editor.
      */
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -200,6 +266,7 @@ public class Abonos extends javax.swing.JFrame {
         Agrupador.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         panelMenu.setBackground(new java.awt.Color(0, 51, 102));
+        panelMenu.setForeground(new java.awt.Color(0, 51, 102));
 
         jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/logos/LogoEsquina.jpg"))); // NOI18N
 
@@ -238,15 +305,13 @@ public class Abonos extends javax.swing.JFrame {
         Agrupador.add(panelMenu, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 960, 60));
 
         tblAbonos.setBackground(new java.awt.Color(234, 234, 234));
+        tblAbonos.setForeground(new java.awt.Color(0, 51, 102));
         tblAbonos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+
             },
             new String [] {
-                "Cuenta", "Monto", "Fecha", "Hora"
+                "Cuenta", "Monto", "Fecha", "Hora", ""
             }
         ));
         jScrollPane1.setViewportView(tblAbonos);
@@ -254,8 +319,9 @@ public class Abonos extends javax.swing.JFrame {
         Agrupador.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 170, 880, 350));
 
         jLabel5.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        jLabel5.setForeground(new java.awt.Color(0, 51, 102));
         jLabel5.setText("Pagos Restantes:");
-        Agrupador.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 130, 200, 30));
+        Agrupador.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 130, 230, 30));
 
         btnBuscar.setForeground(new java.awt.Color(255, 255, 255));
         btnBuscar.setText("Actualizar");
@@ -272,6 +338,7 @@ public class Abonos extends javax.swing.JFrame {
         Agrupador.add(btnAtras, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 560, 130, 30));
 
         lblPagina.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        lblPagina.setForeground(new java.awt.Color(0, 51, 102));
         lblPagina.setText("Pagina 1");
         Agrupador.add(lblPagina, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 570, -1, -1));
 
@@ -285,11 +352,13 @@ public class Abonos extends javax.swing.JFrame {
         });
         Agrupador.add(btnSiguiente, new org.netbeans.lib.awtextra.AbsoluteConstraints(730, 560, 130, 30));
 
-        jLabel6.setText("Mis Abonos");
         jLabel6.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
-        Agrupador.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 80, 140, 30));
+        jLabel6.setForeground(new java.awt.Color(0, 51, 102));
+        jLabel6.setText("Mis Abonos");
+        Agrupador.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 80, 200, 30));
 
         jLabel7.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        jLabel7.setForeground(new java.awt.Color(0, 51, 102));
         jLabel7.setText("Total a Pagar:");
         Agrupador.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 130, 200, 30));
 
@@ -347,7 +416,6 @@ public class Abonos extends javax.swing.JFrame {
         this.estadoPagina();
     }//GEN-LAST:event_btnSiguienteActionPerformed
 
- 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel Agrupador;

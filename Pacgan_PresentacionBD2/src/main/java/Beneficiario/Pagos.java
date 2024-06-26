@@ -69,7 +69,7 @@ public class Pagos extends javax.swing.JFrame {
         //this.cargarConfiguracionInicialPantalla();
         this.cargarPagosEnTabla();
         this.estadoPagina();
-        configurarBotones();
+        this.configurarBotones();
     }
 
     public void cargarPagosEnTabla() {
@@ -427,7 +427,7 @@ public class Pagos extends javax.swing.JFrame {
             id = pagoIds.get(selectedRow);
         }
         try {
-            if (id == 0) {
+            if (id == null) {
                 throw new NegocioException("Por favor seleccione un Pago");
             }
             PagoDTO pagoDTO = gestionarPagos.consultarPagoPorID(id);
@@ -436,7 +436,7 @@ public class Pagos extends javax.swing.JFrame {
             this.dispose();
 
         } catch (NegocioException ex) {
-            Logger.getLogger(Pagos.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_btnCrearAbonoActionPerformed
 
