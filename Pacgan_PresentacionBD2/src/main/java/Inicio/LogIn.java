@@ -5,6 +5,7 @@
 package Inicio;
 
 import Beneficiario.Pagos;
+import dtos.BeneficiarioDTO;
 import excepciones.NegocioException;
 import insertadores.InsertarEstatusPago;
 import insertadores.InsertarBeneficiario;
@@ -41,7 +42,7 @@ public class LogIn extends javax.swing.JFrame {
     IinsertarBeneficiario insertarBeneficiarios;
     IinsertarEstatusPago insertPagoEstatus;
 
-    public LogIn(IIniciarSesionBO iniciarSesionBO, IinsertarBeneficiario insertarBeneficiarios,IinsertarEstatusPago insertPagoEstatus, IGestionarAbonos gestionarAbonos, IGestionarBeneficiarios gestionarBeneficiarios,
+    public LogIn(IIniciarSesionBO iniciarSesionBO, IinsertarBeneficiario insertarBeneficiarios, IinsertarEstatusPago insertPagoEstatus, IGestionarAbonos gestionarAbonos, IGestionarBeneficiarios gestionarBeneficiarios,
             IGestionarCuentasBancarias gestionarCuentasBancarias, IGestionarPagos gestionarPagos, IConsultarEstadoPagos consultarEstadoPagos) {
 
         initComponents();
@@ -51,8 +52,8 @@ public class LogIn extends javax.swing.JFrame {
         this.gestionarPagos = gestionarPagos;
         this.consultarEstadoPagos = consultarEstadoPagos;
         this.iniciarSesionBO = iniciarSesionBO;
-        this.insertarBeneficiarios=insertarBeneficiarios;
-        this.insertPagoEstatus=insertPagoEstatus;
+        this.insertarBeneficiarios = insertarBeneficiarios;
+        this.insertPagoEstatus = insertPagoEstatus;
         personalizador();
     }
 
@@ -61,6 +62,19 @@ public class LogIn extends javax.swing.JFrame {
         checkboxVer.setOpaque(false);
         radModoAdmin.setOpaque(false);
 
+    }
+
+    public BeneficiarioDTO conseguirBeneficiario() {
+        try {
+            for (int i = 0; i < gestionarBeneficiarios.listaBeneficiarios().size(); i++) {
+                if (gestionarBeneficiarios.listaBeneficiarios().get(i).getNombreUsuario().equals(txtUsuario.getText())) {
+                    return gestionarBeneficiarios.listaBeneficiarios().get(i);
+                }
+            }
+        } catch (NegocioException ex) {
+            Logger.getLogger(Pagos.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
     }
 
     /**
@@ -200,7 +214,9 @@ public class LogIn extends javax.swing.JFrame {
                 // Inicio de sesión exitoso
                 JOptionPane.showMessageDialog(this, "Inicio de sesion exitoso.", "Inicio de sesion", JOptionPane.INFORMATION_MESSAGE);
 
-                Pagos pagos = new Pagos(gestionarCuentasBancarias, gestionarPagos, consultarEstadoPagos, gestionarAbonos);
+                BeneficiarioDTO beneficiario = this.conseguirBeneficiario();
+                Pagos pagos = new Pagos(gestionarCuentasBancarias, gestionarPagos, consultarEstadoPagos, beneficiario);
+
                 pagos.setVisible(true);
                 dispose();
 

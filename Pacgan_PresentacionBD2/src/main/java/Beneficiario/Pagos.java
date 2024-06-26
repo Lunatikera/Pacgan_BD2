@@ -4,6 +4,7 @@
  */
 package Beneficiario;
 
+import dtos.BeneficiarioDTO;
 import dtos.CuentaBancariaDTO;
 import dtos.EstatusDTO;
 import dtos.PagoDTO;
@@ -40,16 +41,19 @@ public class Pagos extends javax.swing.JFrame {
     IConsultarEstadoPagos consultarEstadoPagos;
     IGestionarAbonos gestionarAbonos;
     List<Long> pagoIds;
+    BeneficiarioDTO beneficiario;
     private int pagina = 1;
     private final int LIMITE = 10;
 
     public Pagos(IGestionarCuentasBancarias gestionarCuentasBancarias, IGestionarPagos gestionarPagos,
-            IConsultarEstadoPagos consultarEstadoPagos, IGestionarAbonos gestionarAbonoes) {
+            IConsultarEstadoPagos consultarEstadoPagos, BeneficiarioDTO beneficiario) {
+
         initComponents();
         this.gestionarPagos = gestionarPagos;
         this.gestionarCuentasBancarias = gestionarCuentasBancarias;
         this.consultarEstadoPagos = consultarEstadoPagos;
-        this.gestionarAbonos=gestionarAbonoes;
+        this.beneficiario = beneficiario;
+
         pagoIds = new ArrayList<>();
         personalizador();
         agregarOpcionesMenu();
@@ -170,7 +174,9 @@ public class Pagos extends javax.swing.JFrame {
         misPagos.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Pagos Pagos = new Pagos(gestionarCuentasBancarias, gestionarPagos, consultarEstadoPagos, gestionarAbonos);
+
+                Pagos Pagos = new Pagos(gestionarCuentasBancarias, gestionarPagos, consultarEstadoPagos, beneficiario);
+
                 Pagos.setVisible(true);
                 dispose();
 
@@ -184,7 +190,7 @@ public class Pagos extends javax.swing.JFrame {
         misCuentas.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Cuentas Cuentas = new Cuentas(gestionarCuentasBancarias);
+                Cuentas Cuentas = new Cuentas(gestionarCuentasBancarias, beneficiario);
                 Cuentas.setVisible(true);
                 dispose();
 
@@ -420,6 +426,10 @@ public class Pagos extends javax.swing.JFrame {
     }
 
 
+
+    private void btnCrearPagoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCrearPagoActionPerformed
+        CrearPago crearPago = new CrearPago(gestionarPagos, gestionarCuentasBancarias, consultarEstadoPagos, beneficiario);
+
     private void btnCrearAbonoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCrearAbonoActionPerformed
         int selectedRow = tblPagos.getSelectedRow();
         Long id = null;
@@ -434,6 +444,7 @@ public class Pagos extends javax.swing.JFrame {
             Abonos abonos = new Abonos(gestionarAbonos, gestionarCuentasBancarias, pagoDTO);
             abonos.setVisible(true);
             this.dispose();
+
 
         } catch (NegocioException ex) {
             JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
