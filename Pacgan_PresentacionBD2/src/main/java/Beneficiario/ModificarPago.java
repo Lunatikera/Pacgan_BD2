@@ -106,7 +106,7 @@ public class ModificarPago extends javax.swing.JFrame {
         misPagos.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Pagos Pagos = new Pagos(gestionarCuentasBancarias, gestionarPagos, consultarEstadoPagos);
+                Pagos Pagos = new Pagos(gestionarCuentasBancarias, gestionarPagos, consultarEstadoPagos,beneficiario);
                 Pagos.setVisible(true);
                 dispose();
 
@@ -322,7 +322,7 @@ public class ModificarPago extends javax.swing.JFrame {
 
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
-        Pagos pagos = new Pagos(gestionarCuentasBancarias, gestionarPagos, consultarEstadoPagos);
+        Pagos pagos = new Pagos(gestionarCuentasBancarias, gestionarPagos, consultarEstadoPagos, beneficiario);
 
         pagos.setVisible(true);
 
@@ -375,7 +375,7 @@ public class ModificarPago extends javax.swing.JFrame {
 
             JOptionPane.showMessageDialog(this, "Se ha editado el pago correctamente", "Exito en el pago", JOptionPane.INFORMATION_MESSAGE);
 
-            Pagos pagos = new Pagos(gestionarCuentasBancarias, gestionarPagos, consultarEstadoPagos);
+            Pagos pagos = new Pagos(gestionarCuentasBancarias, gestionarPagos, consultarEstadoPagos, beneficiario);
             pagos.setVisible(true);
             this.dispose();
 

@@ -4,6 +4,7 @@
  */
 package Beneficiario;
 
+import dtos.BeneficiarioDTO;
 import dtos.CuentaBancariaDTO;
 import excepciones.NegocioException;
 import java.awt.Color;
@@ -27,14 +28,16 @@ import utilerias.JButtonRender;
 public class Cuentas extends javax.swing.JFrame {
 
     IGestionarCuentasBancarias gestionarCuentasBancarias;
+    BeneficiarioDTO beneficiario;
 
     /**
      * Creates new form Cuentas
      *
      * @param gestionarCuentasBancarias
      */
-    public Cuentas(IGestionarCuentasBancarias gestionarCuentasBancarias) {
+    public Cuentas(IGestionarCuentasBancarias gestionarCuentasBancarias, BeneficiarioDTO beneficiario) {
         this.gestionarCuentasBancarias = gestionarCuentasBancarias;
+        this.beneficiario = beneficiario;
 
         initComponents();
         personalizador();
@@ -87,7 +90,7 @@ public class Cuentas extends javax.swing.JFrame {
         misCuentas.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Cuentas Cuentas = new Cuentas(gestionarCuentasBancarias);
+                Cuentas Cuentas = new Cuentas(gestionarCuentasBancarias, beneficiario);
                 Cuentas.setVisible(true);
                 dispose();
 
@@ -129,7 +132,7 @@ public class Cuentas extends javax.swing.JFrame {
             cuentasLista.forEach(row
                     -> {
                 //Aquiva el ID del beneficiario
-                if (row.getBeneficiarioId().equals(Long.valueOf("2"))) {
+                if (row.getBeneficiarioId().equals(Long.valueOf(beneficiario.getBeneficiarioId()))) {
 
                     try {
                         CuentaBancariaDTO cuentaBancaria = gestionarCuentasBancarias.consultarCuentaBancariaPorID(row.getCuentaBancariaId());
@@ -206,14 +209,26 @@ public class Cuentas extends javax.swing.JFrame {
         }
     }
 
+    public CuentaBancariaDTO conseguirCuenta(String numeroCuenta) {
+        try {
+            for (int i = 0; i < gestionarCuentasBancarias.listaCuentasBancarias().size(); i++) {
+                if (gestionarCuentasBancarias.listaCuentasBancarias().get(i).getNumeroCuenta().equals(numeroCuenta)) {
+                    return gestionarCuentasBancarias.listaCuentasBancarias().get(i);
+                }
+            }
+        } catch (NegocioException ex) {
+            Logger.getLogger(Pagos.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
     public void editar() {
-        ModificarCuenta modificar = new ModificarCuenta(this.getNumeroCuentaSeleccionado(), gestionarCuentasBancarias);
+        ModificarCuenta modificar = new ModificarCuenta(this.getNumeroCuentaSeleccionado(), gestionarCuentasBancarias, beneficiario, this.conseguirCuenta(this.getNumeroCuentaSeleccionado()));
         modificar.setVisible(true);
         dispose();
     }
 
     public void eliminar() {
-        System.out.println("xd");
+        
     }
 
     /**
@@ -353,7 +368,7 @@ public class Cuentas extends javax.swing.JFrame {
 
     private void btnCrearCuentaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCrearCuentaActionPerformed
         // TODO add your handling code here:
-        CrearCuenta crearCuenta = new CrearCuenta(gestionarCuentasBancarias);
+        CrearCuenta crearCuenta = new CrearCuenta(gestionarCuentasBancarias, beneficiario);
 
         crearCuenta.setVisible(true);
         dispose();

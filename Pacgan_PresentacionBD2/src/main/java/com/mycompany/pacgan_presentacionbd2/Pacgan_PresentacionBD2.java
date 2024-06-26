@@ -153,7 +153,9 @@ public class Pacgan_PresentacionBD2 {
         FlatMacDarkLaf.setup();
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Pagos(gestionarCuentasBancarias, gestionarPagos, consultarEstadoPagos).setVisible(true);
+                LogIn inicioSesion = new LogIn(iniciarSesionBO, insertarBeneficiario, insertarEstatusPago, gestionarAbonos, gestionarBeneficiarios, gestionarCuentasBancarias, gestionarPagos, consultarEstadoPagos);
+        inicioSesion.setVisible(true);
+//                new Pagos(gestionarCuentasBancarias, gestionarPagos, consultarEstadoPagos).setVisible(true);
             }
         });
 
