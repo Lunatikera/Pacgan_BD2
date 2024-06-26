@@ -9,6 +9,7 @@ import dtos.CuentaBancariaDTO;
 import dtos.PagoDTO;
 import dtos.TipoPagoDTO;
 import excepciones.NegocioException;
+import interfaces.IConsultarAbonoBO;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -25,6 +26,7 @@ import javax.swing.SpinnerNumberModel;
 import javax.swing.text.DefaultFormatterFactory;
 import javax.swing.text.NumberFormatter;
 import servicios.IConsultarEstadoPagos;
+import servicios.IGestionarAbonos;
 import servicios.IGestionarCuentasBancarias;
 import servicios.IGestionarPagos;
 
@@ -36,16 +38,18 @@ public class CrearPago extends javax.swing.JFrame {
 
     IGestionarPagos gestionarPagos;
     IGestionarCuentasBancarias gestionarCuentasBancarias;
+    IGestionarAbonos gestiionarAbonos;
     IConsultarEstadoPagos consultarEstadoPagos;
     List<CuentaBancariaDTO> listaCuentas;
     List<TipoPagoDTO> listaTipoPagos;
     BeneficiarioDTO beneficiario;
     Long id = 1L;
 
-    public CrearPago(IGestionarPagos gestionarPagos, IGestionarCuentasBancarias gestionarCuentasBancarias, IConsultarEstadoPagos consultarEstadoPagos) {
+    public CrearPago(IGestionarPagos gestionarPagos, IGestionarCuentasBancarias gestionarCuentasBancarias, IGestionarAbonos gestiionarAbonos, IConsultarEstadoPagos consultarEstadoPagos ) {
         initComponents();
         this.gestionarPagos = gestionarPagos;
         this.gestionarCuentasBancarias = gestionarCuentasBancarias;
+        this.gestiionarAbonos=gestiionarAbonos;
         this.consultarEstadoPagos=consultarEstadoPagos;
         this.beneficiario = beneficiario;
         personalizador();
@@ -72,7 +76,7 @@ public class CrearPago extends javax.swing.JFrame {
         misPagos.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Pagos Pagos = new Pagos(gestionarCuentasBancarias, gestionarPagos, consultarEstadoPagos);
+                Pagos Pagos = new Pagos(gestionarCuentasBancarias, gestionarPagos, consultarEstadoPagos, gestiionarAbonos);
                 Pagos.setVisible(true);
                 dispose();
 
@@ -81,20 +85,8 @@ public class CrearPago extends javax.swing.JFrame {
 
         menuPagos.add(misPagos);
 
-        JMenu menuAbonos = new JMenu("Abonos");
-        JMenuItem misAbonos = new JMenuItem("Mis Abonos");
-        misAbonos.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                // Open your frame here
-                Abonos Abonos = new Abonos();
-                Abonos.setVisible(true);
-                dispose();
 
-            }
-        });
 
-        menuAbonos.add(misAbonos);
 
         JMenu menuCuentas = new JMenu("Cuentas");
         JMenuItem misCuentas = new JMenuItem("Mis cuentas");
@@ -124,7 +116,6 @@ public class CrearPago extends javax.swing.JFrame {
         menuSalir.add(salir);
         MenuBarAdmin.add(menuSalir);
 
-        MenuBarAdmin.add(menuAbonos);
         MenuBarAdmin.add(menuPagos);
         MenuBarAdmin.add(menuCuentas);
 
@@ -288,7 +279,7 @@ public class CrearPago extends javax.swing.JFrame {
 
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
-        Pagos pagos = new Pagos(gestionarCuentasBancarias, gestionarPagos, consultarEstadoPagos);
+        Pagos pagos = new Pagos(gestionarCuentasBancarias, gestionarPagos,consultarEstadoPagos, gestiionarAbonos);
 
         pagos.setVisible(true);
 
@@ -324,7 +315,7 @@ public class CrearPago extends javax.swing.JFrame {
             gestionarPagos.crearPagoBO(pago);
             JOptionPane.showMessageDialog(this, "Se ha agregado el pago correctamente", "Exito en el pago", JOptionPane.INFORMATION_MESSAGE);
            
-            Pagos pagos=new Pagos(gestionarCuentasBancarias, gestionarPagos, consultarEstadoPagos);
+            Pagos pagos=new Pagos(gestionarCuentasBancarias, gestionarPagos, consultarEstadoPagos, gestiionarAbonos);
             pagos.setVisible(true);
             this.dispose();
             

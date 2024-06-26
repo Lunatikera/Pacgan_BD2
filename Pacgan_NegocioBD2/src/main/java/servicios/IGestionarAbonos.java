@@ -21,4 +21,9 @@ public interface IGestionarAbonos {
     public List<AbonoDTO> listaAbonos() throws NegocioException;
 
     public void eliminarAbono(Long id) throws NegocioException;
+
+    public List<AbonoDTO> listaAbonosPaginado(int limite, int numeroPagina) throws NegocioException;
+
+    public List<AbonoDTO> listaAbonosPaginadoPorPago(int limite, int numeroPagina, Long pagoId) throws NegocioException;
+
 }

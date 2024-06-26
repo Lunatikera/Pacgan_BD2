@@ -8,11 +8,23 @@ import Administrador.AutorizarPagos;
 import Administrador.BeneficiariosAdmin;
 import Administrador.PagarAdmin;
 import Administrador.ReportesAdmin;
+import dtos.AbonoDTO;
+import dtos.CuentaBancariaDTO;
+import dtos.PagoDTO;
+import excepciones.NegocioException;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import servicios.IGestionarAbonos;
+import servicios.IGestionarCuentasBancarias;
 
 /**
  *
@@ -20,11 +32,20 @@ import javax.swing.JMenuItem;
  */
 public class Abonos extends javax.swing.JFrame {
 
-    /**
-     * Creates new form Abonos
-     */
-    public Abonos() {
+    private int pagina = 1;
+    private final int LIMITE = 7;
+    IGestionarAbonos gestionarAbonos;
+    IGestionarCuentasBancarias gestionarCuentasBancarias;
+    PagoDTO pagoDTO;
+    List<Long> pagoIds;
+
+    public Abonos(IGestionarAbonos gestionarAbonos,IGestionarCuentasBancarias gestionarCuentasBancarias, PagoDTO pagoDTO) {
         initComponents();
+        this.gestionarAbonos = gestionarAbonos;
+        this.gestionarCuentasBancarias=gestionarCuentasBancarias;
+        this.pagoDTO = pagoDTO;
+        pagoIds = new ArrayList<>();
+
         personalizador();
         agregarOpcionesMenu();
     }
@@ -37,6 +58,54 @@ public class Abonos extends javax.swing.JFrame {
 
     }
 
+    public void cargarAbonosEnTabla() {
+        try {
+            pagoIds.clear();
+            List<AbonoDTO> abonoLista = this.gestionarAbonos.listaAbonosPaginadoPorPago(this.LIMITE, this.pagina, pagoDTO.getPagoId());
+            if (abonoLista.isEmpty()) {
+                return;
+            }
+            for (AbonoDTO abonoDTO : abonoLista) {
+                pagoIds.add(pagoDTO.getPagoId());
+            }
+
+            this.llenarTablaAbonos(abonoLista);
+        } catch (NegocioException ex) {
+            JOptionPane.showMessageDialog(this, ex.getMessage(), "Información", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+    
+       private void llenarTablaAbonos(List<AbonoDTO> abonoLista) {
+        DefaultTableModel modeloTabla = (DefaultTableModel) this.tblAbonos.getModel();
+
+        if (modeloTabla.getRowCount() > 0) {
+            for (int i = modeloTabla.getRowCount() - 1; i > -1; i--) {
+                modeloTabla.removeRow(i);
+            }
+        }
+
+        if (abonoLista != null) {
+            abonoLista.forEach(row
+                    -> {
+                try {
+                  
+                    CuentaBancariaDTO cuentaBancaria = gestionarCuentasBancarias.consultarCuentaBancariaPorID(pagoDTO.getCuentaBancariaId());
+                   
+                    Object[] fila = new Object[4];
+                    fila[0] = cuentaBancaria.getNumeroCuenta();
+                    fila[1] = row.getMonto();
+                    fila[2] = row.getFecha();
+                    fila[3] = row.getHora();
+
+                    modeloTabla.addRow(fila);
+                } catch (NegocioException ex) {
+                    Logger.getLogger(Pagos.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            });
+        }
+    }
+
+
     public void agregarOpcionesMenu() {
 
         JMenu menuPagos = new JMenu("Pagos");
@@ -44,8 +113,8 @@ public class Abonos extends javax.swing.JFrame {
         misPagos.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-             //   Pagos Pagos = new Pagos();
-               // Pagos.setVisible(true);
+                //   Pagos Pagos = new Pagos();
+                // Pagos.setVisible(true);
                 dispose();
 
             }
@@ -58,7 +127,7 @@ public class Abonos extends javax.swing.JFrame {
         misAbonos.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Abonos Abonos = new Abonos();
+                Abonos Abonos = new Abonos(gestionarAbonos, gestionarCuentasBancarias, pagoDTO);
                 Abonos.setVisible(true);
                 dispose();
 
@@ -115,12 +184,14 @@ public class Abonos extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tblAbonos = new javax.swing.JTable();
         jLabel5 = new javax.swing.JLabel();
         btnBuscar = new javax.swing.JButton();
         btnAtras = new javax.swing.JButton();
         lblPagina = new javax.swing.JLabel();
         btnSiguiente = new javax.swing.JButton();
+        jLabel6 = new javax.swing.JLabel();
+        jLabel7 = new javax.swing.JLabel();
         MenuBarAdmin = new javax.swing.JMenuBar();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -132,9 +203,9 @@ public class Abonos extends javax.swing.JFrame {
 
         jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/logos/LogoEsquina.jpg"))); // NOI18N
 
-        jLabel2.setText("Abonos");
         jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel2.setText("Abonos");
 
         javax.swing.GroupLayout panelMenuLayout = new javax.swing.GroupLayout(panelMenu);
         panelMenu.setLayout(panelMenuLayout);
@@ -166,7 +237,8 @@ public class Abonos extends javax.swing.JFrame {
 
         Agrupador.add(panelMenu, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 960, 60));
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tblAbonos.setBackground(new java.awt.Color(234, 234, 234));
+        tblAbonos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -174,18 +246,16 @@ public class Abonos extends javax.swing.JFrame {
                 {null, null, null, null}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "Cuenta", "Monto", "Fecha", "Hora"
             }
         ));
-        jTable1.setBackground(new java.awt.Color(234, 234, 234));
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(tblAbonos);
 
         Agrupador.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 170, 880, 350));
 
-        jLabel5.setText("Mis Abonos");
         jLabel5.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
-        jLabel5.setForeground(new java.awt.Color(0, 0, 0));
-        Agrupador.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 80, 140, 30));
+        jLabel5.setText("Pagos Restantes:");
+        Agrupador.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 130, 200, 30));
 
         btnBuscar.setForeground(new java.awt.Color(255, 255, 255));
         btnBuscar.setText("Actualizar");
@@ -202,7 +272,6 @@ public class Abonos extends javax.swing.JFrame {
         Agrupador.add(btnAtras, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 560, 130, 30));
 
         lblPagina.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        lblPagina.setForeground(new java.awt.Color(0, 0, 0));
         lblPagina.setText("Pagina 1");
         Agrupador.add(lblPagina, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 570, -1, -1));
 
@@ -215,6 +284,14 @@ public class Abonos extends javax.swing.JFrame {
             }
         });
         Agrupador.add(btnSiguiente, new org.netbeans.lib.awtextra.AbsoluteConstraints(730, 560, 130, 30));
+
+        jLabel6.setText("Mis Abonos");
+        jLabel6.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        Agrupador.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 80, 140, 30));
+
+        jLabel7.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        jLabel7.setText("Total a Pagar:");
+        Agrupador.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 130, 200, 30));
 
         setJMenuBar(MenuBarAdmin);
 
@@ -236,44 +313,41 @@ public class Abonos extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_btnAtrasActionPerformed
 
+    private void estatusBotonAtras() {
+        if (this.pagina > 1) {
+            btnAtras.setEnabled(true);
+            return;
+        }
+        btnAtras.setEnabled(false);
+    }
+
+    private void estadoPagina() {
+        String numPagina = String.valueOf(pagina);
+        lblPagina.setText("Pagina " + numPagina);
+        estatusBotonAtras();
+        estatusBotonSiguiente();
+    }
+
+    private void estatusBotonSiguiente() {
+
+        try {
+            btnSiguiente.setEnabled(true);
+            if (this.gestionarAbonos.listaAbonosPaginadoPorPago(this.LIMITE, this.pagina + 1, pagoDTO.getPagoId()) == null
+                    || this.gestionarAbonos.listaAbonosPaginadoPorPago(this.LIMITE, this.pagina + 1, pagoDTO.getPagoId()).isEmpty()) {
+                btnSiguiente.setEnabled(false);
+            }
+        } catch (NegocioException ex) {
+            System.out.println(ex);
+        }
+
+    }
     private void btnSiguienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSiguienteActionPerformed
-        // TODO add your handling code here:
+        this.pagina = this.pagina + 1;
+        this.cargarAbonosEnTabla();
+        this.estadoPagina();
     }//GEN-LAST:event_btnSiguienteActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Abonos.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Abonos.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Abonos.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Abonos.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new Abonos().setVisible(true);
-            }
-        });
-    }
+ 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel Agrupador;
@@ -285,9 +359,11 @@ public class Abonos extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
     private javax.swing.JLabel lblPagina;
     private javax.swing.JPanel panelMenu;
+    private javax.swing.JTable tblAbonos;
     // End of variables declaration//GEN-END:variables
 }

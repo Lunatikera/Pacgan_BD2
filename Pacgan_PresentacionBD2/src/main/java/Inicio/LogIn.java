@@ -200,7 +200,7 @@ public class LogIn extends javax.swing.JFrame {
                 // Inicio de sesión exitoso
                 JOptionPane.showMessageDialog(this, "Inicio de sesion exitoso.", "Inicio de sesion", JOptionPane.INFORMATION_MESSAGE);
 
-                Pagos pagos = new Pagos(gestionarCuentasBancarias, gestionarPagos, consultarEstadoPagos);
+                Pagos pagos = new Pagos(gestionarCuentasBancarias, gestionarPagos, consultarEstadoPagos, gestionarAbonos);
                 pagos.setVisible(true);
                 dispose();
 
