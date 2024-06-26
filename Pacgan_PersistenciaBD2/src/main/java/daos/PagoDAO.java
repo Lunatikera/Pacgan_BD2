@@ -11,6 +11,7 @@ import interfaces.IPagoDAO;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
+import javax.persistence.TypedQuery;
 
 /**
  * Clase que implementa las operaciones de acceso a datos para la entidad
@@ -186,5 +187,30 @@ public class PagoDAO implements IPagoDAO {
         } finally {
             entityManager.close();
         }
+    }
+
+    @Override
+    public List<PagoEntidad> listaPagoPaginadoPorBeneficiario(int limite, int numeroPagina, Long beneficiarioId) throws PersistenciaException {
+       EntityManager entityManager = conexionBD.obtenerEntityManager();
+        List<PagoEntidad> abonos = null;
+        try {
+            // Crear una consulta TypedQuery utilizando JPQL para obtener abonos por pagoId
+            TypedQuery<PagoEntidad> query = entityManager.createQuery(
+                    "SELECT p FROM PagoEntidad p WHERE p.beneficiarioPago.id_beneficiario = :beneficiarioId ORDER BY p.monto DESC",
+                    PagoEntidad.class
+            );
+            query.setParameter("beneficiarioId", beneficiarioId);
+            query.setFirstResult((numeroPagina - 1) * limite); // Establecer el offset
+            query.setMaxResults(limite); // Establecer el límite de resultados
+
+            // Ejecutar la consulta y retornar los resultados
+            abonos= query.getResultList();
+        } catch (Exception e) {
+            // Manejar excepciones de persistencia y encapsularlas en PersistenciaException
+            throw new PersistenciaException("Error al obtener los abonos paginados.", e);
+        }  finally {
+            entityManager.close();
+        }
+        return abonos;
     }
 }

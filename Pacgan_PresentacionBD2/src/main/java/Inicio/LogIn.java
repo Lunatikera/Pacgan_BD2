@@ -215,7 +215,7 @@ public class LogIn extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(this, "Inicio de sesion exitoso.", "Inicio de sesion", JOptionPane.INFORMATION_MESSAGE);
 
                 BeneficiarioDTO beneficiario = this.conseguirBeneficiario();
-                Pagos pagos = new Pagos(gestionarCuentasBancarias, gestionarPagos, consultarEstadoPagos, beneficiario);
+                Pagos pagos = new Pagos(gestionarCuentasBancarias, gestionarPagos, consultarEstadoPagos, gestionarAbonos, beneficiario);
 
                 pagos.setVisible(true);
                 dispose();

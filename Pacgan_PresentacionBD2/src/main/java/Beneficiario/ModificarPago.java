@@ -47,13 +47,14 @@ public class ModificarPago extends javax.swing.JFrame {
     BeneficiarioDTO beneficiario;
     Long id = 1L;
 
-    public ModificarPago(IGestionarPagos gestionarPagos, IGestionarCuentasBancarias gestionarCuentasBancarias, IConsultarEstadoPagos consultarEstadoPagos, IGestionarAbonos gestionarAbonos, PagoDTO pagoDTO) {
+    public ModificarPago(IGestionarPagos gestionarPagos, IGestionarCuentasBancarias gestionarCuentasBancarias, IConsultarEstadoPagos consultarEstadoPagos, IGestionarAbonos gestionarAbonos, PagoDTO pagoDTO, BeneficiarioDTO beneficiario
+    ) {
         initComponents();
         this.gestionarPagos = gestionarPagos;
         this.gestionarCuentasBancarias = gestionarCuentasBancarias;
         this.consultarEstadoPagos = consultarEstadoPagos;
         this.beneficiario = beneficiario;
-        this.gestionarAbonos=gestionarAbonos;
+        this.gestionarAbonos = gestionarAbonos;
         this.pagoDTO = pagoDTO;
         personalizador();
         agregarOpcionesMenu();
@@ -110,7 +111,7 @@ public class ModificarPago extends javax.swing.JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
 
-                Pagos Pagos = new Pagos(gestionarCuentasBancarias, gestionarPagos, consultarEstadoPagos,beneficiario);
+                Pagos Pagos = new Pagos(gestionarCuentasBancarias, gestionarPagos, consultarEstadoPagos, gestionarAbonos, beneficiario);
 
                 Pagos.setVisible(true);
                 dispose();
@@ -119,8 +120,6 @@ public class ModificarPago extends javax.swing.JFrame {
         });
 
         menuPagos.add(misPagos);
-
-  
 
         JMenu menuCuentas = new JMenu("Cuentas");
         JMenuItem misCuentas = new JMenuItem("Mis cuentas");
@@ -314,8 +313,7 @@ public class ModificarPago extends javax.swing.JFrame {
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
 
-        Pagos pagos = new Pagos(gestionarCuentasBancarias, gestionarPagos, consultarEstadoPagos, beneficiario);
-
+        Pagos pagos = new Pagos(gestionarCuentasBancarias, gestionarPagos, consultarEstadoPagos, gestionarAbonos, beneficiario);
 
         pagos.setVisible(true);
 
@@ -368,7 +366,7 @@ public class ModificarPago extends javax.swing.JFrame {
 
             JOptionPane.showMessageDialog(this, "Se ha editado el pago correctamente", "Exito en el pago", JOptionPane.INFORMATION_MESSAGE);
 
-            Pagos pagos = new Pagos(gestionarCuentasBancarias, gestionarPagos, consultarEstadoPagos, beneficiario);
+            Pagos pagos = new Pagos(gestionarCuentasBancarias, gestionarPagos, consultarEstadoPagos, gestionarAbonos, beneficiario);
 
             pagos.setVisible(true);
             this.dispose();

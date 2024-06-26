@@ -56,7 +56,6 @@ public class ConsultarPagoBO implements IConsultarPagoBO {
 
     @Override
     public List<PagoDTO> listaPagosPaginado(int limite, int numeroPagina) throws NegocioException {
-        System.out.println(numeroPagina);
         try {
             List<PagoEntidad> listaPagosEntidad = pagoDAO.listaPagosPaginado(limite, numeroPagina);
             List<PagoDTO> listaPagosDTO = new ArrayList<>();
@@ -72,6 +71,26 @@ public class ConsultarPagoBO implements IConsultarPagoBO {
             return listaPagosDTO;
         } catch (PersistenciaException e) {
             throw new NegocioException("Error al obtener la lista de beneficiarios desde la base de datos.", e);
+        }
+    }
+
+    @Override
+    public List<PagoDTO> listaPagoPaginadoPorBeneficiario(int limite, int numeroPagina, Long beneficiarioId) throws NegocioException {
+      try {
+            List<PagoEntidad> listaPagosEntidad = pagoDAO.listaPagoPaginadoPorBeneficiario(limite, numeroPagina,beneficiarioId );
+            List<PagoDTO> listaPagosDTO = new ArrayList<>();
+
+            for (PagoEntidad pago : listaPagosEntidad) {
+                PagoDTO pagoDTO = convertirEntidadADTO(pago);
+                listaPagosDTO.add(pagoDTO);
+            }
+            if (listaPagosDTO.isEmpty() && numeroPagina == 1) {
+                throw new NegocioException("No existen pagos registrados");
+
+            }
+            return listaPagosDTO;
+        } catch (PersistenciaException e) {
+            throw new NegocioException("Error al obtener la lista de pago.", e);
         }
     }
     

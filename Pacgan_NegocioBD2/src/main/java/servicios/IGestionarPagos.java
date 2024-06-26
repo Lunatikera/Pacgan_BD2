@@ -26,8 +26,11 @@ public interface IGestionarPagos {
     public void editarPago(PagoDTO pago) throws NegocioException;
 
     public void eliminarPago(Long id) throws NegocioException;
-    
-     public TipoPagoDTO consultarTipoPagoPorID(Long id) throws NegocioException;
+
+    public TipoPagoDTO consultarTipoPagoPorID(Long id) throws NegocioException;
 
     public List<TipoPagoDTO> listaTiposPago() throws NegocioException;
+
+    public List<PagoDTO> listaPagoPaginadoPorBeneficiario(int limite, int numeroPagina, Long beneficiarioId) throws NegocioException;
+
 }

@@ -75,4 +75,9 @@ public class GestionarPagosFacade implements IGestionarPagos {
         return consultarTipoPagoBO.listaTiposPago();
     }
 
+    @Override
+    public List<PagoDTO> listaPagoPaginadoPorBeneficiario(int limite, int numeroPagina, Long beneficiarioId) throws NegocioException {
+        return consultarPagoBO.listaPagoPaginadoPorBeneficiario(limite, numeroPagina, beneficiarioId);
+    }
+
 }

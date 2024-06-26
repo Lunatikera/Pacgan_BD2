@@ -21,6 +21,8 @@ import daos.EstatusDAO;
 import daos.PagoDAO;
 import daos.Pago_EstatusDAO;
 import daos.TipoPagoDAO;
+import dtos.BeneficiarioDTO;
+import excepciones.NegocioException;
 import fachadas.ConsultarEstadoPagosFacade;
 import fachadas.GestionarAbonosFacade;
 import fachadas.GestionarBeneficiariosFacade;
@@ -80,6 +82,8 @@ import interfaces.IVerEstadoPagoBO;
 import interfaces.IinsertarBeneficiario;
 import interfaces.IinsertarEstatusPago;
 import java.awt.Font;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.UIManager;
 import negocio.ConsultarEstatusBO;
 import negocio.ConsultarTipoPagoBO;
@@ -93,7 +97,7 @@ import servicios.IConsultarEstadoPagos;
 public class Pacgan_PresentacionBD2 {
     
     public static void main(String[] args) {
-
+        try {
         //Conexion
         IConexionBD conexion = new ConexionBD();
 
@@ -140,6 +144,25 @@ public class Pacgan_PresentacionBD2 {
         IGestionarCuentasBancarias gestionarCuentasBancarias = new GestionarCuentasBancariasFacade(agregarCuentaBancariaBO, consultarCuentaBancariaBO, editarCuentaBancariaBO, eliminarCuentaBancariaBO);
         IGestionarPagos gestionarPagos = new GestionarPagosFacade(crearPagoBO, consultarPagoBO, editarPagoBO, eliminarPagoBO, consultarTipoPagoBO);
         IConsultarEstadoPagos consultarEstadoPagos = new ConsultarEstadoPagosFacade(verEstadoPagoBO, historialEstadoPagoBO, consultarEstatusBO);
+        
+        
+        BeneficiarioDTO beneficiario;
+
+            beneficiario = gestionarBeneficiarios.consultarBeneficiarioPorID(1L);
+            
+            FlatRobotoFont.install();
+        FlatLaf.registerCustomDefaultsSource("raven.combobox");
+        UIManager.put("defaultFont", new Font(FlatRobotoFont.FAMILY, Font.PLAIN, 13));
+        FlatMacDarkLaf.setup();
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                new Pagos(gestionarCuentasBancarias, gestionarPagos, consultarEstadoPagos, gestionarAbonos, beneficiario).setVisible(true);
+            }
+        });
+        } catch (NegocioException ex) {
+            Logger.getLogger(Pacgan_PresentacionBD2.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
 //
 //        
    //     Pagos pago= new Pagos(gestionarCuentasBancarias, gestionarPagos, consultarEstadoPagos);
@@ -147,20 +170,7 @@ public class Pacgan_PresentacionBD2 {
 //        LogIn inicioSesion = new LogIn(iniciarSesionBO, insertarBeneficiario, insertarEstatusPago, gestionarAbonos, gestionarBeneficiarios, gestionarCuentasBancarias, gestionarPagos, consultarEstadoPagos);
 //        inicioSesion.setVisible(true);
 
-    FlatRobotoFont.install();
-        FlatLaf.registerCustomDefaultsSource("raven.combobox");
-        UIManager.put("defaultFont", new Font(FlatRobotoFont.FAMILY, Font.PLAIN, 13));
-        FlatMacDarkLaf.setup();
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-
-                LogIn inicioSesion = new LogIn(iniciarSesionBO, insertarBeneficiario, insertarEstatusPago, gestionarAbonos, gestionarBeneficiarios, gestionarCuentasBancarias, gestionarPagos, consultarEstadoPagos);
-        inicioSesion.setVisible(true);
-//                new Pagos(gestionarCuentasBancarias, gestionarPagos, consultarEstadoPagos).setVisible(true);
-
-                new Pagos(gestionarCuentasBancarias, gestionarPagos, consultarEstadoPagos, gestionarAbonos).setVisible(true);
-            }
-        });
+    
 
 
 }

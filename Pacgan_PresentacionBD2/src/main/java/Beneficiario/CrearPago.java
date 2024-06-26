@@ -43,7 +43,6 @@ public class CrearPago extends javax.swing.JFrame {
     List<CuentaBancariaDTO> listaCuentas;
     List<TipoPagoDTO> listaTipoPagos;
     BeneficiarioDTO beneficiario;
-    Long id = 1L;
 
     public CrearPago(IGestionarPagos gestionarPagos, IGestionarCuentasBancarias gestionarCuentasBancarias, IConsultarEstadoPagos consultarEstadoPagos, BeneficiarioDTO beneficiario) {
 
@@ -59,7 +58,7 @@ public class CrearPago extends javax.swing.JFrame {
     }
 
     public void metodosIniciales() {
-        llenarComboBoxCuenta(id);
+        llenarComboBoxCuenta(beneficiario.getBeneficiarioId());
         llenarComboBoxTipoPago();
         configurarMonto();
     }
@@ -78,7 +77,7 @@ public class CrearPago extends javax.swing.JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
 
-                Pagos Pagos = new Pagos(gestionarCuentasBancarias, gestionarPagos, consultarEstadoPagos,beneficiario);
+                Pagos Pagos = new Pagos(gestionarCuentasBancarias, gestionarPagos, consultarEstadoPagos, gestiionarAbonos, beneficiario);
 
                 Pagos.setVisible(true);
                 dispose();
@@ -284,7 +283,7 @@ public class CrearPago extends javax.swing.JFrame {
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
 
-        Pagos pagos = new Pagos(gestionarCuentasBancarias, gestionarPagos, consultarEstadoPagos,beneficiario);
+        Pagos pagos = new Pagos(gestionarCuentasBancarias, gestionarPagos, consultarEstadoPagos, gestiionarAbonos, beneficiario);
 
 
         pagos.setVisible(true);
@@ -321,7 +320,7 @@ public class CrearPago extends javax.swing.JFrame {
             gestionarPagos.crearPagoBO(pago);
             JOptionPane.showMessageDialog(this, "Se ha agregado el pago correctamente", "Exito en el pago", JOptionPane.INFORMATION_MESSAGE);
 
-            Pagos pagos=new Pagos(gestionarCuentasBancarias, gestionarPagos, consultarEstadoPagos,beneficiario);
+            Pagos pagos=new Pagos(gestionarCuentasBancarias, gestionarPagos, consultarEstadoPagos, gestiionarAbonos, beneficiario);
 
             pagos.setVisible(true);
             this.dispose();

@@ -35,7 +35,7 @@ public class CrearCuenta extends javax.swing.JFrame {
         this.beneficiario = beneficiario;
         this.convertidor = new ConvertidorCuentaBancaria();
 
-
+    }
     public void personalizador() {
         Agrupador.setBackground(Color.decode("#142132"));
     }
