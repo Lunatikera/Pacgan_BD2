@@ -61,4 +61,9 @@ public class GestionarCuentasBancariasFacade implements IGestionarCuentasBancari
         return consultarCuentaBancariaBO.listaCuentasPorBeneficiario(id);
     }
 
+    @Override
+    public List<CuentaBancariaDTO> listaPaginadoCuentasPorBeneficiario(int limite, int numeroPagina, Long beneficiarioId) throws NegocioException {
+        return consultarCuentaBancariaBO.listaPaginadoCuentasPorBeneficiario(limite, numeroPagina, beneficiarioId);
+    }
+
 }

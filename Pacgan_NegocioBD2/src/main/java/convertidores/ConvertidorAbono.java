@@ -32,10 +32,7 @@ public class ConvertidorAbono {
         PagoEntidad pagoEntidad = pagoDAO.consultarPagoPorID(abonoDTO.getPagoId());
 
         abonoEntidad.setMonto(abonoDTO.getMonto());
-        
-        LocalDateTime fechaHora = abonoDTO.getFecha().atTime(abonoDTO.getHora());
-
-        abonoEntidad.setFechaHora(fechaHora);
+       
 
         if (pagoEntidad != null) {
             abonoEntidad.setPagoAbono(pagoEntidad);

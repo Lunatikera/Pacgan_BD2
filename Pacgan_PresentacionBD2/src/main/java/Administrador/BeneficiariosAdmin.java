@@ -399,7 +399,7 @@ public class BeneficiariosAdmin extends javax.swing.JFrame {
 
         jLabel5.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         jLabel5.setText("Beneficiarios");
-        Agrupador.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 110, 150, -1));
+        Agrupador.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 110, 180, -1));
 
         btnAtras.setBackground(new java.awt.Color(0, 102, 153));
         btnAtras.setForeground(new java.awt.Color(255, 255, 255));

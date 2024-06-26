@@ -70,4 +70,20 @@ public class ConsultarCuentaBancariaBO implements IConsultarCuentaBancariaBO {
             throw new NegocioException("Error al consultar lista de cuentas bancarias", e);
         }
     }
+
+    @Override
+    public List<CuentaBancariaDTO> listaPaginadoCuentasPorBeneficiario(int limite, int numeroPagina, Long beneficiarioId) throws NegocioException {
+         try {
+            
+            List<CuentaBancariaEntidad> listaCuentasBancariasEntidad = cuentaBancariaDAO.listaPaginadoCuentasPorBeneficiario(limite, numeroPagina, beneficiarioId);
+            List<CuentaBancariaDTO> listaCuentasBancariasDTO = new ArrayList<>();
+            
+            for (CuentaBancariaEntidad cuentaBancariaEntidad : listaCuentasBancariasEntidad) {
+                listaCuentasBancariasDTO.add(ConvertidorCuentaBancaria.convertirEntidadADTO(cuentaBancariaEntidad));
+            }
+            return listaCuentasBancariasDTO;
+        } catch (PersistenciaException e) {
+            throw new NegocioException("Error al consultar lista de cuentas bancarias", e);
+        }
+    }
 }

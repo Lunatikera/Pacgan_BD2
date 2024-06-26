@@ -26,4 +26,6 @@ public interface IGestionarCuentasBancarias {
 
     public void eliminarCuentaBancaria(Long id) throws NegocioException;
 
+    public List<CuentaBancariaDTO> listaPaginadoCuentasPorBeneficiario(int limite, int numeroPagina, Long beneficiarioId) throws NegocioException;
+
 }

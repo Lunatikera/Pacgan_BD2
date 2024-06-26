@@ -28,6 +28,11 @@ public class AbonoDTO {
         this.pagoId = pagoId;
     }
 
+    public AbonoDTO(BigDecimal monto, Long pagoId) {
+        this.monto = monto;
+        this.pagoId = pagoId;
+    }
+
     public AbonoDTO() {
     }
 

@@ -90,7 +90,7 @@ public class CuentaBancariaDAO implements ICuentaBancariaDAO {
         List<CuentaBancariaEntidad> cuentasBancarias = null;
 
         try {
-            cuentasBancarias = entityManager.createQuery("SELECT c FROM CuentaBancariaEntidad c", CuentaBancariaEntidad.class).getResultList();
+            cuentasBancarias = entityManager.createQuery("SELECT c FROM CuentaBancariaEntidad c WHERE c.estaEliminada=false", CuentaBancariaEntidad.class).getResultList();
         } catch (Exception e) {
             throw new PersistenciaException("Error al leer todas las cuentas bancarias", e);
         } finally {
@@ -140,7 +140,8 @@ public class CuentaBancariaDAO implements ICuentaBancariaDAO {
             entityTransaction.begin();
             CuentaBancariaEntidad cuentaBancaria = entityManager.find(CuentaBancariaEntidad.class, id);
             if (cuentaBancaria != null) {
-                entityManager.remove(cuentaBancaria);
+                cuentaBancaria.setEstaEliminada(true); // Marcamos como eliminada
+                entityManager.merge(cuentaBancaria); // Actualizamos la entidad en la base de datos
             }
             entityTransaction.commit();
         } catch (Exception e) {
@@ -160,7 +161,7 @@ public class CuentaBancariaDAO implements ICuentaBancariaDAO {
 
         try {
             String jpql = "SELECT c FROM CuentaBancariaEntidad c "
-                    + "WHERE c.beneficiarioCuenta.id_beneficiario = :id";
+                    + "WHERE c.beneficiarioCuenta.id_beneficiario = :id and c.estaEliminada=false ";
 
             TypedQuery<CuentaBancariaEntidad> query = entityManager.createQuery(jpql, CuentaBancariaEntidad.class);
             query.setParameter("id", id);
@@ -173,5 +174,30 @@ public class CuentaBancariaDAO implements ICuentaBancariaDAO {
             entityManager.close();
         }
         return cuentasBancarias;
+    }
+
+    @Override
+    public List<CuentaBancariaEntidad> listaPaginadoCuentasPorBeneficiario(int limite, int numeroPagina, Long beneficiarioId) throws PersistenciaException {
+        EntityManager entityManager = conexionBD.obtenerEntityManager();
+        List<CuentaBancariaEntidad> cuentas = null;
+        try {
+
+            TypedQuery<CuentaBancariaEntidad> query = entityManager.createQuery(
+                    "SELECT c FROM CuentaBancariaEntidad c WHERE c.beneficiarioCuenta.id_beneficiario = :beneficiarioId and c.estaEliminada=false",
+                    CuentaBancariaEntidad.class
+            );
+            query.setParameter("beneficiarioId", beneficiarioId);
+            query.setFirstResult((numeroPagina - 1) * limite); // Establecer el offset
+            query.setMaxResults(limite); // Establecer el límite de resultados
+
+            // Ejecutar la consulta y retornar los resultados
+            cuentas = query.getResultList();
+        } catch (Exception e) {
+            // Manejar excepciones de persistencia y encapsularlas en PersistenciaException
+            throw new PersistenciaException("Error al obtener las cuentas paginados.", e);
+        } finally {
+            entityManager.close();
+        }
+        return cuentas;
     }
 }

@@ -8,13 +8,18 @@ import Administrador.AutorizarPagos;
 import Administrador.BeneficiariosAdmin;
 import Administrador.PagarAdmin;
 import Administrador.ReportesAdmin;
+import Inicio.LogIn;
 import dtos.AbonoDTO;
+import dtos.BeneficiarioDTO;
 import dtos.CuentaBancariaDTO;
 import dtos.PagoDTO;
+import dtos.TipoPagoDTO;
 import excepciones.NegocioException;
 import java.awt.Color;
+import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -24,8 +29,10 @@ import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumnModel;
+import servicios.IConsultarEstadoPagos;
 import servicios.IGestionarAbonos;
 import servicios.IGestionarCuentasBancarias;
+import servicios.IGestionarPagos;
 import utileria.JButtonCellEditor;
 import utileria.JButtonRenderer;
 
@@ -39,19 +46,27 @@ public class Abonos extends javax.swing.JFrame {
     private final int LIMITE = 7;
     IGestionarAbonos gestionarAbonos;
     IGestionarCuentasBancarias gestionarCuentasBancarias;
+    IGestionarPagos gestionarPago;
+    IConsultarEstadoPagos consultarEstadoPagos;
+    BeneficiarioDTO beneficiarioDTO;
     PagoDTO pagoDTO;
-    List<Long> pagoIds;
+    List<Long> abonosIds;
 
-    public Abonos(IGestionarAbonos gestionarAbonos, IGestionarCuentasBancarias gestionarCuentasBancarias, PagoDTO pagoDTO) {
+    public Abonos(IGestionarAbonos gestionarAbonos, IGestionarCuentasBancarias gestionarCuentasBancarias, IGestionarPagos gestionarPago, IConsultarEstadoPagos consultarEstadoPagos, PagoDTO pagoDTO, BeneficiarioDTO beneficiarioDTO
+    ) {
         initComponents();
+        this.setLocationRelativeTo(this);
         this.gestionarAbonos = gestionarAbonos;
         this.gestionarCuentasBancarias = gestionarCuentasBancarias;
+        this.gestionarPago = gestionarPago;
+        this.consultarEstadoPagos = consultarEstadoPagos;
+        this.beneficiarioDTO = beneficiarioDTO;
         this.pagoDTO = pagoDTO;
-        pagoIds = new ArrayList<>();
-        System.out.println(pagoDTO);
+        abonosIds = new ArrayList<>();
         personalizador();
         agregarOpcionesMenu();
         cargarMetodosIniciales();
+        System.out.println(pagoDTO);
     }
 
     public void personalizador() {
@@ -67,26 +82,44 @@ public class Abonos extends javax.swing.JFrame {
         this.cargarAbonosEnTabla();
         this.estadoPagina();
         this.configurarBotones();
+        this.llenarLabels();
     }
 
     public void cargarAbonosEnTabla() {
         try {
-            pagoIds.clear();
+            abonosIds.clear();
             List<AbonoDTO> abonoLista = this.gestionarAbonos.listaAbonosPaginadoPorPago(this.LIMITE, this.pagina, pagoDTO.getPagoId());
             System.out.println(abonoLista);
             if (abonoLista.isEmpty()) {
                 return;
             }
             for (AbonoDTO abonoDTO : abonoLista) {
-                pagoIds.add(pagoDTO.getPagoId());
+                abonosIds.add(abonoDTO.getAbonoId());
             }
 
             this.llenarTablaAbonos(abonoLista);
         } catch (NegocioException ex) {
-           // JOptionPane.showMessageDialog(this, ex.getMessage(), "Información", JOptionPane.ERROR_MESSAGE);
-                           Logger.getLogger(Abonos.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(this, ex.getMessage(), "Información", JOptionPane.ERROR_MESSAGE);
 
         }
+    }
+
+    private void llenarLabels() {
+
+        lblTotalPagar.setText("Total a Pagar: " + pagoDTO.getMonto().subtract(this.obtenerPagoRestante()));
+        lblPagosRestantes.setText("Pagos Restantes: " + this.obtenerPagosRestante());
+    }
+
+    private Integer obtenerPagosRestante() {
+        try {
+            TipoPagoDTO tipoPagoDTO = gestionarPago.consultarTipoPagoPorID(pagoDTO.getTipoPagoId());
+            Integer pagosRestantes = tipoPagoDTO.getNumeroParcialidades() - abonosIds.size();
+            return pagosRestantes;
+        } catch (NegocioException ex) {
+            Logger.getLogger(Abonos.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return 0;
+
     }
 
     private void llenarTablaAbonos(List<AbonoDTO> abonoLista) {
@@ -127,7 +160,7 @@ public class Abonos extends javax.swing.JFrame {
             public void actionPerformed(ActionEvent e) {
                 int selectedRow = tblAbonos.getSelectedRow();
                 if (selectedRow != -1) {
-                    Long selectedId = pagoIds.get(selectedRow);
+                    Long selectedId = abonosIds.get(selectedRow);
                     eliminar(selectedId);
                 }
             }
@@ -164,13 +197,29 @@ public class Abonos extends javax.swing.JFrame {
             }
             gestionarAbonos.eliminarAbono(id);
 
-            if (this.gestionarAbonos.listaAbonosPaginadoPorPago(this.LIMITE, this.pagina,pagoDTO.getPagoId()) == null || this.gestionarAbonos.listaAbonosPaginadoPorPago(this.LIMITE, this.pagina,pagoDTO.getPagoId()).isEmpty()) {
+            if (this.gestionarAbonos.listaAbonosPaginadoPorPago(this.LIMITE, this.pagina, pagoDTO.getPagoId()) == null || this.gestionarAbonos.listaAbonosPaginadoPorPago(this.LIMITE, this.pagina, pagoDTO.getPagoId()).isEmpty()) {
                 this.btnAtrasActionPerformed(null);
             } else {
                 cargarAbonosEnTabla();
             }
+            llenarLabels();
         } catch (NegocioException ex) {
             JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    private BigDecimal obtenerPagoRestante() {
+        BigDecimal cantidadAcumulada = BigDecimal.ZERO; // Initialize BigDecimal variable outside try block
+        System.out.println(abonosIds);
+        try {
+            for (Long abonosId : abonosIds) {
+                AbonoDTO abono = gestionarAbonos.consultarAbonoPorID(abonosId);
+                cantidadAcumulada = cantidadAcumulada.add(abono.getMonto());
+            }
+            return cantidadAcumulada; // Return the accumulated amount
+        } catch (NegocioException ex) {
+            Logger.getLogger(Abonos.class.getName()).log(Level.SEVERE, null, ex);
+            return BigDecimal.ZERO; // Return default value or handle the exception accordingly
         }
     }
 
@@ -181,8 +230,8 @@ public class Abonos extends javax.swing.JFrame {
         misPagos.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                //   Pagos Pagos = new Pagos();
-                // Pagos.setVisible(true);
+                Pagos pagos = new Pagos(gestionarCuentasBancarias, gestionarPago, consultarEstadoPagos, gestionarAbonos, beneficiarioDTO);
+                pagos.setVisible(true);
                 dispose();
 
             }
@@ -195,8 +244,8 @@ public class Abonos extends javax.swing.JFrame {
         misAbonos.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Abonos Abonos = new Abonos(gestionarAbonos, gestionarCuentasBancarias, pagoDTO);
-                Abonos.setVisible(true);
+                Abonos abonos = new Abonos(gestionarAbonos, gestionarCuentasBancarias, gestionarPago, consultarEstadoPagos, pagoDTO, beneficiarioDTO);
+                abonos.setVisible(true);
                 dispose();
 
             }
@@ -209,8 +258,8 @@ public class Abonos extends javax.swing.JFrame {
         misCuentas.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-//                Cuentas Cuentas = new Cuentas();
-//                Cuentas.setVisible(true);
+                Cuentas cuentas = new Cuentas(gestionarCuentasBancarias, gestionarPago, consultarEstadoPagos, gestionarAbonos, beneficiarioDTO);
+                cuentas.setVisible(true);
                 dispose();
 
             }
@@ -223,8 +272,22 @@ public class Abonos extends javax.swing.JFrame {
         salir.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                dispose();
+                int response = JOptionPane.showConfirmDialog(
+                        null,
+                        "¿Desea Continuar a Cerrar Sesion?",
+                        "Cerrar Sesion",
+                        JOptionPane.YES_NO_OPTION,
+                        JOptionPane.QUESTION_MESSAGE
+                );
 
+                // Verificar la respuesta del usuario
+                if (response == JOptionPane.YES_OPTION) {
+                    for (Window window : Window.getWindows()) {
+                        window.dispose();
+                        System.exit(0);
+                    }
+
+                }
             }
         });
 
@@ -251,13 +314,13 @@ public class Abonos extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblAbonos = new javax.swing.JTable();
-        jLabel5 = new javax.swing.JLabel();
+        lblPagosRestantes = new javax.swing.JLabel();
         btnBuscar = new javax.swing.JButton();
         btnAtras = new javax.swing.JButton();
         lblPagina = new javax.swing.JLabel();
         btnSiguiente = new javax.swing.JButton();
         jLabel6 = new javax.swing.JLabel();
-        jLabel7 = new javax.swing.JLabel();
+        lblTotalPagar = new javax.swing.JLabel();
         MenuBarAdmin = new javax.swing.JMenuBar();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -318,14 +381,19 @@ public class Abonos extends javax.swing.JFrame {
 
         Agrupador.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 170, 880, 350));
 
-        jLabel5.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
-        jLabel5.setForeground(new java.awt.Color(0, 51, 102));
-        jLabel5.setText("Pagos Restantes:");
-        Agrupador.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 130, 230, 30));
+        lblPagosRestantes.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        lblPagosRestantes.setForeground(new java.awt.Color(0, 51, 102));
+        lblPagosRestantes.setText("Pagos Restantes:");
+        Agrupador.add(lblPagosRestantes, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 130, 230, 30));
 
         btnBuscar.setForeground(new java.awt.Color(255, 255, 255));
-        btnBuscar.setText("Actualizar");
-        Agrupador.add(btnBuscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(810, 130, 100, 30));
+        btnBuscar.setText("Crear Abono");
+        btnBuscar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBuscarActionPerformed(evt);
+            }
+        });
+        Agrupador.add(btnBuscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(750, 130, 160, 30));
 
         btnAtras.setBackground(new java.awt.Color(0, 102, 153));
         btnAtras.setForeground(new java.awt.Color(255, 255, 255));
@@ -357,10 +425,10 @@ public class Abonos extends javax.swing.JFrame {
         jLabel6.setText("Mis Abonos");
         Agrupador.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 80, 200, 30));
 
-        jLabel7.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
-        jLabel7.setForeground(new java.awt.Color(0, 51, 102));
-        jLabel7.setText("Total a Pagar:");
-        Agrupador.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 130, 200, 30));
+        lblTotalPagar.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        lblTotalPagar.setForeground(new java.awt.Color(0, 51, 102));
+        lblTotalPagar.setText("Total a Pagar:");
+        Agrupador.add(lblTotalPagar, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 130, 300, 30));
 
         setJMenuBar(MenuBarAdmin);
 
@@ -372,15 +440,29 @@ public class Abonos extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(Agrupador, javax.swing.GroupLayout.DEFAULT_SIZE, 610, Short.MAX_VALUE)
+            .addComponent(Agrupador, javax.swing.GroupLayout.DEFAULT_SIZE, 626, Short.MAX_VALUE)
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void btnSiguienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSiguienteActionPerformed
+        this.pagina = this.pagina + 1;
+        this.cargarAbonosEnTabla();
+        this.estadoPagina();
+    }//GEN-LAST:event_btnSiguienteActionPerformed
+
     private void btnAtrasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAtrasActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnAtrasActionPerformed
+        this.pagina = this.pagina - 1;
+        this.cargarAbonosEnTabla();
+        this.estadoPagina();    }//GEN-LAST:event_btnAtrasActionPerformed
+
+    private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
+        CrearAbono nuevoAbono = new CrearAbono(beneficiarioDTO, pagoDTO, gestionarCuentasBancarias, gestionarPago, gestionarAbonos, consultarEstadoPagos);
+        nuevoAbono.setVisible(true);
+        this.dispose();
+
+    }//GEN-LAST:event_btnBuscarActionPerformed
 
     private void estatusBotonAtras() {
         if (this.pagina > 1) {
@@ -410,12 +492,6 @@ public class Abonos extends javax.swing.JFrame {
         }
 
     }
-    private void btnSiguienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSiguienteActionPerformed
-        this.pagina = this.pagina + 1;
-        this.cargarAbonosEnTabla();
-        this.estadoPagina();
-    }//GEN-LAST:event_btnSiguienteActionPerformed
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel Agrupador;
@@ -426,11 +502,11 @@ public class Abonos extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lblPagina;
+    private javax.swing.JLabel lblPagosRestantes;
+    private javax.swing.JLabel lblTotalPagar;
     private javax.swing.JPanel panelMenu;
     private javax.swing.JTable tblAbonos;
     // End of variables declaration//GEN-END:variables
