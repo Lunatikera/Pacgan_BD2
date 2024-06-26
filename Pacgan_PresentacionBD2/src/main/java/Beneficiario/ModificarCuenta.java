@@ -7,6 +7,7 @@ package Beneficiario;
 import convertidores.ConvertidorCuentaBancaria;
 import daos.BeneficiarioDAO;
 import daos.CuentaBancariaDAO;
+import dtos.BeneficiarioDTO;
 import dtos.CuentaBancariaDTO;
 import excepciones.NegocioException;
 import interfaces.IAgregarCuentaBancariaBO;
@@ -37,14 +38,25 @@ public class ModificarCuenta extends javax.swing.JFrame {
     
     String numeroCuenta;
     IGestionarCuentasBancarias gestionarCuentasBancarias;
+
+    ConvertidorCuentaBancaria convertidor;
+    BeneficiarioDTO beneficiario;
+    CuentaBancariaDTO cuentaBancaria;
+
     /**
      * Creates new form ModificarCuenta
      */
-    public ModificarCuenta(String numeroCuenta,IGestionarCuentasBancarias gestionarCuentasBancarias) {
+    public ModificarCuenta(String numeroCuenta,IGestionarCuentasBancarias gestionarCuentasBancarias,BeneficiarioDTO beneficiario, CuentaBancariaDTO cuentaBancaria) {
         this.gestionarCuentasBancarias = gestionarCuentasBancarias;
+        this.beneficiario = beneficiario;
+        this.convertidor = new ConvertidorCuentaBancaria();
+        this.numeroCuenta = numeroCuenta;
+        this.cuentaBancaria = cuentaBancaria;
+
         initComponents();
         personalizador();
-        
+        lblNombre.setText(beneficiario.getNombreUsuario());
+        this.txtNumeroCuenta.setText(cuentaBancaria.getNumeroCuenta());
     }
 
     public void personalizador() {
@@ -65,7 +77,7 @@ public class ModificarCuenta extends javax.swing.JFrame {
         btnCancelar3 = new javax.swing.JButton();
         btnGuardar = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
+        lblNombre = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         txtNumeroCuenta = new javax.swing.JTextField();
         jLabel8 = new javax.swing.JLabel();
@@ -101,10 +113,10 @@ public class ModificarCuenta extends javax.swing.JFrame {
         jLabel1.setText("Modificar Cuenta");
         Agrupador.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 10, 310, 50));
 
-        jLabel4.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        jLabel4.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel4.setText("Nomre Nombre Nombre Nombre");
-        Agrupador.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 110, 380, 50));
+        lblNombre.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        lblNombre.setForeground(new java.awt.Color(255, 255, 255));
+        lblNombre.setText("Nomre Nombre Nombre Nombre");
+        Agrupador.add(lblNombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 110, 380, 50));
 
         jLabel5.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel5.setForeground(new java.awt.Color(255, 255, 255));
@@ -112,6 +124,11 @@ public class ModificarCuenta extends javax.swing.JFrame {
         Agrupador.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 280, 160, 30));
 
         txtNumeroCuenta.setBackground(new java.awt.Color(242, 242, 242));
+        txtNumeroCuenta.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtNumeroCuentaActionPerformed(evt);
+            }
+        });
         Agrupador.add(txtNumeroCuenta, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 230, 390, 30));
 
         jLabel8.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
@@ -153,7 +170,7 @@ public class ModificarCuenta extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnCancelar3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelar3ActionPerformed
-        Cuentas Cuentas = new Cuentas(gestionarCuentasBancarias);
+        Cuentas Cuentas = new Cuentas(gestionarCuentasBancarias, beneficiario);
 
         Cuentas.setVisible(true);
         dispose();
@@ -175,12 +192,12 @@ public class ModificarCuenta extends javax.swing.JFrame {
         try {
             
             CuentaBancariaDTO cuenta = new CuentaBancariaDTO();
-            cuenta.setCuentaBancariaId(Long.valueOf("1"));
+            cuenta.setCuentaBancariaId(Long.valueOf(this.cuentaBancaria.getCuentaBancariaId()));
             cuenta.setNumeroCuenta(numeroCuenta);
             cuenta.setClabe(clabe);
             cuenta.setNombreBanco(nombreBanco);
             cuenta.setEstaEliminada(false);
-            cuenta.setBeneficiarioId(Long.valueOf("1"));
+            cuenta.setBeneficiarioId(Long.valueOf(beneficiario.getBeneficiarioId()));
             List<Long> lista = new ArrayList<>();
             cuenta.setPagoIds(lista);
             gestionarCuentasBancarias.editarCuentaBancaria(cuenta);
@@ -194,6 +211,10 @@ public class ModificarCuenta extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnGuardarActionPerformed
 
+    private void txtNumeroCuentaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNumeroCuentaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtNumeroCuentaActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -205,11 +226,11 @@ public class ModificarCuenta extends javax.swing.JFrame {
     private javax.swing.JButton btnGuardar;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
+    private javax.swing.JLabel lblNombre;
     private javax.swing.JPasswordField txtBanco;
     private javax.swing.JPasswordField txtClabe;
     private javax.swing.JTextField txtNumeroCuenta;
