@@ -68,19 +68,6 @@ public class Cuentas extends javax.swing.JFrame {
 
         menuPagos.add(misPagos);
 
-        JMenu menuAbonos = new JMenu("Abonos");
-        JMenuItem misAbonos = new JMenuItem("Mis Abonos");
-        misAbonos.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                Abonos Abonos = new Abonos();
-                Abonos.setVisible(true);
-                dispose();
-
-            }
-        });
-
-        menuAbonos.add(misAbonos);
 
         JMenu menuCuentas = new JMenu("Cuentas");
         JMenuItem misCuentas = new JMenuItem("Mis cuentas");
@@ -108,7 +95,6 @@ public class Cuentas extends javax.swing.JFrame {
 
         menuSalir.add(salir);
 
-        MenuBarAdmin.add(menuAbonos);
         MenuBarAdmin.add(menuPagos);
         MenuBarAdmin.add(menuCuentas);
         MenuBarAdmin.add(menuSalir);

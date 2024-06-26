@@ -48,4 +48,14 @@ public class GestionarAbonosFacade implements IGestionarAbonos {
         eliminarAbonoBO.eliminarAbono(id);
     }
 
+    @Override
+    public List<AbonoDTO> listaAbonosPaginado(int limite, int numeroPagina) throws NegocioException {
+        return consultarAbonoBO.listaAbonosPaginado(limite, numeroPagina);
+    }
+
+    @Override
+    public List<AbonoDTO> listaAbonosPaginadoPorPago(int limite, int numeroPagina, Long pagoId) throws NegocioException {
+        return consultarAbonoBO.listaAbonosPaginadoPorPago(limite, numeroPagina, pagoId);
+    }
+
 }
