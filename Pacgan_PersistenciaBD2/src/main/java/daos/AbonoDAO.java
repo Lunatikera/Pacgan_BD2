@@ -11,6 +11,7 @@ import interfaces.IConexionBD;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
+import javax.persistence.TypedQuery;
 
 /**
  * Clase que implementa las operaciones de acceso a datos para la entidad Abono.
@@ -134,5 +135,51 @@ public class AbonoDAO implements IAbonoDAO {
         } finally {
             entityManager.close();
         }
+    }
+
+    @Override
+    public List<AbonoEntidad> listaAbonosPaginado(int limite, int numeroPagina) throws PersistenciaException {
+        EntityManager entityManager = conexionBD.obtenerEntityManager();
+        List<AbonoEntidad> abonos = null;
+
+        try {
+            abonos = entityManager.createQuery("SELECT a FROM AbonoEntidad a", AbonoEntidad.class)
+                    .setFirstResult((numeroPagina - 1) * limite)
+                    .setMaxResults(limite)
+                    .getResultList();
+            System.out.println(abonos);
+
+        } catch (Exception e) {
+            throw new PersistenciaException("Error al leer todos los abonos", e);
+        } finally {
+            entityManager.close();
+        }
+
+        return abonos;
+    }
+
+    @Override
+    public List<AbonoEntidad> listaAbonosPaginadoPorPago(int limite, int numeroPagina, Long pagoId) throws PersistenciaException {
+        EntityManager entityManager = conexionBD.obtenerEntityManager();
+        List<AbonoEntidad> abonos = null;
+        try {
+            // Crear una consulta TypedQuery utilizando JPQL para obtener abonos por pagoId
+            TypedQuery<AbonoEntidad> query = entityManager.createQuery(
+                    "SELECT a FROM AbonoEntidad a WHERE a.pagoAbono.id = :pagoId ORDER BY a.fechaHora DESC",
+                    AbonoEntidad.class
+            );
+            query.setParameter("pagoId", pagoId);
+            query.setFirstResult((numeroPagina - 1) * limite); // Establecer el offset
+            query.setMaxResults(limite); // Establecer el límite de resultados
+
+            // Ejecutar la consulta y retornar los resultados
+            abonos= query.getResultList();
+        } catch (Exception e) {
+            // Manejar excepciones de persistencia y encapsularlas en PersistenciaException
+            throw new PersistenciaException("Error al obtener los abonos paginados.", e);
+        }  finally {
+            entityManager.close();
+        }
+        return abonos;
     }
 }

@@ -9,6 +9,7 @@ import dtos.CuentaBancariaDTO;
 import dtos.EstatusDTO;
 import dtos.PagoDTO;
 import dtos.Pago_EstadoDTO;
+import dtos.TipoPagoDTO;
 import excepciones.NegocioException;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
@@ -23,6 +24,7 @@ import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumnModel;
 import servicios.IConsultarEstadoPagos;
+import servicios.IGestionarAbonos;
 import servicios.IGestionarCuentasBancarias;
 import servicios.IGestionarPagos;
 import utileria.JButtonCellEditor;
@@ -37,6 +39,7 @@ public class Pagos extends javax.swing.JFrame {
     IGestionarCuentasBancarias gestionarCuentasBancarias;
     IGestionarPagos gestionarPagos;
     IConsultarEstadoPagos consultarEstadoPagos;
+    IGestionarAbonos gestionarAbonos;
     List<Long> pagoIds;
     BeneficiarioDTO beneficiario;
     private int pagina = 1;
@@ -44,11 +47,13 @@ public class Pagos extends javax.swing.JFrame {
 
     public Pagos(IGestionarCuentasBancarias gestionarCuentasBancarias, IGestionarPagos gestionarPagos,
             IConsultarEstadoPagos consultarEstadoPagos, BeneficiarioDTO beneficiario) {
+
         initComponents();
         this.gestionarPagos = gestionarPagos;
         this.gestionarCuentasBancarias = gestionarCuentasBancarias;
         this.consultarEstadoPagos = consultarEstadoPagos;
         this.beneficiario = beneficiario;
+
         pagoIds = new ArrayList<>();
         personalizador();
         agregarOpcionesMenu();
@@ -58,7 +63,7 @@ public class Pagos extends javax.swing.JFrame {
     public void personalizador() {
         panelMenu.setBackground(Color.decode("#142132"));
         btnBuscar.setBackground(Color.decode("#142132"));
-        btnCrearPago.setBackground(Color.decode("#142132"));
+        btnCrearAbono.setBackground(Color.decode("#142132"));
         btnAtras.setBackground(Color.decode("#142132"));
         btnSiguiente.setBackground(Color.decode("#142132"));
 
@@ -114,7 +119,7 @@ public class Pagos extends javax.swing.JFrame {
         };
 
         // Configurar columna de Editar
-        int indiceColumnaEditar = 4; // Suponiendo que esta es la tercera columna (índice 2)
+        int indiceColumnaEditar = 5; // Suponiendo que esta es la tercera columna (índice 2)
         TableColumnModel modeloColumnas = tblPagos.getColumnModel();
         modeloColumnas.getColumn(indiceColumnaEditar)
                 .setCellRenderer(new JButtonRenderer("Editar"));
@@ -122,7 +127,7 @@ public class Pagos extends javax.swing.JFrame {
                 .setCellEditor(new JButtonCellEditor("Editar", editarListener));
 
         // Configurar columna de Eliminar
-        int indiceColumnaEliminar = 5; // Suponiendo que esta es la cuarta columna (índice 3)
+        int indiceColumnaEliminar = 6; // Suponiendo que esta es la cuarta columna (índice 3)
         modeloColumnas.getColumn(indiceColumnaEliminar)
                 .setCellRenderer(new JButtonRenderer("Eliminar"));
         modeloColumnas.getColumn(indiceColumnaEliminar)
@@ -145,12 +150,14 @@ public class Pagos extends javax.swing.JFrame {
                     CuentaBancariaDTO cuentaBancaria = gestionarCuentasBancarias.consultarCuentaBancariaPorID(row.getCuentaBancariaId());
                     Pago_EstadoDTO pago_EstadoDTO = consultarEstadoPagos.obtenerEstadoDelPago(row.getPagoId());
                     EstatusDTO estatusDTO = consultarEstadoPagos.consultarEstatusPorID(pago_EstadoDTO.getIdEstatus());
+                    TipoPagoDTO tipoPagoDTO= gestionarPagos.consultarTipoPagoPorID(row.getTipoPagoId());
 
-                    Object[] fila = new Object[4];
+                    Object[] fila = new Object[5];
                     fila[0] = cuentaBancaria.getNumeroCuenta();
                     fila[1] = row.getMonto();
                     fila[2] = estatusDTO.getNombre();
-                    fila[3] = pago_EstadoDTO.getMensaje();
+                    fila[3] = tipoPagoDTO.getNombreTipo();
+                    fila[4] = pago_EstadoDTO.getMensaje();
 
                     modeloTabla.addRow(fila);
                 } catch (NegocioException ex) {
@@ -167,7 +174,9 @@ public class Pagos extends javax.swing.JFrame {
         misPagos.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+
                 Pagos Pagos = new Pagos(gestionarCuentasBancarias, gestionarPagos, consultarEstadoPagos, beneficiario);
+
                 Pagos.setVisible(true);
                 dispose();
 
@@ -175,20 +184,6 @@ public class Pagos extends javax.swing.JFrame {
         });
 
         menuPagos.add(misPagos);
-
-        JMenu menuAbonos = new JMenu("Abonos");
-        JMenuItem misAbonos = new JMenuItem("Mis Abonos");
-        misAbonos.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                Abonos Abonos = new Abonos();
-                Abonos.setVisible(true);
-                dispose();
-
-            }
-        });
-
-        menuAbonos.add(misAbonos);
 
         JMenu menuCuentas = new JMenu("Cuentas");
         JMenuItem misCuentas = new JMenuItem("Mis cuentas");
@@ -216,7 +211,6 @@ public class Pagos extends javax.swing.JFrame {
 
         menuSalir.add(salir);
 
-        MenuBarAdmin.add(menuAbonos);
         MenuBarAdmin.add(menuPagos);
         MenuBarAdmin.add(menuCuentas);
         MenuBarAdmin.add(menuSalir);
@@ -224,7 +218,9 @@ public class Pagos extends javax.swing.JFrame {
     }
 
     /**
-     * This method is called from within the constructor to initialize the form. WARNING: Do NOT modify this code. The content of this method is always regenerated by the Form Editor.
+     * This method is called from within the constructor to initialize the form.
+     * WARNING: Do NOT modify this code. The content of this method is always
+     * regenerated by the Form Editor.
      */
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -238,11 +234,12 @@ public class Pagos extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         tblPagos = new javax.swing.JTable();
         jLabel5 = new javax.swing.JLabel();
-        btnCrearPago = new javax.swing.JButton();
+        btnCrearAbono = new javax.swing.JButton();
         btnBuscar = new javax.swing.JButton();
         btnAtras = new javax.swing.JButton();
         lblPagina = new javax.swing.JLabel();
         btnSiguiente = new javax.swing.JButton();
+        btnCrearPago1 = new javax.swing.JButton();
         MenuBarAdmin = new javax.swing.JMenuBar();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -296,7 +293,7 @@ public class Pagos extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Cuenta", "Monto", "Estatus", "Comentarios", "", ""
+                "Cuenta", "Monto", "Estatus", "Tipo Pago", "Comentarios", "", ""
             }
         ));
         jScrollPane1.setViewportView(tblPagos);
@@ -308,14 +305,14 @@ public class Pagos extends javax.swing.JFrame {
         jLabel5.setText("Mis Pagos");
         Agrupador.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 80, 140, 30));
 
-        btnCrearPago.setForeground(new java.awt.Color(255, 255, 255));
-        btnCrearPago.setText("Crear Pago");
-        btnCrearPago.addActionListener(new java.awt.event.ActionListener() {
+        btnCrearAbono.setForeground(new java.awt.Color(255, 255, 255));
+        btnCrearAbono.setText("Realizar Abono");
+        btnCrearAbono.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnCrearPagoActionPerformed(evt);
+                btnCrearAbonoActionPerformed(evt);
             }
         });
-        Agrupador.add(btnCrearPago, new org.netbeans.lib.awtextra.AbsoluteConstraints(680, 130, 100, 30));
+        Agrupador.add(btnCrearAbono, new org.netbeans.lib.awtextra.AbsoluteConstraints(700, 540, 160, 40));
 
         btnBuscar.setForeground(new java.awt.Color(255, 255, 255));
         btnBuscar.setText("Actualizar");
@@ -334,12 +331,12 @@ public class Pagos extends javax.swing.JFrame {
                 btnAtrasActionPerformed(evt);
             }
         });
-        Agrupador.add(btnAtras, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 560, 130, 30));
+        Agrupador.add(btnAtras, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 540, 130, 30));
 
         lblPagina.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         lblPagina.setForeground(new java.awt.Color(0, 51, 102));
         lblPagina.setText("Pagina 1");
-        Agrupador.add(lblPagina, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 570, -1, -1));
+        Agrupador.add(lblPagina, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 550, -1, -1));
 
         btnSiguiente.setBackground(new java.awt.Color(0, 102, 153));
         btnSiguiente.setForeground(new java.awt.Color(255, 255, 255));
@@ -349,7 +346,16 @@ public class Pagos extends javax.swing.JFrame {
                 btnSiguienteActionPerformed(evt);
             }
         });
-        Agrupador.add(btnSiguiente, new org.netbeans.lib.awtextra.AbsoluteConstraints(730, 560, 130, 30));
+        Agrupador.add(btnSiguiente, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 540, 130, 30));
+
+        btnCrearPago1.setForeground(new java.awt.Color(255, 255, 255));
+        btnCrearPago1.setText("Crear Pago");
+        btnCrearPago1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCrearPago1ActionPerformed(evt);
+            }
+        });
+        Agrupador.add(btnCrearPago1, new org.netbeans.lib.awtextra.AbsoluteConstraints(680, 130, 100, 30));
 
         setJMenuBar(MenuBarAdmin);
 
@@ -374,11 +380,11 @@ public class Pagos extends javax.swing.JFrame {
         System.out.println(id);
         try {
             if (id == 0) {
-                throw new NegocioException("Por favor seleccione un alumno");
+                throw new NegocioException("Por favor seleccione un Pago");
             }
             PagoDTO pagoDTO = gestionarPagos.consultarPagoPorID(id);
 
-            ModificarPago editarAlumno = new ModificarPago(gestionarPagos, gestionarCuentasBancarias, consultarEstadoPagos, pagoDTO);
+            ModificarPago editarAlumno = new ModificarPago(gestionarPagos, gestionarCuentasBancarias,consultarEstadoPagos, gestionarAbonos, pagoDTO);
             editarAlumno.setVisible(true);
             this.dispose();
 
@@ -391,9 +397,8 @@ public class Pagos extends javax.swing.JFrame {
         try {
 
             if (id == 0) {
-                throw new NegocioException("Por favor seleccione un alumno");
+                throw new NegocioException("Por favor seleccione un Pago");
             }
-            PagoDTO pagoDTO = gestionarPagos.consultarPagoPorID(id);
 
             int confirmacion = JOptionPane.showOptionDialog(this,
                     "¿Está seguro de que desea eliminar este Pago?",
@@ -421,12 +426,30 @@ public class Pagos extends javax.swing.JFrame {
     }
 
 
+
     private void btnCrearPagoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCrearPagoActionPerformed
         CrearPago crearPago = new CrearPago(gestionarPagos, gestionarCuentasBancarias, consultarEstadoPagos, beneficiario);
 
-        crearPago.setVisible(true);
-        dispose();
-    }//GEN-LAST:event_btnCrearPagoActionPerformed
+    private void btnCrearAbonoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCrearAbonoActionPerformed
+        int selectedRow = tblPagos.getSelectedRow();
+        Long id = null;
+        if (selectedRow != -1) {
+            id = pagoIds.get(selectedRow);
+        }
+        try {
+            if (id == 0) {
+                throw new NegocioException("Por favor seleccione un Pago");
+            }
+            PagoDTO pagoDTO = gestionarPagos.consultarPagoPorID(id);
+            Abonos abonos = new Abonos(gestionarAbonos, gestionarCuentasBancarias, pagoDTO);
+            abonos.setVisible(true);
+            this.dispose();
+
+
+        } catch (NegocioException ex) {
+            Logger.getLogger(Pagos.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_btnCrearAbonoActionPerformed
 
     private void btnAtrasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAtrasActionPerformed
         this.pagina = this.pagina - 1;
@@ -471,13 +494,20 @@ public class Pagos extends javax.swing.JFrame {
         cargarPagosEnTabla();
     }//GEN-LAST:event_btnBuscarActionPerformed
 
+    private void btnCrearPago1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCrearPago1ActionPerformed
+        CrearPago crearPago = new CrearPago(gestionarPagos, gestionarCuentasBancarias,gestionarAbonos, consultarEstadoPagos);
+        crearPago.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_btnCrearPago1ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel Agrupador;
     private javax.swing.JMenuBar MenuBarAdmin;
     private javax.swing.JButton btnAtras;
     private javax.swing.JButton btnBuscar;
-    private javax.swing.JButton btnCrearPago;
+    private javax.swing.JButton btnCrearAbono;
+    private javax.swing.JButton btnCrearPago1;
     private javax.swing.JButton btnSiguiente;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;

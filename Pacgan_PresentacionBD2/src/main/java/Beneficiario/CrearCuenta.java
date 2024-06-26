@@ -25,6 +25,7 @@ import servicios.IGestionarCuentasBancarias;
 public class CrearCuenta extends javax.swing.JFrame {
 
     IGestionarCuentasBancarias gestionarCuentasBancarias;
+
     ConvertidorCuentaBancaria convertidor;
     BeneficiarioDTO beneficiario;
   
@@ -33,10 +34,7 @@ public class CrearCuenta extends javax.swing.JFrame {
         this.gestionarCuentasBancarias = gestionarCuentasBancarias;
         this.beneficiario = beneficiario;
         this.convertidor = new ConvertidorCuentaBancaria();
-        initComponents();
-        personalizador();
-        lblNombre.setText(beneficiario.getNombreUsuario());
-    }
+
 
     public void personalizador() {
         Agrupador.setBackground(Color.decode("#142132"));

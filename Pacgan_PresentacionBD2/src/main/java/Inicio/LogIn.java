@@ -213,8 +213,10 @@ public class LogIn extends javax.swing.JFrame {
             if (iniciarSesionBO.iniciarSesion(nombreUsuario, contraseña)) {
                 // Inicio de sesión exitoso
                 JOptionPane.showMessageDialog(this, "Inicio de sesion exitoso.", "Inicio de sesion", JOptionPane.INFORMATION_MESSAGE);
+
                 BeneficiarioDTO beneficiario = this.conseguirBeneficiario();
                 Pagos pagos = new Pagos(gestionarCuentasBancarias, gestionarPagos, consultarEstadoPagos, beneficiario);
+
                 pagos.setVisible(true);
                 dispose();
 

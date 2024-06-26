@@ -21,4 +21,9 @@ public interface IAbonoDAO {
     public List<AbonoEntidad> listaAbonos() throws PersistenciaException;
 
     public void eliminarAbono(Long id) throws PersistenciaException;
+
+    public List<AbonoEntidad> listaAbonosPaginado(int limite, int numeroPagina) throws PersistenciaException;
+
+    public List<AbonoEntidad> listaAbonosPaginadoPorPago(int limite, int numeroPagina, Long pagoId) throws PersistenciaException;
+
 }

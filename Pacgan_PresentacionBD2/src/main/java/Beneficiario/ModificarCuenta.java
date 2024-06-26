@@ -38,9 +38,11 @@ public class ModificarCuenta extends javax.swing.JFrame {
     
     String numeroCuenta;
     IGestionarCuentasBancarias gestionarCuentasBancarias;
+
     ConvertidorCuentaBancaria convertidor;
     BeneficiarioDTO beneficiario;
     CuentaBancariaDTO cuentaBancaria;
+
     /**
      * Creates new form ModificarCuenta
      */
@@ -50,6 +52,7 @@ public class ModificarCuenta extends javax.swing.JFrame {
         this.convertidor = new ConvertidorCuentaBancaria();
         this.numeroCuenta = numeroCuenta;
         this.cuentaBancaria = cuentaBancaria;
+
         initComponents();
         personalizador();
         lblNombre.setText(beneficiario.getNombreUsuario());

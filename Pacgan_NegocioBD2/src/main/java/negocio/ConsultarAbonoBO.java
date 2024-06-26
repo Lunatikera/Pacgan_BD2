@@ -12,6 +12,7 @@ import excepciones.NegocioException;
 import excepciones.PersistenciaException;
 import interfaces.IAbonoDAO;
 import interfaces.IConsultarAbonoBO;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -48,7 +49,7 @@ public class ConsultarAbonoBO implements IConsultarAbonoBO {
 
     @Override
     public List<AbonoDTO> listaAbonos() throws NegocioException {
-       try {
+        try {
             // Obtener la lista de abonos desde abonoDAO
             List<AbonoEntidad> listaAbonosEntidad = abonoDAO.listaAbonos();
 
@@ -56,9 +57,49 @@ public class ConsultarAbonoBO implements IConsultarAbonoBO {
             return listaAbonosEntidad.stream()
                     .map(ConvertidorAbono::convertirEntidadADTO)
                     .collect(Collectors.toList());
-            
+
         } catch (PersistenciaException e) {
             // Capturar excepción de persistencia y lanzar como NegocioException
+            throw new NegocioException("Error al obtener la lista de abonos desde la base de datos.", e);
+        }
+    }
+
+    @Override
+    public List<AbonoDTO> listaAbonosPaginado(int limite, int numeroPagina) throws NegocioException {
+        try {
+            List<AbonoEntidad> listaAbonosEntidad = abonoDAO.listaAbonosPaginado(limite, numeroPagina);
+            List<AbonoDTO> listaAbonosDTO = new ArrayList<>();
+
+            for (AbonoEntidad pago : listaAbonosEntidad) {
+                AbonoDTO pagoDTO = convertirEntidadADTO(pago);
+                listaAbonosDTO.add(pagoDTO);
+            }
+            if (listaAbonosDTO.isEmpty() && numeroPagina == 1) {
+                throw new NegocioException("No existen abonos registrados");
+
+            }
+            return listaAbonosDTO;
+        } catch (PersistenciaException e) {
+            throw new NegocioException("Error al obtener la lista de abonos desde la base de datos.", e);
+        }
+    }
+
+    @Override
+    public List<AbonoDTO> listaAbonosPaginadoPorPago(int limite, int numeroPagina, Long pagoId) throws NegocioException {
+        try {
+            List<AbonoEntidad> listaAbonosEntidad = abonoDAO.listaAbonosPaginadoPorPago(limite, numeroPagina, pagoId);
+            List<AbonoDTO> listaAbonosDTO = new ArrayList<>();
+
+            for (AbonoEntidad pago : listaAbonosEntidad) {
+                AbonoDTO pagoDTO = convertirEntidadADTO(pago);
+                listaAbonosDTO.add(pagoDTO);
+            }
+            if (listaAbonosDTO.isEmpty() && numeroPagina == 1) {
+                throw new NegocioException("No existen abonos registrados");
+
+            }
+            return listaAbonosDTO;
+        } catch (PersistenciaException e) {
             throw new NegocioException("Error al obtener la lista de abonos desde la base de datos.", e);
         }
     }

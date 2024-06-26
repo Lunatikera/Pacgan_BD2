@@ -9,6 +9,7 @@ import dtos.CuentaBancariaDTO;
 import dtos.PagoDTO;
 import dtos.TipoPagoDTO;
 import excepciones.NegocioException;
+import interfaces.IConsultarAbonoBO;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -25,6 +26,7 @@ import javax.swing.SpinnerNumberModel;
 import javax.swing.text.DefaultFormatterFactory;
 import javax.swing.text.NumberFormatter;
 import servicios.IConsultarEstadoPagos;
+import servicios.IGestionarAbonos;
 import servicios.IGestionarCuentasBancarias;
 import servicios.IGestionarPagos;
 
@@ -36,6 +38,7 @@ public class CrearPago extends javax.swing.JFrame {
 
     IGestionarPagos gestionarPagos;
     IGestionarCuentasBancarias gestionarCuentasBancarias;
+    IGestionarAbonos gestiionarAbonos;
     IConsultarEstadoPagos consultarEstadoPagos;
     List<CuentaBancariaDTO> listaCuentas;
     List<TipoPagoDTO> listaTipoPagos;
@@ -43,9 +46,11 @@ public class CrearPago extends javax.swing.JFrame {
     Long id = 1L;
 
     public CrearPago(IGestionarPagos gestionarPagos, IGestionarCuentasBancarias gestionarCuentasBancarias, IConsultarEstadoPagos consultarEstadoPagos, BeneficiarioDTO beneficiario) {
+
         initComponents();
         this.gestionarPagos = gestionarPagos;
         this.gestionarCuentasBancarias = gestionarCuentasBancarias;
+        this.gestiionarAbonos=gestiionarAbonos;
         this.consultarEstadoPagos=consultarEstadoPagos;
         this.beneficiario = beneficiario;
         personalizador();
@@ -72,7 +77,9 @@ public class CrearPago extends javax.swing.JFrame {
         misPagos.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+
                 Pagos Pagos = new Pagos(gestionarCuentasBancarias, gestionarPagos, consultarEstadoPagos,beneficiario);
+
                 Pagos.setVisible(true);
                 dispose();
 
@@ -81,20 +88,8 @@ public class CrearPago extends javax.swing.JFrame {
 
         menuPagos.add(misPagos);
 
-        JMenu menuAbonos = new JMenu("Abonos");
-        JMenuItem misAbonos = new JMenuItem("Mis Abonos");
-        misAbonos.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                // Open your frame here
-                Abonos Abonos = new Abonos();
-                Abonos.setVisible(true);
-                dispose();
 
-            }
-        });
 
-        menuAbonos.add(misAbonos);
 
         JMenu menuCuentas = new JMenu("Cuentas");
         JMenuItem misCuentas = new JMenuItem("Mis cuentas");
@@ -124,7 +119,6 @@ public class CrearPago extends javax.swing.JFrame {
         menuSalir.add(salir);
         MenuBarAdmin.add(menuSalir);
 
-        MenuBarAdmin.add(menuAbonos);
         MenuBarAdmin.add(menuPagos);
         MenuBarAdmin.add(menuCuentas);
 
@@ -277,6 +271,7 @@ public class CrearPago extends javax.swing.JFrame {
 
     }
 
+    
     private void configurarMonto() {
         SpinnerNumberModel numberModel = new SpinnerNumberModel(0.00, 0.00, Double.MAX_VALUE, 0.01);
         spinnerMonto.setModel(numberModel);
@@ -288,7 +283,9 @@ public class CrearPago extends javax.swing.JFrame {
 
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
+
         Pagos pagos = new Pagos(gestionarCuentasBancarias, gestionarPagos, consultarEstadoPagos,beneficiario);
+
 
         pagos.setVisible(true);
 
@@ -323,8 +320,9 @@ public class CrearPago extends javax.swing.JFrame {
             System.out.println(pago);
             gestionarPagos.crearPagoBO(pago);
             JOptionPane.showMessageDialog(this, "Se ha agregado el pago correctamente", "Exito en el pago", JOptionPane.INFORMATION_MESSAGE);
-           
+
             Pagos pagos=new Pagos(gestionarCuentasBancarias, gestionarPagos, consultarEstadoPagos,beneficiario);
+
             pagos.setVisible(true);
             this.dispose();
             
