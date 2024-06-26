@@ -10,13 +10,21 @@ import dtos.CuentaBancariaDTO;
 import excepciones.NegocioException;
 import interfaces.IAgregarCuentaBancariaBO;
 import java.awt.Color;
+import java.awt.Window;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JMenu;
+import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import negocio.AgregarCuentaBancariaBO;
+import servicios.IConsultarEstadoPagos;
+import servicios.IGestionarAbonos;
 import servicios.IGestionarCuentasBancarias;
+import servicios.IGestionarPagos;
 
 /**
  *
@@ -25,19 +33,94 @@ import servicios.IGestionarCuentasBancarias;
 public class CrearCuenta extends javax.swing.JFrame {
 
     IGestionarCuentasBancarias gestionarCuentasBancarias;
-
-    ConvertidorCuentaBancaria convertidor;
+    IGestionarPagos gestionarPagos;
+    IConsultarEstadoPagos consultarEstadoPagos;
+    IGestionarAbonos gestionarAbonos;
     BeneficiarioDTO beneficiario;
-  
-    
-    public CrearCuenta(IGestionarCuentasBancarias gestionarCuentasBancarias,BeneficiarioDTO beneficiario) {
+
+    public CrearCuenta(IGestionarCuentasBancarias gestionarCuentasBancarias, IGestionarPagos gestionarPagos, IConsultarEstadoPagos consultarEstadoPagos, IGestionarAbonos gestionarAbonos,
+            BeneficiarioDTO beneficiario) {
+        initComponents();
+        this.setLocationRelativeTo(this);
         this.gestionarCuentasBancarias = gestionarCuentasBancarias;
+        this.gestionarPagos = gestionarPagos;
+        this.consultarEstadoPagos = consultarEstadoPagos;
+        this.gestionarAbonos = gestionarAbonos;
         this.beneficiario = beneficiario;
-        this.convertidor = new ConvertidorCuentaBancaria();
+        this.agregarOpcionesMenu();
 
     }
+
     public void personalizador() {
         Agrupador.setBackground(Color.decode("#142132"));
+    }
+
+    public void llenarLabels() {
+        lblNombre.setText(beneficiario.getNombre() + " " + beneficiario.getApellidoPA() + " " + beneficiario.getApellidoMA());
+    }
+
+    public void agregarOpcionesMenu() {
+
+        JMenu menuPagos = new JMenu("Pagos");
+        JMenuItem misPagos = new JMenuItem("Mis pagos");
+        misPagos.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                Pagos pagos = new Pagos(gestionarCuentasBancarias, gestionarPagos, consultarEstadoPagos, gestionarAbonos, beneficiario);
+
+                pagos.setVisible(true);
+                dispose();
+
+            }
+        });
+
+        menuPagos.add(misPagos);
+
+        JMenu menuCuentas = new JMenu("Cuentas");
+        JMenuItem misCuentas = new JMenuItem("Mis cuentas");
+        misCuentas.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Cuentas cuentas = new Cuentas(gestionarCuentasBancarias, gestionarPagos, consultarEstadoPagos, gestionarAbonos, beneficiario);
+                cuentas.setVisible(true);
+                dispose();
+
+            }
+        });
+
+        menuCuentas.add(misCuentas);
+
+        JMenu menuSalir = new JMenu("Salir");
+        JMenuItem salir = new JMenuItem("Salir");
+        salir.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int response = JOptionPane.showConfirmDialog(
+                        null,
+                        "¿Desea Continuar a Cerrar Sesion?",
+                        "Cerrar Sesion",
+                        JOptionPane.YES_NO_OPTION,
+                        JOptionPane.QUESTION_MESSAGE
+                );
+
+                // Verificar la respuesta del usuario
+                if (response == JOptionPane.YES_OPTION) {
+                    for (Window window : Window.getWindows()) {
+                        window.dispose();
+                        System.exit(0);
+                    }
+
+                }
+            }
+        });
+
+        menuSalir.add(salir);
+
+        MenuBarAdmin.add(menuPagos);
+        MenuBarAdmin.add(menuCuentas);
+        MenuBarAdmin.add(menuSalir);
+
     }
 
     public void creacionCuenta() {
@@ -59,19 +142,17 @@ public class CrearCuenta extends javax.swing.JFrame {
             cuenta.setClabe(clabe);
             cuenta.setNombreBanco(nombreBanco);
             cuenta.setEstaEliminada(false);
-            cuenta.setBeneficiarioId(Long.valueOf(beneficiario.getBeneficiarioId()));
-            List<Long> lista = new ArrayList<>();
-            cuenta.setPagoIds(lista);
+            cuenta.setBeneficiarioId(beneficiario.getBeneficiarioId());
 
             gestionarCuentasBancarias.agregarCuentaBancaria(cuenta);
             JOptionPane.showMessageDialog(this, "Cuenta registrada exitosamente", "Éxito", JOptionPane.INFORMATION_MESSAGE);
 
-            Cuentas cuentas = new Cuentas(gestionarCuentasBancarias, beneficiario);
+            Cuentas cuentas = new Cuentas(gestionarCuentasBancarias, gestionarPagos, consultarEstadoPagos, gestionarAbonos, beneficiario);
 
             cuentas.setVisible(true);
             dispose();
         } catch (NegocioException ex) {
-            Logger.getLogger(CrearCuenta.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(this, "Error al agregar Cuenta", "Error", JOptionPane.ERROR_MESSAGE);
 
             txtNumeroCuenta.setText("");
             txtClabe.setText("");
@@ -80,9 +161,7 @@ public class CrearCuenta extends javax.swing.JFrame {
     }
 
     /**
-     * This method is called from within the constructor to initialize the form.
-     * WARNING: Do NOT modify this code. The content of this method is always
-     * regenerated by the Form Editor.
+     * This method is called from within the constructor to initialize the form. WARNING: Do NOT modify this code. The content of this method is always regenerated by the Form Editor.
      */
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -101,6 +180,7 @@ public class CrearCuenta extends javax.swing.JFrame {
         jLabel9 = new javax.swing.JLabel();
         txtBanco = new javax.swing.JPasswordField();
         jLabel6 = new javax.swing.JLabel();
+        MenuBarAdmin = new javax.swing.JMenuBar();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -161,13 +241,13 @@ public class CrearCuenta extends javax.swing.JFrame {
         jLabel6.setText("Beneficiario:");
         Agrupador.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 70, 150, 30));
 
+        setJMenuBar(MenuBarAdmin);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(Agrupador, javax.swing.GroupLayout.PREFERRED_SIZE, 938, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+            .addComponent(Agrupador, javax.swing.GroupLayout.DEFAULT_SIZE, 845, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -180,7 +260,7 @@ public class CrearCuenta extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnCancelar3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelar3ActionPerformed
-        Cuentas Cuentas = new Cuentas(gestionarCuentasBancarias, beneficiario);
+        Cuentas Cuentas = new Cuentas(gestionarCuentasBancarias, gestionarPagos, consultarEstadoPagos, gestionarAbonos, beneficiario);
 
         Cuentas.setVisible(true);
         dispose();
@@ -193,6 +273,7 @@ public class CrearCuenta extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel Agrupador;
+    private javax.swing.JMenuBar MenuBarAdmin;
     private javax.swing.JButton btnCancelar3;
     private javax.swing.JButton btnCrear;
     private javax.swing.JLabel jLabel1;

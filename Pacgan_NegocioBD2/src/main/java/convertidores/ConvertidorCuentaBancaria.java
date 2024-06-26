@@ -25,11 +25,11 @@ public class ConvertidorCuentaBancaria {
     public ConvertidorCuentaBancaria(IBeneficiarioDAO beneficiarioDAO) {
         this.beneficiarioDAO = beneficiarioDAO;
     }
-    
+
     public ConvertidorCuentaBancaria() {
         this.beneficiarioDAO = new BeneficiarioDAO();
     }
-    
+
     public static CuentaBancariaEntidad convertirDTOAEntidad(CuentaBancariaDTO cuentaDTO) throws PersistenciaException {
         if (cuentaDTO == null) {
             throw new IllegalArgumentException("El DTO de cuenta bancaria no puede ser nulo");
@@ -41,7 +41,7 @@ public class ConvertidorCuentaBancaria {
         cuentaEntidad.setClabe(cuentaDTO.getClabe());
         cuentaEntidad.setNombreBanco(cuentaDTO.getNombreBanco());
         cuentaEntidad.setEstaEliminada(cuentaDTO.isEstaEliminada());
-        
+
         BeneficiarioEntidad beneficiario = beneficiarioDAO.consultarBeneficiarioPorID(cuentaDTO.getBeneficiarioId());
         cuentaEntidad.setBeneficiarioCuenta(beneficiario);
 
@@ -53,17 +53,17 @@ public class ConvertidorCuentaBancaria {
 
     private static List<PagoEntidad> convertirListaPagosIds(List<Long> cuentaPagoIds) throws PersistenciaException {
         List<PagoEntidad> pagos = new ArrayList<>();
-        for (Long pagoId : cuentaPagoIds) {
-            PagoEntidad pagoEntidad = new PagoEntidad();
-            pagoEntidad.setId(pagoId);
-            // Aquí podrías cargar más detalles del pago desde la capa de persistencia si es necesario
-            pagos.add(pagoEntidad);
+        if (cuentaPagoIds != null) {
+            for (Long pagoId : cuentaPagoIds) {
+                PagoEntidad pagoEntidad = new PagoEntidad();
+                pagoEntidad.setId(pagoId);
+                // Aquí podrías cargar más detalles del pago desde la capa de persistencia si es necesario
+                pagos.add(pagoEntidad);
+            }
         }
+
         return pagos;
     }
-    
-    
-    
 
     public static CuentaBancariaDTO convertirEntidadADTO(CuentaBancariaEntidad cuentaEntidad) throws PersistenciaException {
         if (cuentaEntidad == null) {

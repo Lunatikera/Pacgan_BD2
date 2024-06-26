@@ -20,4 +20,6 @@ public interface IConsultarCuentaBancariaBO {
 
     public List<CuentaBancariaDTO> listaCuentasPorBeneficiario(Long id) throws NegocioException;
 
+    public List<CuentaBancariaDTO> listaPaginadoCuentasPorBeneficiario(int limite, int numeroPagina, Long beneficiarioId) throws NegocioException;
+
 }

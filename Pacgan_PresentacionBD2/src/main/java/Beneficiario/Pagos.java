@@ -12,6 +12,7 @@ import dtos.Pago_EstadoDTO;
 import dtos.TipoPagoDTO;
 import excepciones.NegocioException;
 import java.awt.Color;
+import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -50,6 +51,7 @@ public class Pagos extends javax.swing.JFrame {
             BeneficiarioDTO beneficiario) {
 
         initComponents();
+        this.setLocationRelativeTo(this);
         this.gestionarPagos = gestionarPagos;
         this.gestionarCuentasBancarias = gestionarCuentasBancarias;
         this.consultarEstadoPagos = consultarEstadoPagos;
@@ -90,9 +92,8 @@ public class Pagos extends javax.swing.JFrame {
 
             this.llenarTablaPagos(pagoLista);
         } catch (NegocioException ex) {
-            Logger.getLogger(Pagos.class.getName()).log(Level.SEVERE, null, ex);
 
-//JOptionPane.showMessageDialog(this, ex.getMessage(), "Información", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, ex.getMessage(), "Información", JOptionPane.ERROR_MESSAGE);
         }
     }
 
@@ -178,9 +179,9 @@ public class Pagos extends javax.swing.JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
 
-                Pagos Pagos = new Pagos(gestionarCuentasBancarias, gestionarPagos, consultarEstadoPagos, gestionarAbonos, beneficiario);
+                Pagos pagos = new Pagos(gestionarCuentasBancarias, gestionarPagos, consultarEstadoPagos, gestionarAbonos, beneficiario);
 
-                Pagos.setVisible(true);
+                pagos.setVisible(true);
                 dispose();
 
             }
@@ -193,8 +194,8 @@ public class Pagos extends javax.swing.JFrame {
         misCuentas.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Cuentas Cuentas = new Cuentas(gestionarCuentasBancarias, beneficiario);
-                Cuentas.setVisible(true);
+                Cuentas cuentas = new Cuentas(gestionarCuentasBancarias, gestionarPagos, consultarEstadoPagos, gestionarAbonos, beneficiario);
+                cuentas.setVisible(true);
                 dispose();
 
             }
@@ -207,8 +208,22 @@ public class Pagos extends javax.swing.JFrame {
         salir.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                dispose();
+                int response = JOptionPane.showConfirmDialog(
+                        null,
+                        "¿Desea Continuar a Cerrar Sesion?",
+                        "Cerrar Sesion",
+                        JOptionPane.YES_NO_OPTION,
+                        JOptionPane.QUESTION_MESSAGE
+                );
 
+                // Verificar la respuesta del usuario
+                if (response == JOptionPane.YES_OPTION) {
+                    for (Window window : Window.getWindows()) {
+                        window.dispose();
+                        System.exit(0);
+                    }
+
+                }
             }
         });
 
@@ -420,7 +435,9 @@ public class Pagos extends javax.swing.JFrame {
                 this.btnAtrasActionPerformed(null);
             } else {
                 cargarPagosEnTabla();
+
             }
+
         } catch (NegocioException ex) {
             JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
@@ -437,7 +454,7 @@ public class Pagos extends javax.swing.JFrame {
                 throw new NegocioException("Por favor seleccione un Pago");
             }
             PagoDTO pagoDTO = gestionarPagos.consultarPagoPorID(id);
-            Abonos abonos = new Abonos(gestionarAbonos, gestionarCuentasBancarias, pagoDTO);
+            Abonos abonos = new Abonos(gestionarAbonos, gestionarCuentasBancarias, gestionarPagos, consultarEstadoPagos, pagoDTO, beneficiario);
             abonos.setVisible(true);
             this.dispose();
 
@@ -490,7 +507,7 @@ public class Pagos extends javax.swing.JFrame {
     }//GEN-LAST:event_btnBuscarActionPerformed
 
     private void btnCrearPago1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCrearPago1ActionPerformed
-        CrearPago crearPago = new CrearPago(gestionarPagos, gestionarCuentasBancarias, consultarEstadoPagos, beneficiario);
+        CrearPago crearPago = new CrearPago(gestionarPagos, gestionarCuentasBancarias, consultarEstadoPagos, gestionarAbonos, beneficiario);
         crearPago.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_btnCrearPago1ActionPerformed

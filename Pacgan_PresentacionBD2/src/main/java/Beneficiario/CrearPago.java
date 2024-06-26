@@ -11,6 +11,7 @@ import dtos.TipoPagoDTO;
 import excepciones.NegocioException;
 import interfaces.IConsultarAbonoBO;
 import java.awt.Color;
+import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.math.BigDecimal;
@@ -38,19 +39,20 @@ public class CrearPago extends javax.swing.JFrame {
 
     IGestionarPagos gestionarPagos;
     IGestionarCuentasBancarias gestionarCuentasBancarias;
-    IGestionarAbonos gestiionarAbonos;
+    IGestionarAbonos gestionarAbonos;
     IConsultarEstadoPagos consultarEstadoPagos;
     List<CuentaBancariaDTO> listaCuentas;
     List<TipoPagoDTO> listaTipoPagos;
     BeneficiarioDTO beneficiario;
 
-    public CrearPago(IGestionarPagos gestionarPagos, IGestionarCuentasBancarias gestionarCuentasBancarias, IConsultarEstadoPagos consultarEstadoPagos, BeneficiarioDTO beneficiario) {
+    public CrearPago(IGestionarPagos gestionarPagos, IGestionarCuentasBancarias gestionarCuentasBancarias, IConsultarEstadoPagos consultarEstadoPagos, IGestionarAbonos gestionarAbonos, BeneficiarioDTO beneficiario) {
 
         initComponents();
+        this.setLocationRelativeTo(this);
         this.gestionarPagos = gestionarPagos;
         this.gestionarCuentasBancarias = gestionarCuentasBancarias;
-        this.gestiionarAbonos=gestiionarAbonos;
-        this.consultarEstadoPagos=consultarEstadoPagos;
+        this.gestionarAbonos = gestionarAbonos;
+        this.consultarEstadoPagos = consultarEstadoPagos;
         this.beneficiario = beneficiario;
         personalizador();
         agregarOpcionesMenu();
@@ -64,9 +66,9 @@ public class CrearPago extends javax.swing.JFrame {
     }
 
     public void personalizador() {
-        panelMenu.setBackground(Color.decode("#142132"));
-        btnCancelar.setBackground(Color.decode("#142132"));
-        btnCrear.setBackground(Color.decode("#142132"));
+//        panelMenu.setBackground(Color.decode("#142132"));
+//        btnCancelar.setBackground(Color.decode("#142132"));
+//        btnCrear.setBackground(Color.decode("#142132"));
     }
 
     public void agregarOpcionesMenu() {
@@ -77,9 +79,9 @@ public class CrearPago extends javax.swing.JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
 
-                Pagos Pagos = new Pagos(gestionarCuentasBancarias, gestionarPagos, consultarEstadoPagos, gestiionarAbonos, beneficiario);
+                Pagos pagos = new Pagos(gestionarCuentasBancarias, gestionarPagos, consultarEstadoPagos, gestionarAbonos, beneficiario);
 
-                Pagos.setVisible(true);
+                pagos.setVisible(true);
                 dispose();
 
             }
@@ -87,17 +89,13 @@ public class CrearPago extends javax.swing.JFrame {
 
         menuPagos.add(misPagos);
 
-
-
-
         JMenu menuCuentas = new JMenu("Cuentas");
         JMenuItem misCuentas = new JMenuItem("Mis cuentas");
         misCuentas.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // Open your frame here
-//                Cuentas Cuentas = new Cuentas();
-//                Cuentas.setVisible(true);
+                Cuentas cuentas = new Cuentas(gestionarCuentasBancarias, gestionarPagos, consultarEstadoPagos, gestionarAbonos, beneficiario);
+                cuentas.setVisible(true);
                 dispose();
 
             }
@@ -110,16 +108,30 @@ public class CrearPago extends javax.swing.JFrame {
         salir.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                dispose();
+                int response = JOptionPane.showConfirmDialog(
+                        null,
+                        "¿Desea Continuar a Cerrar Sesion?",
+                        "Cerrar Sesion",
+                        JOptionPane.YES_NO_OPTION,
+                        JOptionPane.QUESTION_MESSAGE
+                );
 
+                // Verificar la respuesta del usuario
+                if (response == JOptionPane.YES_OPTION) {
+                    for (Window window : Window.getWindows()) {
+                        window.dispose();
+                        System.exit(0);
+                    }
+
+                }
             }
         });
 
         menuSalir.add(salir);
-        MenuBarAdmin.add(menuSalir);
 
         MenuBarAdmin.add(menuPagos);
         MenuBarAdmin.add(menuCuentas);
+        MenuBarAdmin.add(menuSalir);
 
     }
 
@@ -190,6 +202,7 @@ public class CrearPago extends javax.swing.JFrame {
         Agrupador.add(panelMenu, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 530, -1));
 
         jLabel58.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        jLabel58.setForeground(new java.awt.Color(0, 51, 102));
         jLabel58.setText("Seleccione la cuenta*");
         Agrupador.add(jLabel58, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 90, -1, -1));
 
@@ -197,6 +210,7 @@ public class CrearPago extends javax.swing.JFrame {
         Agrupador.add(cbxCuentas1, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 130, -1, -1));
 
         jLabel59.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        jLabel59.setForeground(new java.awt.Color(0, 51, 102));
         jLabel59.setText("Tipo de Pago*");
         Agrupador.add(jLabel59, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 190, -1, -1));
 
@@ -204,6 +218,7 @@ public class CrearPago extends javax.swing.JFrame {
         Agrupador.add(cbxTiposPago1, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 220, -1, -1));
 
         jLabel60.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        jLabel60.setForeground(new java.awt.Color(0, 51, 102));
         jLabel60.setText("Ingrese el monto*");
         Agrupador.add(jLabel60, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 270, -1, -1));
 
@@ -270,7 +285,6 @@ public class CrearPago extends javax.swing.JFrame {
 
     }
 
-    
     private void configurarMonto() {
         SpinnerNumberModel numberModel = new SpinnerNumberModel(0.00, 0.00, Double.MAX_VALUE, 0.01);
         spinnerMonto.setModel(numberModel);
@@ -283,8 +297,7 @@ public class CrearPago extends javax.swing.JFrame {
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
 
-        Pagos pagos = new Pagos(gestionarCuentasBancarias, gestionarPagos, consultarEstadoPagos, gestiionarAbonos, beneficiario);
-
+        Pagos pagos = new Pagos(gestionarCuentasBancarias, gestionarPagos, consultarEstadoPagos, gestionarAbonos, beneficiario);
 
         pagos.setVisible(true);
 
@@ -293,14 +306,13 @@ public class CrearPago extends javax.swing.JFrame {
 
     private void btnCrearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCrearActionPerformed
 
-      
         try {
             TipoPagoDTO tipoPago = cbxTiposPago1.getSelectedItem() != null ? (TipoPagoDTO) cbxTiposPago1.getSelectedItem() : null;
             CuentaBancariaDTO cuenta = cbxCuentas1.getSelectedItem() != null ? (CuentaBancariaDTO) cbxCuentas1.getSelectedItem() : null;
 
             Number valorNumber = (Number) spinnerMonto.getValue();
             BigDecimal monto = BigDecimal.valueOf(valorNumber.doubleValue());
-            
+
             if (tipoPago == null) {
                 JOptionPane.showMessageDialog(this, "Por favor, seleccione un tipo de pago.", "Tipo de pago no seleccionada", JOptionPane.WARNING_MESSAGE);
                 return;
@@ -310,7 +322,7 @@ public class CrearPago extends javax.swing.JFrame {
                 return;
             }
 
-            if (monto == null|| monto.compareTo(BigDecimal.ZERO)<=0) {
+            if (monto == null || monto.compareTo(BigDecimal.ZERO) <= 0) {
                 JOptionPane.showMessageDialog(this, "Por favor, Ingrese un monto valido", "Monto Error", JOptionPane.WARNING_MESSAGE);
                 return;
             }
@@ -320,16 +332,16 @@ public class CrearPago extends javax.swing.JFrame {
             gestionarPagos.crearPagoBO(pago);
             JOptionPane.showMessageDialog(this, "Se ha agregado el pago correctamente", "Exito en el pago", JOptionPane.INFORMATION_MESSAGE);
 
-            Pagos pagos=new Pagos(gestionarCuentasBancarias, gestionarPagos, consultarEstadoPagos, gestiionarAbonos, beneficiario);
+            Pagos pagos = new Pagos(gestionarCuentasBancarias, gestionarPagos, consultarEstadoPagos, gestionarAbonos, beneficiario);
 
             pagos.setVisible(true);
             this.dispose();
-            
+
         } catch (NegocioException ex) {
-                JOptionPane.showMessageDialog(this, "Error al agregar el pago", "Monto Error", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Error al agregar el pago", "Monto Error", JOptionPane.WARNING_MESSAGE);
         }
 
-       
+
     }//GEN-LAST:event_btnCrearActionPerformed
 
 

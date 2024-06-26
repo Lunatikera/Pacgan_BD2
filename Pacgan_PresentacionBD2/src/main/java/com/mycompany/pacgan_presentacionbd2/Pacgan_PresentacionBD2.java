@@ -4,14 +4,16 @@
  */
 package com.mycompany.pacgan_presentacionbd2;
 
-
 import Administrador.ReportesAdmin;
 import Administrador.BeneficiariosAdmin;
+import Beneficiario.Cuentas;
 import Beneficiario.Pagos;
 import Inicio.LogIn;
 import com.formdev.flatlaf.FlatLaf;
 import com.formdev.flatlaf.fonts.roboto.FlatRobotoFont;
 import com.formdev.flatlaf.themes.FlatMacDarkLaf;
+import convertidores.ConvertidorAbono;
+import convertidores.ConvertidorCuentaBancaria;
 import convertidores.ConvertidorPago;
 import daos.AbonoDAO;
 import daos.BeneficiarioDAO;
@@ -95,83 +97,82 @@ import servicios.IConsultarEstadoPagos;
  * @author Usuario
  */
 public class Pacgan_PresentacionBD2 {
-    
+
     public static void main(String[] args) {
         try {
-        //Conexion
-        IConexionBD conexion = new ConexionBD();
+            //Conexion
+            IConexionBD conexion = new ConexionBD();
 
-        //DAOs
-        IPagoDAO pagoDAO = new PagoDAO(conexion);
-        IBeneficiarioDAO beneficiarioDAO = new BeneficiarioDAO(conexion);
-        ICuentaBancariaDAO cuentaBancariaDAO = new CuentaBancariaDAO(conexion);
-        IAbonoDAO abonoDAO = new AbonoDAO(conexion);
-        IEstatusDAO estatusDAO = new EstatusDAO(conexion);
-        ITipoPagoDAO tipoPagoDAO = new TipoPagoDAO(conexion);
-        IPago_EstatusDAO pago_EstatusDAO = new Pago_EstatusDAO(conexion);
-        
-        
-        //
-        ConvertidorPago convertidor=new ConvertidorPago(tipoPagoDAO, beneficiarioDAO, cuentaBancariaDAO);
+            //DAOs
+            IPagoDAO pagoDAO = new PagoDAO(conexion);
+            IBeneficiarioDAO beneficiarioDAO = new BeneficiarioDAO(conexion);
+            ICuentaBancariaDAO cuentaBancariaDAO = new CuentaBancariaDAO(conexion);
+            IAbonoDAO abonoDAO = new AbonoDAO(conexion);
+            IEstatusDAO estatusDAO = new EstatusDAO(conexion);
+            ITipoPagoDAO tipoPagoDAO = new TipoPagoDAO(conexion);
+            IPago_EstatusDAO pago_EstatusDAO = new Pago_EstatusDAO(conexion);
 
-        //BOs
-        IAgregarAbonoBO agregarAbonoBO = new AgregarAbonoBO(abonoDAO);
-        IAgregarBeneficiarioBO agregarBeneficiarioBO = new AgregarBeneficiarioBO(beneficiarioDAO);
-        IAgregarCuentaBancariaBO agregarCuentaBancariaBO = new AgregarCuentaBancariaBO(cuentaBancariaDAO);
-        IConsultarAbonoBO consultarAbonoBO = new ConsultarAbonoBO(abonoDAO);
-        IConsultarBeneficiarioBO consultarBeneficiarioBO = new ConsultarBeneficiarioBO(beneficiarioDAO);
-        IConsultarEstatusBO consultarEstatusBO = new ConsultarEstatusBO(estatusDAO);
-        IConsultarCuentaBancariaBO consultarCuentaBancariaBO = new ConsultarCuentaBancariaBO(cuentaBancariaDAO);
-        IConsultarPagoBO consultarPagoBO = new ConsultarPagoBO(pagoDAO);
-        ICrearPagoBO crearPagoBO = new CrearPagoBO(pagoDAO);
-        IConsultarTipoPagoBO consultarTipoPagoBO=new ConsultarTipoPagoBO(tipoPagoDAO);
-        IEditarBeneficiarioBO editarBeneficiarioBO = new EditarBeneficiarioBO(beneficiarioDAO);
-        IEditarCuentaBancariaBO editarCuentaBancariaBO = new EditarCuentaBancariaBO(cuentaBancariaDAO);
-        IEditarPagoBO editarPagoBO = new EditarPagoBO(pagoDAO);
-        IEliminarAbonoBO eliminarAbonoBO = new EliminarAbonoBO(abonoDAO);
-        IEliminarBeneficiarioBO eliminarBeneficiarioBO = new EliminarBeneficiarioBO(beneficiarioDAO);
-        IEliminarCuentaBancariaBO eliminarCuentaBancariaBO = new EliminarCuentaBancariaBO(cuentaBancariaDAO);
-        IEliminarPagoBO eliminarPagoBO = new EliminarPagoBO(pagoDAO);
-        IIniciarSesionBO iniciarSesionBO = new IniciarSesionBO();
-        IinsertarBeneficiario insertarBeneficiario = new InsertarBeneficiario(beneficiarioDAO);
-        IinsertarEstatusPago insertarEstatusPago = new InsertarEstatusPago(tipoPagoDAO, estatusDAO);        
-        IVerEstadoPagoBO verEstadoPagoBO = new VerEstadoPagoBO(pago_EstatusDAO);
-        IHistorialEstadoPagoBO historialEstadoPagoBO = new HistorialEstadoPagoBO(pago_EstatusDAO);
+            //Convertidores
+            ConvertidorPago convertidorPago = new ConvertidorPago(tipoPagoDAO, beneficiarioDAO, cuentaBancariaDAO);
+            ConvertidorAbono convertidorAbono = new ConvertidorAbono(pagoDAO);
+            ConvertidorCuentaBancaria convertidorCuentaBancaria = new ConvertidorCuentaBancaria(beneficiarioDAO);
 
-        //Fachadas
-        IGestionarAbonos gestionarAbonos = new GestionarAbonosFacade(agregarAbonoBO, consultarAbonoBO, eliminarAbonoBO);
-        IGestionarBeneficiarios gestionarBeneficiarios = new GestionarBeneficiariosFacade(agregarBeneficiarioBO, consultarBeneficiarioBO, editarBeneficiarioBO, eliminarBeneficiarioBO);
-        IGestionarCuentasBancarias gestionarCuentasBancarias = new GestionarCuentasBancariasFacade(agregarCuentaBancariaBO, consultarCuentaBancariaBO, editarCuentaBancariaBO, eliminarCuentaBancariaBO);
-        IGestionarPagos gestionarPagos = new GestionarPagosFacade(crearPagoBO, consultarPagoBO, editarPagoBO, eliminarPagoBO, consultarTipoPagoBO);
-        IConsultarEstadoPagos consultarEstadoPagos = new ConsultarEstadoPagosFacade(verEstadoPagoBO, historialEstadoPagoBO, consultarEstatusBO);
-        
-        
-        BeneficiarioDTO beneficiario;
+            //BOs
+            IAgregarAbonoBO agregarAbonoBO = new AgregarAbonoBO(abonoDAO);
+            IAgregarBeneficiarioBO agregarBeneficiarioBO = new AgregarBeneficiarioBO(beneficiarioDAO);
+            IAgregarCuentaBancariaBO agregarCuentaBancariaBO = new AgregarCuentaBancariaBO(cuentaBancariaDAO);
+            IConsultarAbonoBO consultarAbonoBO = new ConsultarAbonoBO(abonoDAO);
+            IConsultarBeneficiarioBO consultarBeneficiarioBO = new ConsultarBeneficiarioBO(beneficiarioDAO);
+            IConsultarEstatusBO consultarEstatusBO = new ConsultarEstatusBO(estatusDAO);
+            IConsultarCuentaBancariaBO consultarCuentaBancariaBO = new ConsultarCuentaBancariaBO(cuentaBancariaDAO);
+            IConsultarPagoBO consultarPagoBO = new ConsultarPagoBO(pagoDAO);
+            ICrearPagoBO crearPagoBO = new CrearPagoBO(pagoDAO);
+            IConsultarTipoPagoBO consultarTipoPagoBO = new ConsultarTipoPagoBO(tipoPagoDAO);
+            IEditarBeneficiarioBO editarBeneficiarioBO = new EditarBeneficiarioBO(beneficiarioDAO);
+            IEditarCuentaBancariaBO editarCuentaBancariaBO = new EditarCuentaBancariaBO(cuentaBancariaDAO);
+            IEditarPagoBO editarPagoBO = new EditarPagoBO(pagoDAO);
+            IEliminarAbonoBO eliminarAbonoBO = new EliminarAbonoBO(abonoDAO);
+            IEliminarBeneficiarioBO eliminarBeneficiarioBO = new EliminarBeneficiarioBO(beneficiarioDAO);
+            IEliminarCuentaBancariaBO eliminarCuentaBancariaBO = new EliminarCuentaBancariaBO(cuentaBancariaDAO);
+            IEliminarPagoBO eliminarPagoBO = new EliminarPagoBO(pagoDAO);
+            IIniciarSesionBO iniciarSesionBO = new IniciarSesionBO();
+            IinsertarBeneficiario insertarBeneficiario = new InsertarBeneficiario(beneficiarioDAO);
+            IinsertarEstatusPago insertarEstatusPago = new InsertarEstatusPago(tipoPagoDAO, estatusDAO);
+            IVerEstadoPagoBO verEstadoPagoBO = new VerEstadoPagoBO(pago_EstatusDAO);
+            IHistorialEstadoPagoBO historialEstadoPagoBO = new HistorialEstadoPagoBO(pago_EstatusDAO);
+
+            //Fachadas
+            IGestionarAbonos gestionarAbonos = new GestionarAbonosFacade(agregarAbonoBO, consultarAbonoBO, eliminarAbonoBO);
+            IGestionarBeneficiarios gestionarBeneficiarios = new GestionarBeneficiariosFacade(agregarBeneficiarioBO, consultarBeneficiarioBO, editarBeneficiarioBO, eliminarBeneficiarioBO);
+            IGestionarCuentasBancarias gestionarCuentasBancarias = new GestionarCuentasBancariasFacade(agregarCuentaBancariaBO, consultarCuentaBancariaBO, editarCuentaBancariaBO, eliminarCuentaBancariaBO);
+            IGestionarPagos gestionarPagos = new GestionarPagosFacade(crearPagoBO, consultarPagoBO, editarPagoBO, eliminarPagoBO, consultarTipoPagoBO);
+            IConsultarEstadoPagos consultarEstadoPagos = new ConsultarEstadoPagosFacade(verEstadoPagoBO, historialEstadoPagoBO, consultarEstatusBO);
+
+            BeneficiarioDTO beneficiario;
 
             beneficiario = gestionarBeneficiarios.consultarBeneficiarioPorID(1L);
-            
+
             FlatRobotoFont.install();
-        FlatLaf.registerCustomDefaultsSource("raven.combobox");
-        UIManager.put("defaultFont", new Font(FlatRobotoFont.FAMILY, Font.PLAIN, 13));
-        FlatMacDarkLaf.setup();
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new Pagos(gestionarCuentasBancarias, gestionarPagos, consultarEstadoPagos, gestionarAbonos, beneficiario).setVisible(true);
-            }
-        });
+            FlatLaf.registerCustomDefaultsSource("raven.combobox");
+            UIManager.put("defaultFont", new Font(FlatRobotoFont.FAMILY, Font.PLAIN, 13));
+            FlatMacDarkLaf.setup();
+            java.awt.EventQueue.invokeLater(new Runnable() {
+                public void run() {
+//                new Pagos(gestionarCuentasBancarias, gestionarPagos, consultarEstadoPagos, gestionarAbonos, beneficiario).setVisible(true);
+                    new Cuentas(gestionarCuentasBancarias, gestionarPagos, consultarEstadoPagos, gestionarAbonos, beneficiario).setVisible(true);
+                }
+            });
         } catch (NegocioException ex) {
-            Logger.getLogger(Pacgan_PresentacionBD2.class.getName()).log(Level.SEVERE, null, ex);
         }
 
 //
 //        
-   //     Pagos pago= new Pagos(gestionarCuentasBancarias, gestionarPagos, consultarEstadoPagos);
-    //    pago.setVisible(true);
+//   //     Pagos pago= new Pagos(gestionarCuentasBancarias, gestionarPagos, consultarEstadoPagos);
+//    //    pago.setVisible(true);
 //        LogIn inicioSesion = new LogIn(iniciarSesionBO, insertarBeneficiario, insertarEstatusPago, gestionarAbonos, gestionarBeneficiarios, gestionarCuentasBancarias, gestionarPagos, consultarEstadoPagos);
 //        inicioSesion.setVisible(true);
-
-    
-
-
-}
+//
+//    
+//
+    }
 }

@@ -10,6 +10,7 @@ import dtos.PagoDTO;
 import dtos.TipoPagoDTO;
 import excepciones.NegocioException;
 import java.awt.Color;
+import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.math.BigDecimal;
@@ -50,6 +51,7 @@ public class ModificarPago extends javax.swing.JFrame {
     public ModificarPago(IGestionarPagos gestionarPagos, IGestionarCuentasBancarias gestionarCuentasBancarias, IConsultarEstadoPagos consultarEstadoPagos, IGestionarAbonos gestionarAbonos, PagoDTO pagoDTO, BeneficiarioDTO beneficiario
     ) {
         initComponents();
+        this.setLocationRelativeTo(this);
         this.gestionarPagos = gestionarPagos;
         this.gestionarCuentasBancarias = gestionarCuentasBancarias;
         this.consultarEstadoPagos = consultarEstadoPagos;
@@ -111,9 +113,9 @@ public class ModificarPago extends javax.swing.JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
 
-                Pagos Pagos = new Pagos(gestionarCuentasBancarias, gestionarPagos, consultarEstadoPagos, gestionarAbonos, beneficiario);
+                Pagos pagos = new Pagos(gestionarCuentasBancarias, gestionarPagos, consultarEstadoPagos, gestionarAbonos, beneficiario);
 
-                Pagos.setVisible(true);
+                pagos.setVisible(true);
                 dispose();
 
             }
@@ -126,9 +128,8 @@ public class ModificarPago extends javax.swing.JFrame {
         misCuentas.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // Open your frame here
-//                Cuentas Cuentas = new Cuentas();
-//                Cuentas.setVisible(true);
+                Cuentas cuentas = new Cuentas(gestionarCuentasBancarias, gestionarPagos, consultarEstadoPagos, gestionarAbonos, beneficiario);
+                cuentas.setVisible(true);
                 dispose();
 
             }
@@ -141,16 +142,30 @@ public class ModificarPago extends javax.swing.JFrame {
         salir.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                dispose();
+                int response = JOptionPane.showConfirmDialog(
+                        null,
+                        "¿Desea Continuar a Cerrar Sesion?",
+                        "Cerrar Sesion",
+                        JOptionPane.YES_NO_OPTION,
+                        JOptionPane.QUESTION_MESSAGE
+                );
 
+                // Verificar la respuesta del usuario
+                if (response == JOptionPane.YES_OPTION) {
+                    for (Window window : Window.getWindows()) {
+                        window.dispose();
+                        System.exit(0);
+                    }
+
+                }
             }
         });
 
         menuSalir.add(salir);
-        MenuBarAdmin.add(menuSalir);
 
         MenuBarAdmin.add(menuPagos);
         MenuBarAdmin.add(menuCuentas);
+        MenuBarAdmin.add(menuSalir);
 
     }
 
@@ -187,7 +202,7 @@ public class ModificarPago extends javax.swing.JFrame {
 
         jLabel57.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         jLabel57.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel57.setText("Crear pago");
+        jLabel57.setText("Editar Pago");
 
         javax.swing.GroupLayout panelMenuLayout = new javax.swing.GroupLayout(panelMenu);
         panelMenu.setLayout(panelMenuLayout);
@@ -221,6 +236,7 @@ public class ModificarPago extends javax.swing.JFrame {
         Agrupador.add(panelMenu, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 530, -1));
 
         jLabel58.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        jLabel58.setForeground(new java.awt.Color(0, 51, 102));
         jLabel58.setText("Seleccione la cuenta*");
         Agrupador.add(jLabel58, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 90, -1, -1));
 
@@ -228,6 +244,7 @@ public class ModificarPago extends javax.swing.JFrame {
         Agrupador.add(cbxCuentas1, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 130, -1, -1));
 
         jLabel59.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        jLabel59.setForeground(new java.awt.Color(0, 51, 102));
         jLabel59.setText("Tipo de Pago*");
         Agrupador.add(jLabel59, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 190, -1, -1));
 
@@ -235,6 +252,7 @@ public class ModificarPago extends javax.swing.JFrame {
         Agrupador.add(cbxTiposPago1, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 220, -1, -1));
 
         jLabel60.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        jLabel60.setForeground(new java.awt.Color(0, 51, 102));
         jLabel60.setText("Ingrese el monto*");
         Agrupador.add(jLabel60, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 270, -1, -1));
 
