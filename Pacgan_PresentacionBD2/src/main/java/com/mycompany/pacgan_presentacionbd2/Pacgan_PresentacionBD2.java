@@ -159,7 +159,7 @@ public class Pacgan_PresentacionBD2 {
             java.awt.EventQueue.invokeLater(new Runnable() {
                 public void run() {
 //                new Pagos(gestionarCuentasBancarias, gestionarPagos, consultarEstadoPagos, gestionarAbonos, beneficiario).setVisible(true);
-                    new Cuentas(gestionarCuentasBancarias, gestionarPagos, consultarEstadoPagos, gestionarAbonos, beneficiario).setVisible(true);
+                    new LogIn(iniciarSesionBO, insertarBeneficiario, insertarEstatusPago, gestionarAbonos, gestionarBeneficiarios, gestionarCuentasBancarias, gestionarPagos, consultarEstadoPagos).setVisible(true);
                 }
             });
         } catch (NegocioException ex) {

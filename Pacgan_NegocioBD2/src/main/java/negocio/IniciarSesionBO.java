@@ -47,7 +47,7 @@ public class IniciarSesionBO implements IIniciarSesionBO {
                 }
             }
         } catch (PersistenciaException ex) {
-            Logger.getLogger(IniciarSesionBO.class.getName()).log(Level.SEVERE, null, ex);
+            throw new NegocioException("No se pudo verificar las credenciales");
         }
         return false; // Las credenciales son incorrectas o hubo un error
     }
