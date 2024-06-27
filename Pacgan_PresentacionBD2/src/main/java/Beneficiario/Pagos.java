@@ -306,7 +306,7 @@ public class Pagos extends javax.swing.JFrame {
         Agrupador.add(panelMenu, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 960, 60));
 
         tblPagos.setBackground(new java.awt.Color(234, 234, 234));
-        tblPagos.setForeground(new java.awt.Color(0, 51, 102));
+        tblPagos.setForeground(new java.awt.Color(0, 0, 0));
         tblPagos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 

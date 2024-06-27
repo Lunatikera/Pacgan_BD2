@@ -231,24 +231,21 @@ public class ReportesAdmin extends javax.swing.JFrame {
             }
         ));
         tblPagos.setBackground(new java.awt.Color(234, 234, 234));
+        tblPagos.setForeground(new java.awt.Color(0, 0, 0));
         jScrollPane1.setViewportView(tblPagos);
 
         Agrupador.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 210, 880, 330));
 
-        jLabel2.setForeground(new java.awt.Color(0, 0, 0));
         jLabel2.setText("Tipos");
         Agrupador.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 100, -1, -1));
 
-        jLabel4.setForeground(new java.awt.Color(0, 0, 0));
         jLabel4.setText("Estatus:");
         Agrupador.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 140, -1, -1));
 
-        jLabel5.setForeground(new java.awt.Color(0, 0, 0));
         jLabel5.setText("Filtros");
         Agrupador.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 70, -1, -1));
 
         jLabel6.setText("a");
-        jLabel6.setForeground(new java.awt.Color(0, 0, 0));
         Agrupador.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(670, 110, 20, -1));
 
         cmbAbonos.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
@@ -259,13 +256,11 @@ public class ReportesAdmin extends javax.swing.JFrame {
         });
         Agrupador.add(cmbAbonos, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 100, 90, 20));
 
-        jLabel7.setForeground(new java.awt.Color(0, 0, 0));
         jLabel7.setText("Abonos Terminados");
         Agrupador.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 100, -1, -1));
         Agrupador.add(datePicker1, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 100, 190, 30));
 
         jLabel8.setText("Periodo:");
-        jLabel8.setForeground(new java.awt.Color(0, 0, 0));
         Agrupador.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 80, -1, -1));
 
         cmbTipo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
@@ -302,7 +297,6 @@ public class ReportesAdmin extends javax.swing.JFrame {
         Agrupador.add(btnAtras, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 560, 130, 30));
 
         lblPagina.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        lblPagina.setForeground(new java.awt.Color(0, 0, 0));
         lblPagina.setText("Pagina 1");
         Agrupador.add(lblPagina, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 570, -1, -1));
 

@@ -345,9 +345,9 @@ public class BeneficiariosAdmin extends javax.swing.JFrame {
 
         jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/logos/LogoEsquina.jpg"))); // NOI18N
 
+        jLabel2.setText("Administracion Beneficarios");
         jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel2.setText("Administracion Beneficarios");
 
         javax.swing.GroupLayout panelMenuLayout = new javax.swing.GroupLayout(panelMenu);
         panelMenu.setLayout(panelMenuLayout);
@@ -380,6 +380,7 @@ public class BeneficiariosAdmin extends javax.swing.JFrame {
         Agrupador.add(panelMenu, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 960, 60));
 
         tblBeneficiarios.setBackground(new java.awt.Color(234, 234, 234));
+        tblBeneficiarios.setForeground(new java.awt.Color(0, 0, 0));
         tblBeneficiarios.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null, null},

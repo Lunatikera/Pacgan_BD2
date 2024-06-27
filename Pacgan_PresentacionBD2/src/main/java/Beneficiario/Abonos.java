@@ -372,7 +372,7 @@ public class Abonos extends javax.swing.JFrame {
         Agrupador.add(panelMenu, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 960, 60));
 
         tblAbonos.setBackground(new java.awt.Color(234, 234, 234));
-        tblAbonos.setForeground(new java.awt.Color(0, 51, 102));
+        tblAbonos.setForeground(new java.awt.Color(0, 0, 0));
         tblAbonos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 

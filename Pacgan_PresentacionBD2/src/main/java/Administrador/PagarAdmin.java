@@ -481,7 +481,7 @@ public class PagarAdmin extends javax.swing.JFrame {
         Agrupador.add(btnSiguiente, new org.netbeans.lib.awtextra.AbsoluteConstraints(730, 560, 130, 30));
 
         tblPagos.setBackground(new java.awt.Color(234, 234, 234));
-        tblPagos.setForeground(new java.awt.Color(0, 51, 102));
+        tblPagos.setForeground(new java.awt.Color(0, 0, 0));
         tblPagos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
