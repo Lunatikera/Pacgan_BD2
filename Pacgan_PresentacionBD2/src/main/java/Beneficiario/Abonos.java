@@ -96,6 +96,10 @@ public class Abonos extends javax.swing.JFrame {
             for (AbonoDTO abonoDTO : abonoLista) {
                 abonosIds.add(abonoDTO.getAbonoId());
             }
+              if (abonoLista.isEmpty() && pagina == 1) {
+                JOptionPane.showMessageDialog(this, "No hay Abonos Registrados", "Información", JOptionPane.ERROR_MESSAGE);
+
+            }
 
             this.llenarTablaAbonos(abonoLista);
         } catch (NegocioException ex) {

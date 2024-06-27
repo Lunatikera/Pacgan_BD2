@@ -29,6 +29,11 @@ public class Pago_EstadoDTO {
         this.idEstatus = idEstatus;
     }
 
+    public Pago_EstadoDTO(Long idPago, Long idEstatus) {
+        this.idPago = idPago;
+        this.idEstatus = idEstatus;
+    }
+
     public Long getIdPago() {
         return idPago;
     }

@@ -25,8 +25,7 @@ import servicios.IGestionarAbonos;
 import servicios.IGestionarCuentasBancarias;
 import servicios.IGestionarPagos;
 import utileria.JButtonRenderer;
-import utilerias.JButtonCellEditor;
-import utilerias.JButtonRender;
+import utileria.JButtonCellEditor;
 
 /**
  *
@@ -89,7 +88,10 @@ public class Cuentas extends javax.swing.JFrame {
             for (CuentaBancariaDTO cuentaDTO : cuentaLista) {
                 cuentasIds.add(cuentaDTO.getCuentaBancariaId());
             }
+            if (cuentaLista.isEmpty() && pagina == 1) {
+                JOptionPane.showMessageDialog(this, "No tiene ninguna cuenta Registrada, Por favor Registre una", "Información", JOptionPane.ERROR_MESSAGE);
 
+            }
             this.llenarTablaCuentas(cuentaLista);
         } catch (NegocioException ex) {
 

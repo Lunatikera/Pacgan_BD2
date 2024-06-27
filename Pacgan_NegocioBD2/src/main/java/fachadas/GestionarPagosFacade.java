@@ -5,6 +5,7 @@
 package fachadas;
 
 import dtos.PagoDTO;
+import dtos.Pago_EstadoDTO;
 import dtos.TipoPagoDTO;
 import excepciones.NegocioException;
 import interfaces.IConsultarPagoBO;
@@ -12,6 +13,7 @@ import interfaces.IConsultarTipoPagoBO;
 import interfaces.ICrearPagoBO;
 import interfaces.IEditarPagoBO;
 import interfaces.IEliminarPagoBO;
+import java.time.LocalDateTime;
 import java.util.List;
 import servicios.IGestionarPagos;
 
@@ -80,4 +82,18 @@ public class GestionarPagosFacade implements IGestionarPagos {
         return consultarPagoBO.listaPagoPaginadoPorBeneficiario(limite, numeroPagina, beneficiarioId);
     }
 
+    @Override
+    public List<PagoDTO> listaPagoPaginadoAdmin(int limite, int numeroPagina, String estatusFiltro) throws NegocioException {
+        return consultarPagoBO.listaPagoPaginadoAdmin(limite, numeroPagina, estatusFiltro);
+    }
+
+    @Override
+    public void agregarPagoEstatus(Pago_EstadoDTO pagoEstatus) throws NegocioException {
+        editarPagoBO.agregarPagoEstatus(pagoEstatus);
+    }
+
+    @Override
+    public List<PagoDTO> filtrarPagos(List<Long> tipoPagoIds, List<Long> estatusIds, Boolean abonosTerminados, LocalDateTime fechaInicio, LocalDateTime fechaFin) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
 }

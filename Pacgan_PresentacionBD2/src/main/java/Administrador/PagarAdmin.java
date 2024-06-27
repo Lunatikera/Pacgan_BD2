@@ -6,6 +6,7 @@ package Administrador;
 
 import Beneficiario.ModificarPago;
 import Beneficiario.Pagos;
+import dtos.BeneficiarioDTO;
 import dtos.CuentaBancariaDTO;
 import dtos.EstatusDTO;
 import dtos.PagoDTO;
@@ -14,6 +15,7 @@ import excepciones.NegocioException;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -23,6 +25,7 @@ import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumnModel;
 import servicios.IConsultarEstadoPagos;
+import servicios.IGestionarBeneficiarios;
 import servicios.IGestionarCuentasBancarias;
 import servicios.IGestionarPagos;
 import utileria.JButtonCellEditor;
@@ -37,22 +40,32 @@ public class PagarAdmin extends javax.swing.JFrame {
     IGestionarCuentasBancarias gestionarCuentasBancarias;
     IGestionarPagos gestionarPagos;
     IConsultarEstadoPagos consultarEstadoPagos;
+    IGestionarBeneficiarios gestionarBeneficiarios;
     List<Long> pagoIds;
     private int pagina = 1;
     private final int LIMITE = 10;
+    private String estatusFiltro;
 
     /**
      * Creates new form PagarAdmin
      */
-    public PagarAdmin() {
+    public PagarAdmin(IGestionarCuentasBancarias gestionarCuentasBancarias, IConsultarEstadoPagos consultarEstadoPagos, IGestionarBeneficiarios gestionarBeneficiarios, IGestionarPagos gestionarPagos) {
+
         initComponents();
+        this.setLocationRelativeTo(this);
+        this.gestionarPagos = gestionarPagos;
+        this.gestionarCuentasBancarias = gestionarCuentasBancarias;
+        this.consultarEstadoPagos = consultarEstadoPagos;
+        this.gestionarBeneficiarios = gestionarBeneficiarios;
+        this.pagoIds = new ArrayList<>();
         personalizador();
         agregarOpcionesMenu();
+        estatusFiltro = "AMBOSPAGAR";
+        this.cargarMetodosIniciales();
     }
 
     public void personalizador() {
         panelMenu.setBackground(Color.decode("#142132"));
-        btnBuscar.setBackground(Color.decode("#142132"));
         btnAtras.setBackground(Color.decode("#142132"));
         btnSiguiente.setBackground(Color.decode("#142132"));
 
@@ -63,21 +76,60 @@ public class PagarAdmin extends javax.swing.JFrame {
         this.cargarPagosEnTabla();
         this.estadoPagina();
         configurarBotones();
+        this.configuraFiltros();
     }
 
     public void cargarPagosEnTabla() {
         try {
             pagoIds.clear();
-            List<PagoDTO> pagoLista = this.gestionarPagos.listaPagosPaginado(this.LIMITE, this.pagina);
+            List<PagoDTO> pagoLista = this.gestionarPagos.listaPagoPaginadoAdmin(LIMITE, pagina, estatusFiltro);
 
             for (PagoDTO pagoDTO : pagoLista) {
                 pagoIds.add(pagoDTO.getPagoId());
             }
+            if (pagoLista.isEmpty() && pagina == 1) {
+                JOptionPane.showMessageDialog(this, "No hay Pagos Registrados", "Información", JOptionPane.ERROR_MESSAGE);
 
+            }
             this.llenarTablaPagos(pagoLista);
         } catch (NegocioException ex) {
             JOptionPane.showMessageDialog(this, ex.getMessage(), "Información", JOptionPane.ERROR_MESSAGE);
         }
+    }
+
+    public void configuraFiltros() {
+
+        chboxAutorizados.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                setEstatusFiltro();
+            }
+        });
+
+        chboxPagados.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                setEstatusFiltro();
+            }
+        });
+    }
+
+    private void setEstatusFiltro() {
+
+        if (chboxAutorizados.isSelected() && chboxPagados.isSelected()) {
+            estatusFiltro = "AMBOSPAGAR";
+
+        } else if (chboxPagados.isSelected()) {
+            estatusFiltro = "PAGADO";
+
+        } else if (chboxAutorizados.isSelected()) {
+            estatusFiltro = "AUTORIZADO";
+
+        } else {
+            estatusFiltro = "AMBOSPAGAR";
+        }
+        cargarPagosEnTabla();
+
     }
 
     private void configurarBotones() {
@@ -135,14 +187,15 @@ public class PagarAdmin extends javax.swing.JFrame {
                     -> {
                 try {
                     CuentaBancariaDTO cuentaBancaria = gestionarCuentasBancarias.consultarCuentaBancariaPorID(row.getCuentaBancariaId());
+                    BeneficiarioDTO beneficiario = gestionarBeneficiarios.consultarBeneficiarioPorID(row.getBeneficiarioId());
                     Pago_EstadoDTO pago_EstadoDTO = consultarEstadoPagos.obtenerEstadoDelPago(row.getPagoId());
                     EstatusDTO estatusDTO = consultarEstadoPagos.consultarEstatusPorID(pago_EstadoDTO.getIdEstatus());
 
                     Object[] fila = new Object[4];
-                    fila[0] = cuentaBancaria.getNumeroCuenta();
-                    fila[1] = row.getMonto();
-                    fila[2] = estatusDTO.getNombre();
-                    fila[3] = pago_EstadoDTO.getMensaje();
+                    fila[0] = beneficiario.getClaveContrato();
+                    fila[1] = cuentaBancaria.getNumeroCuenta();
+                    fila[2] = row.getMonto();
+                    fila[3] = estatusDTO.getNombre();
 
                     modeloTabla.addRow(fila);
                 } catch (NegocioException ex) {
@@ -153,14 +206,74 @@ public class PagarAdmin extends javax.swing.JFrame {
     }
 
     private void rechazar(Long id) {
-        //Aqui nomas se cambia el estado a rechazado
-        System.out.println(id);
+        try {
 
+            if (id == 0) {
+                throw new NegocioException("Por favor seleccione un Pago");
+            }
+            PagoDTO pagoDTO = gestionarPagos.consultarPagoPorID(id);
+            Pago_EstadoDTO pagoEstado = new Pago_EstadoDTO(pagoDTO.getPagoId(), 3L);
+
+            int confirmacion = JOptionPane.showOptionDialog(this,
+                    "¿Está seguro de que desea Rechazar este Pago?",
+                    "Confirmación de Rechazo",
+                    JOptionPane.YES_NO_OPTION,
+                    JOptionPane.QUESTION_MESSAGE,
+                    null,
+                    new Object[]{"Confirmar", "Cancelar"},
+                    "Confirmar");
+
+            // Si el usuario selecciona "Cancelar", no se hace nada
+            if (confirmacion != JOptionPane.YES_OPTION) {
+                return;
+            }
+
+            gestionarPagos.agregarPagoEstatus(pagoEstado);
+
+            if (this.gestionarPagos.listaPagoPaginadoAdmin(LIMITE, pagina, estatusFiltro) == null || this.gestionarPagos.listaPagoPaginadoAdmin(LIMITE, pagina, estatusFiltro).isEmpty()) {
+                this.btnAtrasActionPerformed(null);
+            } else {
+                cargarPagosEnTabla();
+            }
+        } catch (NegocioException ex) {
+            JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
     }
 
     private void pagar(Long id) {
-        //Aqui se hace lo de cambiar a pagado
+        //Aqui se hace lo de autorizarPago
+        try {
 
+            if (id == 0) {
+                throw new NegocioException("Por favor seleccione un Pago");
+            }
+            PagoDTO pagoDTO = gestionarPagos.consultarPagoPorID(id);
+            Pago_EstadoDTO pagoEstado = new Pago_EstadoDTO(pagoDTO.getPagoId(), 4L);
+
+            int confirmacion = JOptionPane.showOptionDialog(this,
+                    "¿Está seguro de que desea pagar este Pago?",
+                    "Confirmación de pago",
+                    JOptionPane.YES_NO_OPTION,
+                    JOptionPane.QUESTION_MESSAGE,
+                    null,
+                    new Object[]{"Confirmar", "Cancelar"},
+                    "Confirmar");
+
+            // Si el usuario selecciona "Cancelar", no se hace nada
+            if (confirmacion != JOptionPane.YES_OPTION) {
+                return;
+            }
+
+            gestionarPagos.agregarPagoEstatus(pagoEstado);
+
+            if (this.gestionarPagos.listaPagoPaginadoAdmin(LIMITE, pagina, estatusFiltro) == null || this.gestionarPagos.listaPagoPaginadoAdmin(LIMITE, pagina, estatusFiltro).isEmpty()) {
+                this.btnAtrasActionPerformed(null);
+            } else {
+                cargarPagosEnTabla();
+            }
+        } catch (NegocioException ex) {
+            JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
     }
 
     private void estadoPagina() {
@@ -182,8 +295,8 @@ public class PagarAdmin extends javax.swing.JFrame {
 
         try {
             btnSiguiente.setEnabled(true);
-            if (this.gestionarPagos.listaPagosPaginado(this.LIMITE, this.pagina + 1) == null
-                    || this.gestionarPagos.listaPagosPaginado(this.LIMITE, this.pagina + 1).isEmpty()) {
+            if (this.gestionarPagos.listaPagoPaginadoAdmin(LIMITE, pagina + 1, estatusFiltro) == null
+                    || this.gestionarPagos.listaPagoPaginadoAdmin(LIMITE, pagina + 1, estatusFiltro).isEmpty()) {
                 btnSiguiente.setEnabled(false);
             }
         } catch (NegocioException ex) {
@@ -200,7 +313,7 @@ public class PagarAdmin extends javax.swing.JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 // Open your frame here
-                ReportesAdmin reportes = new ReportesAdmin();
+                ReportesAdmin reportes = new ReportesAdmin(gestionarCuentasBancarias, gestionarPagos, consultarEstadoPagos, gestionarBeneficiarios);
                 reportes.setVisible(true);
                 dispose();
 
@@ -215,7 +328,7 @@ public class PagarAdmin extends javax.swing.JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 // Open your frame here
-                AutorizarPagos autorizar = new AutorizarPagos();
+                AutorizarPagos autorizar = new AutorizarPagos(gestionarCuentasBancarias, gestionarPagos, consultarEstadoPagos, gestionarBeneficiarios);
                 autorizar.setVisible(true);
                 dispose();
 
@@ -229,7 +342,7 @@ public class PagarAdmin extends javax.swing.JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 // Open your frame here
-                PagarAdmin pagados = new PagarAdmin();
+                PagarAdmin pagados = new PagarAdmin(gestionarCuentasBancarias, consultarEstadoPagos, gestionarBeneficiarios, gestionarPagos);
                 pagados.setVisible(true);
                 dispose();
 
@@ -244,8 +357,8 @@ public class PagarAdmin extends javax.swing.JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 // Open your frame here
-                //  BeneficiariosAdmin benef = new BeneficiariosAdmin();
-                //   benef.setVisible(true);
+                  BeneficiariosAdmin benef = new BeneficiariosAdmin(gestionarBeneficiarios, consultarEstadoPagos, gestionarPagos, gestionarCuentasBancarias);
+                   benef.setVisible(true);
                 dispose();
 
             }
@@ -272,44 +385,32 @@ public class PagarAdmin extends javax.swing.JFrame {
     }
 
     /**
-     * This method is called from within the constructor to initialize the form.
-     * WARNING: Do NOT modify this code. The content of this method is always
-     * regenerated by the Form Editor.
+     * This method is called from within the constructor to initialize the form. WARNING: Do NOT modify this code. The content of this method is always regenerated by the Form Editor.
      */
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
         Agrupador = new javax.swing.JPanel();
-        btnBuscar = new javax.swing.JButton();
         panelMenu = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
-        txtBuscar = new javax.swing.JTextField();
-        jLabel6 = new javax.swing.JLabel();
         btnAtras = new javax.swing.JButton();
         lblPagina = new javax.swing.JLabel();
         btnSiguiente = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblPagos = new javax.swing.JTable();
+        jPanel1 = new javax.swing.JPanel();
+        chboxAutorizados = new javax.swing.JCheckBox();
+        chboxPagados = new javax.swing.JCheckBox();
         MenuBarAdmin = new javax.swing.JMenuBar();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         Agrupador.setBackground(new java.awt.Color(255, 255, 255));
         Agrupador.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        btnBuscar.setBackground(new java.awt.Color(0, 102, 153));
-        btnBuscar.setForeground(new java.awt.Color(255, 255, 255));
-        btnBuscar.setText("Buscar");
-        btnBuscar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnBuscarActionPerformed(evt);
-            }
-        });
-        Agrupador.add(btnBuscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 100, 130, 30));
 
         panelMenu.setBackground(new java.awt.Color(0, 51, 102));
 
@@ -350,14 +451,9 @@ public class PagarAdmin extends javax.swing.JFrame {
 
         Agrupador.add(panelMenu, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 960, 60));
 
-        jLabel5.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel5.setForeground(new java.awt.Color(0, 51, 102));
         jLabel5.setText("Adminstracion de pagos:");
         Agrupador.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 160, -1, -1));
-        Agrupador.add(txtBuscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 100, 220, 30));
-
-        jLabel6.setForeground(new java.awt.Color(0, 0, 0));
-        jLabel6.setText("Filtro");
-        Agrupador.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 70, -1, -1));
 
         btnAtras.setBackground(new java.awt.Color(0, 102, 153));
         btnAtras.setForeground(new java.awt.Color(255, 255, 255));
@@ -370,7 +466,7 @@ public class PagarAdmin extends javax.swing.JFrame {
         Agrupador.add(btnAtras, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 560, 130, 30));
 
         lblPagina.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        lblPagina.setForeground(new java.awt.Color(0, 0, 0));
+        lblPagina.setForeground(new java.awt.Color(0, 51, 102));
         lblPagina.setText("Pagina 1");
         Agrupador.add(lblPagina, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 570, -1, -1));
 
@@ -385,20 +481,58 @@ public class PagarAdmin extends javax.swing.JFrame {
         Agrupador.add(btnSiguiente, new org.netbeans.lib.awtextra.AbsoluteConstraints(730, 560, 130, 30));
 
         tblPagos.setBackground(new java.awt.Color(234, 234, 234));
+        tblPagos.setForeground(new java.awt.Color(0, 51, 102));
         tblPagos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null}
+
             },
             new String [] {
-                "Cuenta", "Monto", "Estatus", "Comentarios", "", ""
+                "Clave", "Cuenta", "Monto", "Estatus", "", ""
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, true, true
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         jScrollPane1.setViewportView(tblPagos);
 
         Agrupador.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 180, 880, 350));
+
+        jPanel1.setBackground(new java.awt.Color(255, 255, 255));
+
+        chboxAutorizados.setFont(new java.awt.Font("Helvetica Neue", 0, 18)); // NOI18N
+        chboxAutorizados.setForeground(new java.awt.Color(0, 51, 102));
+        chboxAutorizados.setText("Autorizados");
+
+        chboxPagados.setFont(new java.awt.Font("Helvetica Neue", 0, 18)); // NOI18N
+        chboxPagados.setForeground(new java.awt.Color(0, 51, 102));
+        chboxPagados.setText("Pagados");
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(chboxPagados, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(chboxAutorizados, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addGap(0, 33, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(chboxAutorizados)
+                    .addComponent(chboxPagados, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)))
+        );
+
+        Agrupador.add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(620, 110, 280, 60));
 
         setJMenuBar(MenuBarAdmin);
 
@@ -416,68 +550,35 @@ public class PagarAdmin extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnBuscarActionPerformed
+    private void btnSiguienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSiguienteActionPerformed
+        this.pagina = this.pagina + 1;
+        this.cargarPagosEnTabla();
+        this.estadoPagina();
+    }//GEN-LAST:event_btnSiguienteActionPerformed
 
     private void btnAtrasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAtrasActionPerformed
         // TODO add your handling code here:
+        this.pagina = this.pagina - 1;
+        this.cargarPagosEnTabla();
+        this.estadoPagina();
     }//GEN-LAST:event_btnAtrasActionPerformed
 
-    private void btnSiguienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSiguienteActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnSiguienteActionPerformed
-
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(PagarAdmin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(PagarAdmin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(PagarAdmin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(PagarAdmin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new PagarAdmin().setVisible(true);
-            }
-        });
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel Agrupador;
     private javax.swing.JMenuBar MenuBarAdmin;
     private javax.swing.JButton btnAtras;
-    private javax.swing.JButton btnBuscar;
     private javax.swing.JButton btnSiguiente;
+    private javax.swing.JCheckBox chboxAutorizados;
+    private javax.swing.JCheckBox chboxPagados;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lblPagina;
     private javax.swing.JPanel panelMenu;
     private javax.swing.JTable tblPagos;
-    private javax.swing.JTextField txtBuscar;
     // End of variables declaration//GEN-END:variables
 }

@@ -6,12 +6,17 @@ package negocio;
 
 import static convertidores.ConvertidorPago.convertirDTOAEntidad;
 import dtos.PagoDTO;
+import dtos.Pago_EstadoDTO;
 import entidades.PagoEntidad;
+import entidades.Pago_EstatusEntidad;
 import excepciones.NegocioException;
 import excepciones.PersistenciaException;
 import interfaces.IEditarPagoBO;
 import interfaces.IPagoDAO;
+import interfaces.IPago_EstatusDAO;
 import java.math.BigDecimal;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -20,9 +25,11 @@ import java.math.BigDecimal;
 public class EditarPagoBO implements IEditarPagoBO {
 
     IPagoDAO pagoDAO;
+    IPago_EstatusDAO pago_EstatusDAO;
 
-    public EditarPagoBO(IPagoDAO pagoDAO) {
+    public EditarPagoBO(IPagoDAO pagoDAO, IPago_EstatusDAO pago_EstatusDAO) {
         this.pagoDAO = pagoDAO;
+        this.pago_EstatusDAO = pago_EstatusDAO;
     }
 
     @Override
@@ -45,7 +52,7 @@ public class EditarPagoBO implements IEditarPagoBO {
             throw new NegocioException("Id de pago no puede ser nulo");
         }
 
-        if (pago.getMonto().compareTo(BigDecimal.ZERO)<=0) {
+        if (pago.getMonto().compareTo(BigDecimal.ZERO) <= 0) {
             throw new NegocioException("Monto de pago debe ser mayor a cero");
         }
 
@@ -53,5 +60,17 @@ public class EditarPagoBO implements IEditarPagoBO {
             throw new NegocioException("Id de beneficiario no puede ser nulo");
         }
 
+    }
+
+    @Override
+    public void agregarPagoEstatus(Pago_EstadoDTO pagoEstatus) throws NegocioException {
+        try {
+            Pago_EstatusEntidad pagoestatusEntidad = convertidores.ConvertidorPago_Estatus.convertirDTOaEntidad(pagoEstatus);
+            pago_EstatusDAO.agregarPagoEstatus(pagoestatusEntidad);
+        } catch (PersistenciaException e) {
+            Logger.getLogger(EditarPagoBO.class.getName()).log(Level.SEVERE, null, e);
+
+            throw new NegocioException("Error al agregear el estado del pago", e);
+        }
     }
 }

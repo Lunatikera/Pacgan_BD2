@@ -6,6 +6,7 @@ package interfaces;
 
 import entidades.PagoEntidad;
 import excepciones.PersistenciaException;
+import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -28,4 +29,8 @@ public interface IPagoDAO {
 
     public List<PagoEntidad> listaPagoPaginadoPorBeneficiario(int limite, int numeroPagina, Long BeneficiarioId) throws PersistenciaException;
 
-}
+    public List<PagoEntidad> listaPagoPaginadoAdmin(int limite, int numeroPagina, String estatusFiltro) throws PersistenciaException;
+
+    public List<PagoEntidad> filtrarPagos(List<Long> tipoPagoIds, List<Long> estatusIds, Boolean abonosTerminados, LocalDateTime fechaInicio, LocalDateTime fechaFin);
+
+    }
