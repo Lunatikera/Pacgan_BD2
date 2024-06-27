@@ -22,4 +22,5 @@ public interface IConsultarPagoBO {
 
     public List<PagoDTO> listaPagoPaginadoPorBeneficiario(int limite, int numeroPagina, Long beneficiarioId) throws NegocioException;
 
+    public List<PagoDTO> listaPagoPaginadoAdmin(int limite, int numeroPagina, String estatusFiltro) throws NegocioException;
 }

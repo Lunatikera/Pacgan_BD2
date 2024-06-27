@@ -5,8 +5,10 @@
 package servicios;
 
 import dtos.PagoDTO;
+import dtos.Pago_EstadoDTO;
 import dtos.TipoPagoDTO;
 import excepciones.NegocioException;
+import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -32,5 +34,10 @@ public interface IGestionarPagos {
     public List<TipoPagoDTO> listaTiposPago() throws NegocioException;
 
     public List<PagoDTO> listaPagoPaginadoPorBeneficiario(int limite, int numeroPagina, Long beneficiarioId) throws NegocioException;
+
+    public List<PagoDTO> listaPagoPaginadoAdmin(int limite, int numeroPagina, String estatusFiltro) throws NegocioException;
+
+    public void agregarPagoEstatus(Pago_EstadoDTO pagoEstatus) throws NegocioException;
+    public List<PagoDTO> filtrarPagos(List<Long> tipoPagoIds, List<Long> estatusIds, Boolean abonosTerminados, LocalDateTime fechaInicio, LocalDateTime fechaFin);
 
 }

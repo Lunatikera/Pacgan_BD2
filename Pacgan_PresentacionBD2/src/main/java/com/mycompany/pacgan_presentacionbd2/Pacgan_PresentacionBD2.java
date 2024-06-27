@@ -4,6 +4,7 @@
  */
 package com.mycompany.pacgan_presentacionbd2;
 
+import Administrador.AutorizarPagos;
 import Administrador.ReportesAdmin;
 import Administrador.BeneficiariosAdmin;
 import Beneficiario.Cuentas;
@@ -15,6 +16,7 @@ import com.formdev.flatlaf.themes.FlatMacDarkLaf;
 import convertidores.ConvertidorAbono;
 import convertidores.ConvertidorCuentaBancaria;
 import convertidores.ConvertidorPago;
+import convertidores.ConvertidorPago_Estatus;
 import daos.AbonoDAO;
 import daos.BeneficiarioDAO;
 import daos.ConexionBD;
@@ -116,6 +118,7 @@ public class Pacgan_PresentacionBD2 {
         ConvertidorPago convertidorPago = new ConvertidorPago(tipoPagoDAO, beneficiarioDAO, cuentaBancariaDAO);
         ConvertidorAbono convertidorAbono = new ConvertidorAbono(pagoDAO);
         ConvertidorCuentaBancaria convertidorCuentaBancaria = new ConvertidorCuentaBancaria(beneficiarioDAO);
+        ConvertidorPago_Estatus convertidorPago_Estatus=new ConvertidorPago_Estatus(pagoDAO, estatusDAO);
 
         //BOs
         IAgregarAbonoBO agregarAbonoBO = new AgregarAbonoBO(abonoDAO);
@@ -130,7 +133,7 @@ public class Pacgan_PresentacionBD2 {
         IConsultarTipoPagoBO consultarTipoPagoBO = new ConsultarTipoPagoBO(tipoPagoDAO);
         IEditarBeneficiarioBO editarBeneficiarioBO = new EditarBeneficiarioBO(beneficiarioDAO);
         IEditarCuentaBancariaBO editarCuentaBancariaBO = new EditarCuentaBancariaBO(cuentaBancariaDAO);
-        IEditarPagoBO editarPagoBO = new EditarPagoBO(pagoDAO);
+        IEditarPagoBO editarPagoBO = new EditarPagoBO(pagoDAO, pago_EstatusDAO);
         IEliminarAbonoBO eliminarAbonoBO = new EliminarAbonoBO(abonoDAO);
         IEliminarBeneficiarioBO eliminarBeneficiarioBO = new EliminarBeneficiarioBO(beneficiarioDAO);
         IEliminarCuentaBancariaBO eliminarCuentaBancariaBO = new EliminarCuentaBancariaBO(cuentaBancariaDAO);
@@ -155,7 +158,8 @@ public class Pacgan_PresentacionBD2 {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
 //                new Pagos(gestionarCuentasBancarias, gestionarPagos, consultarEstadoPagos, gestionarAbonos, beneficiario).setVisible(true);
-                new LogIn(iniciarSesionBO, insertarBeneficiario, insertarEstatusPago, gestionarAbonos, gestionarBeneficiarios, gestionarCuentasBancarias, gestionarPagos, consultarEstadoPagos).setVisible(true);
+//              new AutorizarPagos(gestionarCuentasBancarias, gestionarPagos, consultarEstadoPagos, gestionarBeneficiarios).setVisible(true);
+  new LogIn(iniciarSesionBO, insertarBeneficiario, insertarEstatusPago, gestionarAbonos, gestionarBeneficiarios, gestionarCuentasBancarias, gestionarPagos, consultarEstadoPagos).setVisible(true);
             }
         });
 

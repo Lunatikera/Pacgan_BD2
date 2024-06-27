@@ -89,7 +89,10 @@ public class Pagos extends javax.swing.JFrame {
             for (PagoDTO pagoDTO : pagoLista) {
                 pagoIds.add(pagoDTO.getPagoId());
             }
+            if (pagoLista.isEmpty() && pagina == 1) {
+                JOptionPane.showMessageDialog(this, "No hay ninguno pago registrado", "Información", JOptionPane.ERROR_MESSAGE);
 
+            }
             this.llenarTablaPagos(pagoLista);
         } catch (NegocioException ex) {
 

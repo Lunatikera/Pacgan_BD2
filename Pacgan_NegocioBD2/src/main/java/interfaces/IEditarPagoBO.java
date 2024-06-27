@@ -5,6 +5,7 @@
 package interfaces;
 
 import dtos.PagoDTO;
+import dtos.Pago_EstadoDTO;
 import excepciones.NegocioException;
 
 /**
@@ -14,4 +15,8 @@ import excepciones.NegocioException;
 public interface IEditarPagoBO {
 
     public void editarPago(PagoDTO pago) throws NegocioException;
+
+    public void agregarPagoEstatus(Pago_EstadoDTO pagoEstatus) throws NegocioException;
+
+
 }

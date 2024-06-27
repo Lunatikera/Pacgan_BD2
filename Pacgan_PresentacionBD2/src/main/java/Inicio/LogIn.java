@@ -200,7 +200,7 @@ public class LogIn extends javax.swing.JFrame {
         if (modoAdmin) {
             if (txtContrasena.getText().equalsIgnoreCase("admin") && txtUsuario.getText().equalsIgnoreCase("admin")) {
                 JOptionPane.showMessageDialog(this, "Inicio de sesion exitoso.", "Inicio de sesion", JOptionPane.INFORMATION_MESSAGE);
-                AutorizarPagos autorizar = new AutorizarPagos();
+                AutorizarPagos autorizar = new AutorizarPagos(gestionarCuentasBancarias, gestionarPagos, consultarEstadoPagos, gestionarBeneficiarios);
                 autorizar.setVisible(true);
                 dispose();
                 return;
