@@ -30,6 +30,7 @@ interfaces\IinsertarBeneficiario.class
 insertadores\InsertarBeneficiario.class
 fachadas\GestionarAbonosFacade.class
 dtos\Pago_EstadoDTO.class
+Reportes\ReporteBO.class
 negocio\CrearPagoBO.class
 convertidores\ConvertidorPago.class
 interfaces\ICrearPagoBO.class
