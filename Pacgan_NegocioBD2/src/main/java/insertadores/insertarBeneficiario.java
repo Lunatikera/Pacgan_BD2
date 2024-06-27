@@ -9,6 +9,9 @@ import excepciones.NegocioException;
 import interfaces.IBeneficiarioDAO;
 import interfaces.IinsertarBeneficiario;
 import java.math.BigDecimal;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.persistence.PersistenceException;
 import negocio.AgregarBeneficiarioBO;
 
 /**
@@ -228,14 +231,14 @@ public class InsertarBeneficiario implements IinsertarBeneficiario {
         beneficiario17.setNombreUsuario("mariosantos");
         beneficiario17.setContraseña("contrasena152");
         beneficiario17.setBeneficiarioPagoIds(null);
-        beneficiario17.setBeneficiarioPagoIds(null);
         beneficiario17.setBeneficiarioCuentaIds(null);
 
 // Beneficiario 18
         BeneficiarioDTO beneficiario18 = new BeneficiarioDTO();
-        beneficiario18.setClaveContrato("1638492057");
+        beneficiario18.setClaveContrato("8989808908");
         beneficiario18.setNombre("Veronica");
         beneficiario18.setApellidoPA("Castro");
+        beneficiario18.setApellidoMA("Lopez");
         beneficiario18.setSaldo(new BigDecimal(1000000));// Saldo de un millón
         beneficiario18.setNombreUsuario("veronicastro");
         beneficiario18.setContraseña("veronica1234");
@@ -244,9 +247,10 @@ public class InsertarBeneficiario implements IinsertarBeneficiario {
 
         // Beneficiario 19
         BeneficiarioDTO beneficiario19 = new BeneficiarioDTO();
-        beneficiario19.setClaveContrato("01020304");
+        beneficiario19.setClaveContrato("0761020304");
         beneficiario19.setNombre("Claudia");
         beneficiario19.setApellidoPA("Shein");
+        beneficiario19.setApellidoMA("Zazueta");
         beneficiario19.setSaldo(new BigDecimal(1000000));// Saldo de un millón
         beneficiario19.setNombreUsuario("sheinClau");
         beneficiario19.setContraseña("claudia1234");
@@ -255,7 +259,7 @@ public class InsertarBeneficiario implements IinsertarBeneficiario {
 
         // Beneficiario 20
         BeneficiarioDTO beneficiario20 = new BeneficiarioDTO();
-        beneficiario20.setClaveContrato("01020304");
+        beneficiario20.setClaveContrato("0102090304");
         beneficiario20.setNombre("pou");
         beneficiario20.setApellidoPA("cafe");
         beneficiario20.setApellidoMA("bolita");
@@ -266,7 +270,7 @@ public class InsertarBeneficiario implements IinsertarBeneficiario {
         beneficiario20.setBeneficiarioCuentaIds(null);
 
         try {
-            
+
             AgregarBeneficiarioBO agregarBeneficiarioBO = new AgregarBeneficiarioBO(beneficiarioDAO);
             agregarBeneficiarioBO.agregarBeneficiario(beneficiario1);
             agregarBeneficiarioBO.agregarBeneficiario(beneficiario2);
@@ -291,8 +295,7 @@ public class InsertarBeneficiario implements IinsertarBeneficiario {
 
             System.out.println("Beneficiarios insertados correctamente.");
         } catch (NegocioException e) {
-            System.err.println("Error al insertar beneficiarios: " + e.getMessage());
-            e.printStackTrace(); // Esta línea imprime la traza de la excepción
+            throw new PersistenceException("Ya se han ingresado los inserts masivos");
         }
 
     }
