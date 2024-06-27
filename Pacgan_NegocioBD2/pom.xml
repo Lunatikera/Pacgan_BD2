@@ -25,5 +25,10 @@
             <version>1.9.3</version>
         </dependency>
 
+        <dependency>
+            <groupId>ch.codeblock.qrinvoice.itext5</groupId>
+            <artifactId>qrinvoice-itext5</artifactId>
+            <version>1.19</version>
+        </dependency>
     </dependencies>
 </project>
