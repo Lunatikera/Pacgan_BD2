@@ -96,7 +96,7 @@ public class Abonos extends javax.swing.JFrame {
             for (AbonoDTO abonoDTO : abonoLista) {
                 abonosIds.add(abonoDTO.getAbonoId());
             }
-              if (abonoLista.isEmpty() && pagina == 1) {
+            if (abonoLista.isEmpty() && pagina == 1) {
                 JOptionPane.showMessageDialog(this, "No hay Abonos Registrados", "Información", JOptionPane.ERROR_MESSAGE);
 
             }
@@ -462,6 +462,11 @@ public class Abonos extends javax.swing.JFrame {
         this.estadoPagina();    }//GEN-LAST:event_btnAtrasActionPerformed
 
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
+        if (this.obtenerPagosRestante() <= 0) {
+            JOptionPane.showMessageDialog(this,"Ya has completado este pago", "Error", JOptionPane.ERROR_MESSAGE);
+
+        }
+
         CrearAbono nuevoAbono = new CrearAbono(beneficiarioDTO, pagoDTO, gestionarCuentasBancarias, gestionarPago, gestionarAbonos, consultarEstadoPagos);
         nuevoAbono.setVisible(true);
         this.dispose();
